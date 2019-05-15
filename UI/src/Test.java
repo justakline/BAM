@@ -16,5 +16,7 @@ public class Test extends JFrame {
     public static void main(String[] args) {
         Test test = new Test();
         test.isVisible();
+        int pi = 3;
+        System.out.println("pi = " + pi + " lol");
     }
 }
