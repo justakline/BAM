@@ -8,6 +8,7 @@ public class GUI extends JFrame {
     public GUI() {
         setTitle("Hello There!");
         setSize(400, 400);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public static void main(String[] args) {
@@ -19,6 +20,8 @@ public class GUI extends JFrame {
 
         JButton button1 = new JButton("a button");
 
+
+        ToolBar toolBar = new ToolBar();
         JPanel panel = new JPanel();
         panel.add(button1);
 
@@ -26,6 +29,8 @@ public class GUI extends JFrame {
         frame2.add(panel);
         root.add(frame2);
         root.setVisible(true);
+
+
 
 
 
