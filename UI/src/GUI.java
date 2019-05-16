@@ -17,9 +17,31 @@ public class GUI extends JFrame {
         JPanel panel=new JPanel();
 
 
+
         ToolBar toolBar= new ToolBar();
+        JList b;
 
+        //create a new label
+        JLabel l= new JLabel("select the day of the week");
 
+        //String array to store weekdays
+        String week[]= { "Monday","Tuesday","Wednesday",
+                "Thursday","Friday","Saturday","Sunday"};
+
+        //create list
+        b= new JList(week);
+
+        //set a selected index
+        b.setSelectedIndex(2);
+
+        //add list to panel
+        panel.add(b);
+
+        add(panel);
+
+        //set the size of frame
+        AdvisoryList advisoryList = new AdvisoryList();
+        panel.add(advisoryList);
 
 
         this.setSize(400,400);

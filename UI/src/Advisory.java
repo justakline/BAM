@@ -3,6 +3,7 @@ import java.util.List;
 public class Advisory {
 
     private List<Student> students;
+    private float score;
 
     public Advisory(){
 
