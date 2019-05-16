@@ -6,7 +6,6 @@ import static java.awt.FlowLayout.LEFT;
 
 public class GUI extends JFrame {
 
-    static final JFrame root = new JFrame();
     private JInternalFrame frame1 = new JInternalFrame();
 
     public GUI() {
