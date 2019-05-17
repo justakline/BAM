@@ -1,79 +1,86 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-
-import static java.awt.FlowLayout.LEFT;
+import java.util.Vector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GUI extends JFrame {
 
-    private JInternalFrame frame1 = new JInternalFrame();
+    static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn").collect(Collectors.toList()));
+    private final String NORTH = BorderLayout.PAGE_START;
+    private final String SOUTH = BorderLayout.PAGE_END;
+    private final String EAST = BorderLayout.LINE_START;
+    private final String WEST = BorderLayout.LINE_END;
+    //TEMP DUMMIES
+    private final String CENTER = BorderLayout.CENTER;
+    private final JPanel main = new JPanel(new BorderLayout());
+    private JPanel left, right;
+    private JSplitPane split1;
+    private JList<String> advisories;
 
     public GUI() {
-        setTitle("Hello There!");
-        setSize(400, 400);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        //Init Components in this block:
+        left = LeftPane.getLeftPane();
+        right = RightPane.getRightPane();
+        split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
+        //AddComponents in this block:
+        setJMenuBar(new ToolBar()); //accessible with getJMenuBar();
 
-        JPanel panel=new JPanel();
+        main.add(split1);
+        this.add(main);
 
-
-
-        ToolBar toolBar= new ToolBar();
-        JList b;
-
-        //create a new label
-        JLabel l= new JLabel("select the day of the week");
-
-        //String array to store weekdays
-        String week[]= { "Monday","Tuesday","Wednesday",
-                "Thursday","Friday","Saturday","Sunday"};
-
-        //create list
-        b= new JList(week);
-
-        //set a selected index
-        b.setSelectedIndex(2);
-
-        //add list to panel
-        panel.add(b);
-
-        add(panel);
-
-        //set the size of frame
-        AdvisoryList advisoryList = new AdvisoryList();
-        panel.add(advisoryList);
-
-
-        this.setSize(400,400);
-        this.setLayout(null);
+        //Attributes of JFrame
+        this.setSize(800, 800);
         this.setVisible(true);
-    setJMenuBar(toolBar);
+        setTitle("Insert Sick UI/UX Here");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private static class LeftPane extends JPanel {
+
+        private static LeftPane leftPane;
+        private JLabel title;
+        private JSeparator separator;
+        private JList advisors;
 
 
+        private LeftPane() {
+            this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            separator = new JSeparator(SwingConstants.HORIZONTAL);
+            advisors = new JList<>(data);
+            this.add(title = new JLabel("Advisories")); //Note to Rufe: Ask S/V, is this a bad thing to do?
+            this.add(Box.createRigidArea(new Dimension(0, 10)));
+            this.add(advisors);
+            //Need to modify a little and add data but pretty much there
 
+        }
 
-//
-//        ToolBar toolBar = new ToolBar();
-//        JPanel panel = new JPanel(new FlowLayout());
-//        panel.setBounds(40,80,10,10);
-////        panel.setBackground(Color.BLUE);
-//
-//        panel.add(toolBar);
-//        this.add(panel);
+        public static LeftPane getLeftPane() {
+            if (leftPane == null) {
+                return (leftPane = new LeftPane());
+            }
+            return leftPane;
+        }
+    }
 
+    private static class RightPane extends JPanel {
 
+        private static RightPane rightPane;
 
+        private RightPane() {
+        }
 
-
+        public static RightPane getRightPane() {
+            if (rightPane == null) {
+                rightPane = new RightPane();
+            }
+            return rightPane;
+        }
     }
 
     public static void main(String[] args) {
         GUI test = new GUI();
         test.setVisible(true);
-
-
-
-
-
     }
 }
