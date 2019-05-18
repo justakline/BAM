@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -7,6 +9,7 @@ import java.util.stream.Stream;
 public class GUI extends JFrame {
 
     static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn").collect(Collectors.toList()));
+
     private final String NORTH = BorderLayout.PAGE_START;
     private final String SOUTH = BorderLayout.PAGE_END;
     private final String EAST = BorderLayout.LINE_START;
@@ -37,23 +40,39 @@ public class GUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+
     private static class LeftPane extends JPanel {
 
-        private static LeftPane leftPane;
+        private static LeftPane leftPane; //singleton
+
+
         private JLabel title;
         private JSeparator separator;
-        private JList advisors;
+        private JScrollPane scrollPane;
+        private Vector<AdvisorButton> advisors;
 
 
         private LeftPane() {
-            this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            //Init Fields
+            this.setLayout(new GridLayout(0, 1, 0, 0));
             separator = new JSeparator(SwingConstants.HORIZONTAL);
-            advisors = new JList<>(data);
-            this.add(title = new JLabel("Advisories")); //Note to Rufe: Ask S/V, is this a bad thing to do?
-            this.add(Box.createRigidArea(new Dimension(0, 10)));
-            this.add(advisors);
-            //Need to modify a little and add data but pretty much there
+            advisors = new Vector<>();
+            title = new JLabel("Advisories");
+            scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
+            //Create AdvisorButtons
+            for (int i = 0; i < data.size(); i++) {
+                advisors.add((new AdvisorButton(data.get(i), new Vector<>())));
+            }
+            //Register Buttons with Mr.RightPane
+            for (AdvisorButton advisor : advisors) {
+                advisor.addActionListener(RightPane.getRightPane());
+                System.out.println(advisor.getName() + ": Listening");
+            }
+            // Add Buttons to Mr.JFrame to display
+            for (JToggleButton advisor : advisors) {
+                this.add(advisor);
+            }
         }
 
         public static LeftPane getLeftPane() {
@@ -64,11 +83,27 @@ public class GUI extends JFrame {
         }
     }
 
-    private static class RightPane extends JPanel {
+    private static class RightPane extends JPanel implements ActionListener {
 
-        private static RightPane rightPane;
+        private static RightPane rightPane; //Singleton
+
+        private static Vector<JPanel> panels;
+        private static JPanel panel1;
+        private static JPanel panel2;
+        private static JPanel panel3;
+
 
         private RightPane() {
+            this.setLayout(new GridLayout(2, 2, 0, 0));
+            Vector<JPanel> panels;
+            panel1 = new JPanel();
+            panel2 = new JPanel();
+            panel3 = new JPanel();
+            this.add(panel1);
+            this.add(panel2);
+            this.add(panel3);
+
+
         }
 
         public static RightPane getRightPane() {
@@ -76,6 +111,13 @@ public class GUI extends JFrame {
                 rightPane = new RightPane();
             }
             return rightPane;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("I've been pressed");
+            AdvisorButton source = (AdvisorButton) e.getSource();
+            this.add(source.getDetView());
         }
     }
 
