@@ -4,10 +4,6 @@ import java.awt.event.KeyEvent;
 
 public class ToolBar extends JMenuBar {
 
-
-
-
-
     public ToolBar(){
         super();
 

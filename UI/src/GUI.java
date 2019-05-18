@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -37,6 +39,22 @@ public class GUI extends JFrame {
         this.setSize(800, 800);
         this.setVisible(true);
         setTitle("Insert Sick UI/UX Here");
+
+        Vector<String> advisors = new Vector<String>();
+            advisors.add("Valente");
+            advisors.add("Smith");
+            advisors.add("Conn");
+        Vector<String> interests = new Vector<String>();
+            interests.add("Computer Science");
+            interests.add("Bike Watching");
+            interests.add("Singing in the Shower");
+
+        Student justin = new Student("Justin",advisors, interests, Student.Gender.MALE);
+        Student ryan = new Student("Ryan",advisors, interests, Student.Gender.MALE);
+        Student nick = new Student("Nick",advisors, interests, Student.Gender.MALE);
+
+        StudentPage page = new StudentPage(justin);
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
