@@ -62,8 +62,8 @@ public class GUI extends JFrame {
         students.add(nick);
 
         Advisory advisory = new Advisory(students, advisors.firstElement());
-        AdvisoryButton advisoryButton  = new AdvisoryButton(advisory );
-        right.add(advisoryButton);
+        AdvisoryFrame advisoryFrame  = new AdvisoryFrame(advisory );
+        right.add(advisoryFrame);
 
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -124,7 +124,7 @@ public class GUI extends JFrame {
         private static JPanel panel3;
 
 
-        private Vector<AdvisoryButton> advisoryButtons;
+        private Vector<AdvisoryFrame> advisoryFrames;
         private RightPane() {
             this.setLayout(new GridLayout(2, 2, 0, 0));
             Vector<JPanel> panels;
@@ -153,10 +153,11 @@ public class GUI extends JFrame {
             this.add(source.getDetView());
         }
         public void addAdvisoryButton(AdvisoryButton advisoryButton){
+        public void addAdvisoryButton(AdvisoryFrame frame){
 //            advisoryButton.reshape(30,30,30,100);
-            advisoryButton.setBounds(0,0, 100, 100);
-            advisoryButtons.add(advisoryButton);
-            add(advisoryButton);
+            frame.setBounds(0,0, 100, 100);
+            advisoryFrames.add(frame);
+            add(frame);
 
         }
     }
