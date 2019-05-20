@@ -66,7 +66,6 @@ public class GUI extends JFrame {
         StudentPage page = new StudentPage(justin);
 
         Vector<Student> students = new Vector<>();
-
         students.add(justin);
         students.add(ryan);
         students.add(nick);
@@ -110,7 +109,6 @@ public class GUI extends JFrame {
             //Register Buttons with Mr.RightPane
             for (AdvisorButton advisor : advisors) {
                 advisor.addActionListener(RightPane.getRightPane());
-                System.out.println(advisor.getName() + ": Listening");
             }
             // Add Buttons to Mr.JFrame to display
             for (JToggleButton advisor : advisors) {
@@ -132,14 +130,13 @@ public class GUI extends JFrame {
 
         private Vector<AdvisoryFrame> advisoryFrames;
 
+
         public RightPane() {
             super();
             advisoryFrames = new Vector<>();
-
             this.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
             this.setVisible(true);
         }
-
 
         public static RightPane getRightPane() {
             if (rightPane == null) {
@@ -152,23 +149,12 @@ public class GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             System.out.println("I've been pressed");
             AdvisorButton source = (AdvisorButton) e.getSource();
-            if (source.isSelected())
-                this.add(source.getDetView());
+            if (source.isSelected()) {
+                this.add(new JInternalFrame());
+            }
             else {
-                this.remove(source.getDetView());
+                this.remove(new AdvisoryFrame(source));
             }
         }
-
-        public void addAdvisoryButton(AdvisoryFrame frame) {
-//            advisoryButton.reshape(30,30,30,100);
-//            frame.setBounds(0,0, 100, 100);
-            advisoryFrames.add(frame);
-            frame.setVisible(true);
-            this.add(frame);
-
-
-
-        }
     }
-
 }

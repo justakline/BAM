@@ -2,7 +2,6 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +16,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
     public AdvisoryFrame(AdvisorButton button){
        super(button.getName(), true, true);
         this.advisory= button.getAdvisory();
-       createTable();
+        createTable();
         JPanel panel = new JPanel();
         JScrollPane p = new JScrollPane();
         p.add(data);
