@@ -55,6 +55,17 @@ public class GUI extends JFrame {
 
         StudentPage page = new StudentPage(justin);
 
+        Vector<Student> students = new Vector<>();
+
+        students.add(justin);
+        students.add(ryan);
+        students.add(nick);
+
+        Advisory advisory = new Advisory(students, advisors.firstElement());
+        AdvisoryButton advisoryButton  = new AdvisoryButton(advisory );
+        right.add(advisoryButton);
+
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -77,6 +88,8 @@ public class GUI extends JFrame {
             advisors = new Vector<>();
             title = new JLabel("Advisories");
             scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+
 
             //Create AdvisorButtons
             for (int i = 0; i < data.size(); i++) {
@@ -111,6 +124,7 @@ public class GUI extends JFrame {
         private static JPanel panel3;
 
 
+        private Vector<AdvisoryButton> advisoryButtons;
         private RightPane() {
             this.setLayout(new GridLayout(2, 2, 0, 0));
             Vector<JPanel> panels;
@@ -120,6 +134,7 @@ public class GUI extends JFrame {
             this.add(panel1);
             this.add(panel2);
             this.add(panel3);
+
 
 
         }
@@ -137,7 +152,16 @@ public class GUI extends JFrame {
             AdvisorButton source = (AdvisorButton) e.getSource();
             this.add(source.getDetView());
         }
+        public void addAdvisoryButton(AdvisoryButton advisoryButton){
+//            advisoryButton.reshape(30,30,30,100);
+            advisoryButton.setBounds(0,0, 100, 100);
+            advisoryButtons.add(advisoryButton);
+            add(advisoryButton);
+
+        }
     }
+
+
 
     public static void main(String[] args) {
         GUI test = new GUI();
