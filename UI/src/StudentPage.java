@@ -3,22 +3,26 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.lang.reflect.Array;
 import java.util.Set;
 import java.util.Vector;
 
-public class StudentPage extends JFrame{
+public class StudentPage extends JFrame implements ComponentListener {
     private Student student;
     JDesktopPane desktopPane;
     JScrollPane scrollPane;
     JInternalFrame internalFrame;
+    JTable table;
 
     public StudentPage(Student student){
         super(student.getName());
         this.student = student;
         this.setSize(200, 300);
         this.setVisible(true);
-        setLayout( new FlowLayout());
+        setLayout( new GridLayout());
+
 
         String[] col = new String[]{"Friends", "Interests"};
 
@@ -42,7 +46,7 @@ public class StudentPage extends JFrame{
 
 
 
-        JTable table = new JTable(data, col);
+        table = new JTable(data, col);
         DefaultTableModel tableModel = new DefaultTableModel(data, col) {
 
             @Override
@@ -53,11 +57,42 @@ public class StudentPage extends JFrame{
         };
         table.setModel(tableModel);
 
+
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(100,100));
+        scrollPane.setPreferredSize(new Dimension(30*student.getFriends().size(),120));
+        scrollPane.addComponentListener(this);
+        scrollPane.setViewportView( table );
+
+
+        addComponentListener(this);
 
         add(scrollPane);
         setVisible(true);
+
+    }
+
+    @Override
+    public void componentResized(ComponentEvent e) {
+
+        System.out.println("Hi");
+        Component component = e.getComponent();
+        scrollPane.setSize( component.getSize());
+        table.setSize(component.getSize());
+
+    }
+
+    @Override
+    public void componentMoved(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentShown(ComponentEvent e) {
+
+    }
+
+    @Override
+    public void componentHidden(ComponentEvent e) {
 
     }
 }

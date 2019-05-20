@@ -37,7 +37,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
         super("" + advisory.getAdvisor(), true, true);
         this.advisory= advisory;
 
-        setLayout( new FlowLayout());
+        setLayout( new GridLayout());
         createTable();
 //        JPanel panel = new JPanel();
 //
