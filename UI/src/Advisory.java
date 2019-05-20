@@ -1,10 +1,7 @@
 import java.util.Vector;
-import java.util.List;
-import java.util.Vector;
 
 public class Advisory {
 
-    private Vector<Student> students;
     private Vector<Student> students;
     private String advisor;
     private float score;
