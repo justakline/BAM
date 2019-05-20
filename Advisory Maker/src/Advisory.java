@@ -9,12 +9,12 @@ public class Advisory {
     public Advisory(Vector<Student> students, String advisor){
         this.students = students;
         this.advisor = advisor;
-
     }
 
     public void addStudent(Student s) {
         students.add(s);
     }
+
     public void removeStudent(Student s) {
         students.remove(s);
     }
@@ -29,11 +29,12 @@ public class Advisory {
 
     public Vector<String>getStudentsToString() {
         Vector<String> s = new Vector<>();
-        for(Student stud:students) {
-            s.add(stud.getName());
+        for (Student student : students) {
+            s.add(student.getName());
         }
         return s;
-
     }
+
+
 
 }

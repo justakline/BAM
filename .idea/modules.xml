@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Advisory Maker/Advisory Maker.iml" filepath="$PROJECT_DIR$/Advisory Maker/Advisory Maker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Advisory Maker/Algorithm.iml" filepath="$PROJECT_DIR$/Advisory Maker/Algorithm.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/BAM.iml" filepath="$PROJECT_DIR$/.idea/BAM.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Objects/Objects.iml" filepath="$PROJECT_DIR$/Objects/Objects.iml" />
-      <module fileurl="file://$PROJECT_DIR$/UI/UI.iml" filepath="$PROJECT_DIR$/UI/UI.iml" />
       <module fileurl="file://$PROJECT_DIR$/resources/resources.iml" filepath="$PROJECT_DIR$/resources/resources.iml" />
     </modules>
   </component>

@@ -3,59 +3,38 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
 
 public class AdvisoryFrame extends JInternalFrame implements ListSelectionListener {
 
     private Advisory advisory;
-    private String advisor;
     private JTable data;
 
-    public AdvisoryFrame(AdvisorButton button){
-       super(button.getName(), true, true);
-        this.advisory= button.getAdvisory();
+    public AdvisoryFrame(AdvisorButton button) {
+        super(button.getName(), true, true);
+        this.advisory = button.getAdvisory();
+        this.setLayout(new GridLayout());
         createTable();
-        JPanel panel = new JPanel();
-        JScrollPane p = new JScrollPane();
-        p.add(data);
-        add(p);
+        this.add(new JScrollPane(data));
 
-
-
-        int height = 35 * advisory.getStudents().size();
-        setSize(100,height);
-
-        setVisible(true);
+        this.setSize(100, 35 * advisory.getStudents().size());
+        this.setVisible(true);
         data.getSelectionModel().addListSelectionListener(this);
-
     }
 
     public AdvisoryFrame(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
         this.advisory= advisory;
 
-        setLayout( new GridLayout());
+        this.setLayout(new GridLayout());
         createTable();
-//        JPanel panel = new JPanel();
 //
-//        panel.add(data);
-//        add(panel);
-
-
-
-        int height = 35 * advisory.getStudents().size();
-        setSize(100,height);
-
-        setVisible(true);
+        this.setSize(100, 35 * advisory.getStudents().size());
+        this.setVisible(true);
         data.getSelectionModel().addListSelectionListener(this);
-
     }
 
     private void createTable() {
         Object[] columnNames = {advisory.getAdvisor()};
-
         Object[][] dat = new String[advisory.getStudents().size()][1];
 
         for(int i = 0; i < advisory.getStudents().size(); i ++){
@@ -68,16 +47,14 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
 
         data.setDragEnabled(true);
         //instance table model
-        DefaultTableModel tableModel = new DefaultTableModel(dat, columnNames) {
+
+        data.setModel(new DefaultTableModel(dat, columnNames) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                //all cells false
                 return false;
             }
-        };
-
-        data.setModel(tableModel);
+        });
 
     }
 

@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -34,7 +33,6 @@ public class Student {
     }
     //Adds a group of friends with a predetermined value of how connected they are
     public void addFriendGroup( HashMap<Student, Float> friendGroup ) {
-
         friends.forEach((Student, Float) -> {
             friends.put(Student, Float);
         });
@@ -42,9 +40,8 @@ public class Student {
 
     //Adds a group of friends without a predetermined value of how connected they are
     public void addFriendGroup( Vector<Student> friendGroup ) {
-
-        for(Student s: friendGroup){
-            friends.put(s, 0f);
+        for (Student student : friendGroup) {
+            friends.put(student, 0f);
         }
     }
         public void addFriend(){

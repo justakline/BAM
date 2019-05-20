@@ -1,13 +1,9 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.lang.reflect.Array;
 import java.util.Set;
-import java.util.Vector;
 
 public class StudentPage extends JFrame implements ComponentListener {
     private Student student;
