@@ -32,7 +32,7 @@ public class Student {
         this.gender = gender;
         friends = new HashMap<Student, Float>();
     }
-
+    //Adds a group of friends with a predetermined value of how connected they are
     public void addFriendGroup( HashMap<Student, Float> friendGroup ) {
 
         friends.forEach((Student, Float) -> {
@@ -40,7 +40,14 @@ public class Student {
         });
     }
 
-    public void addFriend(){
+    //Adds a group of friends without a predetermined value of how connected they are
+    public void addFriendGroup( Vector<Student> friendGroup ) {
+
+        for(Student s: friendGroup){
+            friends.put(s, 0f);
+        }
+    }
+        public void addFriend(){
 
     }
 

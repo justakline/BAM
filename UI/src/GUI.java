@@ -21,6 +21,7 @@ public class GUI extends JFrame {
     private JDesktopPane right;
     private JSplitPane split1;
     private JList<String> advisories;
+    private JDesktopPane studentPane = new JDesktopPane();
 
     public GUI() {
 
@@ -49,9 +50,18 @@ public class GUI extends JFrame {
         interests.add("Bike Watching");
         interests.add("Singing in the Shower");
 
+
+
+
         Student justin = new Student("Justin", advisors, interests, Student.Gender.MALE);
         Student ryan = new Student("Ryan", advisors, interests, Student.Gender.MALE);
         Student nick = new Student("Nick", advisors, interests, Student.Gender.MALE);
+
+        Vector<Student> friends = new Vector<Student>();
+        friends.add(ryan);
+        friends.add(nick);
+
+        justin.addFriendGroup(friends);
 
         StudentPage page = new StudentPage(justin);
 

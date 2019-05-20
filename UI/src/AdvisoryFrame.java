@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Vector;
@@ -14,7 +15,6 @@ public class AdvisoryFrame extends JInternalFrame {
         super("" + advisory.getAdvisor(), true, true);
 
         setLayout( new FlowLayout());
-
         String[] columnNames = {advisory.getAdvisor()};
         String[][] dat = new String[advisory.getStudents().size()][1];
 
@@ -22,8 +22,18 @@ public class AdvisoryFrame extends JInternalFrame {
             dat[i][0] = advisory.getStudents().get(i).getName();
         }
         data= new JTable( dat, columnNames);
+        data.setDragEnabled(true);
+        //instance table model
+        DefaultTableModel tableModel = new DefaultTableModel(dat, columnNames) {
 
-//        JScrollPane scrollPane = new JScrollPane(data);
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
+
+        data.setModel(tableModel);
 
         JPanel panel = new JPanel();
 

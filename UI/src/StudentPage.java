@@ -1,70 +1,66 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.lang.reflect.Array;
+import java.util.Set;
+import java.util.Vector;
 
 public class StudentPage extends JFrame  {
     private Student student;
+    JInternalFrame internalFrame;
 
     public StudentPage(Student student){
-        super("Student Page");
+        super(student.getName());
         this.student = student;
         this.setSize(200, 300);
         this.setVisible(true);
+        setLayout( new FlowLayout());
+
+        internalFrame = new JInternalFrame(student.getName(), true, true);
+
         JPanel panel = new JPanel(new FlowLayout());
-        JButton name = new JButton(student.getName());
-        DefaultListModel listModel = new DefaultListModel();
-        student.getFriends().forEach((Student, Float) -> {
-            listModel.addElement(Student.getName());
-        });
-        JList list = new JList(listModel);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
-//        list.addListSelectionListener(super.getClass());
-        JScrollPane listScrollPane = new JScrollPane(list);
 
-        int colLength = student.getFriends().size() >= student.getInterests().size()? student.getFriends().size() : student.getInterests().size();
-       System.out.println(colLength);
-       colLength++;
-        String[][] rowData = new String[2][colLength];
 
+        int tableHeight = 0;
+
+        if(student.getFriends().size() > student.getInterests().size())
+            tableHeight = student.getFriends().size();
+        else
+            tableHeight = student.getInterests().size();
+
+
+        String[] columnNames = {"Friends",  "Interests"};
+
+        String[][] dat = new String[student.getFriends().size() + student.getInterests().size() ][2];
         int i =0;
 
-
-        String data[][]={ {"101","Amit","670000"},
-                {"102","Jai","780000"},
-                {"101","Sachin","700000"}};
-        String column[]={"ID","NAME","SALARY"};
+        Set<Student> friens = student.getFriends().keySet();
 
 
-        //Adds student names to the table
-        for(Student s: student.getFriends().keySet()){
-            rowData[0][i] = s.getName();
-        }
-        i = 0;
-        //adds student interest to the table
-        for(String s: student.getInterests()){
-            rowData[1][i] = s;
+        for(Student friend : friens){
+            dat[i][0] = friend.getName();
         }
 
-        System.out.println(rowData[0][0]);
-        System.out.println(rowData[0][1]);
+        for(int j = 0; i < student.getFriends().size(); i++){
+            dat[j][1] = student.getInterests().get(j);
+
+        }
 
 
-        String[] columnNames = new String[2];
-        columnNames[0] = new String("Friends");
-        columnNames[1] = new String("Intersts");
+        JTable table = new JTable( dat, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(dat, columnNames) {
 
-        JTable table = new JTable(rowData, columnNames);
-        table.setBounds(30,40,200,300);
-        JScrollPane scrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
 
-//        Container contentPane = getContentPane();
-//        contentPane.add(listScrollPane, BorderLayout.CENTER);
+        table.setModel(tableModel);
 
-
-        panel.add(name);
         panel.add(table);
+        internalFrame.add(panel);
         this.add(panel);
         setVisible(true);
 
