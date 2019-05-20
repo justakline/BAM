@@ -35,7 +35,7 @@ public class StudentPage extends JFrame  {
                 {"101","Sachin","700000"}};
         String column[]={"ID","NAME","SALARY"};
 
-        
+
         //Adds student names to the table
         for(Student s: student.getFriends().keySet()){
             rowData[0][i] = s.getName();

@@ -52,6 +52,17 @@ public class GUI extends JFrame {
 
         StudentPage page = new StudentPage(justin);
 
+        Vector<Student> students = new Vector<>();
+
+        students.add(justin);
+        students.add(ryan);
+        students.add(nick);
+
+        Advisory advisory = new Advisory(students, advisors.firstElement());
+        AdvisoryButton advisoryButton  = new AdvisoryButton(advisory );
+        right.add(advisoryButton);
+
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -72,6 +83,8 @@ public class GUI extends JFrame {
             this.add(advisors);
             //Need to modify a little and add data but pretty much there
 
+
+
         }
 
         public static LeftPane getLeftPane() {
@@ -86,6 +99,7 @@ public class GUI extends JFrame {
 
         private static RightPane rightPane;
 
+        private Vector<AdvisoryButton> advisoryButtons;
         private RightPane() {
         }
 
@@ -95,7 +109,15 @@ public class GUI extends JFrame {
             }
             return rightPane;
         }
+        public void addAdvisoryButton(AdvisoryButton advisoryButton){
+//            advisoryButton.reshape(30,30,30,100);
+            advisoryButton.setBounds(0,0, 100, 100);
+            advisoryButtons.add(advisoryButton);
+            add(advisoryButton);
+        }
     }
+
+
 
     public static void main(String[] args) {
         GUI test = new GUI();

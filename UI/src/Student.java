@@ -34,10 +34,10 @@ public class Student {
     }
 
     public void addFriendGroup( HashMap<Student, Float> friendGroup ) {
+
         friends.forEach((Student, Float) -> {
             friends.put(Student, Float);
         });
-
     }
 
     public void addFriend(){
