@@ -1,14 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GUI extends JFrame {
 
-    static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn").collect(Collectors.toList()));
+    static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
+
     private final String NORTH = BorderLayout.PAGE_START;
     private final String SOUTH = BorderLayout.PAGE_END;
     private final String EAST = BorderLayout.LINE_START;
@@ -27,6 +28,7 @@ public class GUI extends JFrame {
         left = LeftPane.getLeftPane();
         right = new RightPane();
         split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
+
         //AddComponents in this block:
         setJMenuBar(new ToolBar()); //accessible with getJMenuBar();
 
@@ -39,17 +41,17 @@ public class GUI extends JFrame {
         setTitle("Insert Sick UI/UX Here");
 
         Vector<String> advisors = new Vector<String>();
-            advisors.add("Valente");
-            advisors.add("Smith");
-            advisors.add("Conn");
+        advisors.add("Valente");
+        advisors.add("Smith");
+        advisors.add("Conn");
         Vector<String> interests = new Vector<String>();
-            interests.add("Computer Science");
-            interests.add("Bike Watching");
-            interests.add("Singing in the Shower");
+        interests.add("Computer Science");
+        interests.add("Bike Watching");
+        interests.add("Singing in the Shower");
 
-        Student justin = new Student("Justin",advisors, interests, Student.Gender.MALE);
-        Student ryan = new Student("Ryan",advisors, interests, Student.Gender.MALE);
-        Student nick = new Student("Nick",advisors, interests, Student.Gender.MALE);
+        Student justin = new Student("Justin", advisors, interests, Student.Gender.MALE);
+        Student ryan = new Student("Ryan", advisors, interests, Student.Gender.MALE);
+        Student nick = new Student("Nick", advisors, interests, Student.Gender.MALE);
 
         StudentPage page = new StudentPage(justin);
 
@@ -60,32 +62,57 @@ public class GUI extends JFrame {
         students.add(nick);
 
         Advisory advisory = new Advisory(students, advisors.firstElement());
-        AdvisoryFrame advisoryFrame  = new AdvisoryFrame(advisory );
+        AdvisoryFrame advisoryFrame = new AdvisoryFrame(advisory);
         right.add(advisoryFrame);
 
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    public static void main(String[] args) {
+        GUI test = new GUI();
+        test.setVisible(true);
+    }
+
     private static class LeftPane extends JPanel {
 
-        private static LeftPane leftPane;
+        private static LeftPane leftPane; //singleton
+
+
         private JLabel title;
         private JSeparator separator;
-        private JList advisors;
+        private JScrollPane scrollPane;
+        private Vector<AdvisorButton> advisors;
+        private ButtonGroup advisorButtons;
 
 
         private LeftPane() {
-            this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+            //Init Fields
+            this.setLayout(new GridLayout(0, 1, 0, 0));
             separator = new JSeparator(SwingConstants.HORIZONTAL);
-            advisors = new JList<>(data);
-            this.add(title = new JLabel("Advisories")); //Note to Rufe: Ask S/V, is this a bad thing to do?
-            this.add(Box.createRigidArea(new Dimension(0, 10)));
-            this.add(advisors);
-            //Need to modify a little and add data but pretty much there
+            advisors = new Vector<>();
+            title = new JLabel("Advisories");
+            advisorButtons = new ButtonGroup();
+            scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 
-
+            //Create AdvisorButtons
+            for (int i = 0; i < data.size(); i++) {
+                advisors.add((new AdvisorButton(data.get(i), new Vector<>())));
+            }
+            //Register Buttons with Mr.RightPane
+            for (AdvisorButton advisor : advisors) {
+                advisor.addActionListener(RightPane.getRightPane());
+                System.out.println(advisor.getName() + ": Listening");
+            }
+            for (AdvisorButton advisor : advisors) {
+                advisorButtons.add(advisor);
+            }
+            // Add Buttons to Mr.JFrame to display
+            for (JToggleButton advisor : advisors) {
+                scrollPane.add(this);
+                this.add(advisor);
+            }
         }
 
         public static LeftPane getLeftPane() {
@@ -96,7 +123,7 @@ public class GUI extends JFrame {
         }
     }
 
-    private static class RightPane extends JDesktopPane {
+    private static class RightPane extends JDesktopPane implements ActionListener {
 
         private static RightPane rightPane;
         private JDesktopPane desktopPane = new JDesktopPane();
@@ -118,7 +145,15 @@ public class GUI extends JFrame {
             }
             return rightPane;
         }
-        public void addAdvisoryButton(AdvisoryFrame frame){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("I've been pressed");
+            AdvisorButton source = (AdvisorButton) e.getSource();
+            this.add(source.getDetView());
+        }
+
+        public void addAdvisoryButton(AdvisoryFrame frame) {
 //            advisoryButton.reshape(30,30,30,100);
 //            frame.setBounds(0,0, 100, 100);
             advisoryFrames.add(frame);
@@ -130,10 +165,4 @@ public class GUI extends JFrame {
         }
     }
 
-
-
-    public static void main(String[] args) {
-        GUI test = new GUI();
-        test.setVisible(true);
-    }
 }
