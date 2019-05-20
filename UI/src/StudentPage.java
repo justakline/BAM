@@ -10,6 +10,7 @@ import java.util.Vector;
 public class StudentPage extends JFrame{
     private Student student;
     JDesktopPane desktopPane;
+    JScrollPane scrollPane;
     JInternalFrame internalFrame;
 
     public StudentPage(Student student){
@@ -19,14 +20,12 @@ public class StudentPage extends JFrame{
         this.setVisible(true);
         setLayout( new FlowLayout());
 
-        String[] col = new String[]{"Friends", "Nothing", "Interests"};
+        String[] col = new String[]{"Friends", "Interests"};
 
         String[][] data = new String[student.getFriends().size() + student.getInterests().size()+2 ][3];
 
-        data[0][0] = new String ("Friends");
-        data[0][2] = new String("Interests");
 
-        int i =2;
+        int i =0;
 
         Set<Student> friens = student.getFriends().keySet();
 
@@ -37,7 +36,7 @@ public class StudentPage extends JFrame{
         }
 
         for(int j = 0; j< student.getFriends().size(); j++){
-            data[j+2][2] = student.getInterests().get(j);
+            data[j][1] = student.getInterests().get(j);
         }
 
 
@@ -53,9 +52,11 @@ public class StudentPage extends JFrame{
             }
         };
         table.setModel(tableModel);
-        JPanel panel = new JPanel();
-        panel.add(table);
-        add(panel);
+
+        scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(100,100));
+
+        add(scrollPane);
         setVisible(true);
 
     }

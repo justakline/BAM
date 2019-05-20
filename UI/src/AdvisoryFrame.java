@@ -39,10 +39,10 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
 
         setLayout( new FlowLayout());
         createTable();
-        JPanel panel = new JPanel();
-
-        panel.add(data);
-        add(panel);
+//        JPanel panel = new JPanel();
+//
+//        panel.add(data);
+//        add(panel);
 
 
 
@@ -55,14 +55,18 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
     }
 
     private void createTable() {
-        String[] columnNames = {advisory.getAdvisor()};
-        String[][] dat = new String[advisory.getStudents().size()][1];
+        Object[] columnNames = {advisory.getAdvisor()};
+
+        Object[][] dat = new String[advisory.getStudents().size()][1];
 
         for(int i = 0; i < advisory.getStudents().size(); i ++){
             dat[i][0] = advisory.getStudents().get(i).getName();
         }
         data= new JTable( dat, columnNames);
-        JScrollPane p = new JScrollPane();
+        JScrollPane p = new JScrollPane(data);
+        p.setPreferredSize(new Dimension(50,100));
+        add(p);
+
         data.setDragEnabled(true);
         //instance table model
         DefaultTableModel tableModel = new DefaultTableModel(dat, columnNames) {
@@ -81,6 +85,9 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
     @Override
     public void valueChanged(ListSelectionEvent e) {
         System.out.println("Go");
-       StudentPage studentPage = new StudentPage((Student) e.getSource());
+        int rowIndex = data.getSelectedRow();
+        int colIndex = data.getSelectedColumn();
+//        if(dat[rowIndex][colIndex].equals(advisory.getStudents().get(rowIndex-2)))
+//       StudentPage studentPage = new StudentPage((Student) e.getSource());
     }
 }
