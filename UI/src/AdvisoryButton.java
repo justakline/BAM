@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Vector;
 
@@ -11,40 +12,26 @@ public class AdvisoryButton extends JInternalFrame {
 
     public AdvisoryButton(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
+        JDesktopPane desktopPane = new JDesktopPane();
+        desktopPane.add(this);
         setLayout( new FlowLayout());
 
-        String[] columnNames = {"First Name",
-                "Last Name",
-                "Sport",
-                "# of Years",
-                "Vegetarian"};
+        String[] columnNames = {advisory.getAdvisor()};
+        String[][] dat = new String[advisory.getStudents().size()][1];
 
+        for(int i = 0; i < advisory.getStudents().size(); i ++){
+            dat[i][0] = advisory.getStudents().get(i).getName();
+        }
+        data= new JTable( dat, columnNames);
 
-
-
-        Object[][] dat = {
-                {"Kathy", "Smith",
-                        "Snowboarding", new Integer(5), new Boolean(false)},
-                {"John", "Doe",
-                        "Rowing", new Integer(3), new Boolean(true)},
-                {"Sue", "Black",
-                        "Knitting", new Integer(2), new Boolean(false)},
-                {"Jane", "White",
-                        "Speed reading", new Integer(20), new Boolean(true)},
-                {"Joe", "Brown",
-                        "Pool", new Integer(10), new Boolean(false)}
-        };
-
-        Vector<String> col = new Vector<>();
-        col.add("Nick");
-//        data = new JTable(advisory.getStudentsToString(),  col);
-        data= new JTable(dat, columnNames);
-        add(data);
+        JScrollPane scrollPane = new JScrollPane(data);
+        JPanel panel = new JPanel();
+        panel.add(scrollPane);
+        add(panel);
 
 
         this.advisory= advisory;
         setSize(300,300);
-
 
         setVisible(true);
 

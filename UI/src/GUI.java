@@ -101,6 +101,7 @@ public class GUI extends JFrame {
 
         private Vector<AdvisoryButton> advisoryButtons;
         private RightPane() {
+
         }
 
         public static RightPane getRightPane() {
@@ -114,6 +115,7 @@ public class GUI extends JFrame {
             advisoryButton.setBounds(0,0, 100, 100);
             advisoryButtons.add(advisoryButton);
             add(advisoryButton);
+
         }
     }
 
