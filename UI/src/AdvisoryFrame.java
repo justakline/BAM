@@ -1,8 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.util.Vector;
 
 public class AdvisoryFrame extends JInternalFrame {
 
@@ -13,7 +11,7 @@ public class AdvisoryFrame extends JInternalFrame {
     public AdvisoryFrame(AdvisorButton button){
        super(button.getName(), true, true);
         this.advisory= button.getAdvisory();
-       createTable();
+        createTable();
         JPanel panel = new JPanel();
 
         panel.add(data);
