@@ -12,8 +12,7 @@ public class AdvisoryFrame extends JInternalFrame {
 
     public AdvisoryFrame(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
-        JDesktopPane desktopPane = new JDesktopPane();
-        desktopPane.add(this);
+
         setLayout( new FlowLayout());
 
         String[] columnNames = {advisory.getAdvisor()};
@@ -24,14 +23,17 @@ public class AdvisoryFrame extends JInternalFrame {
         }
         data= new JTable( dat, columnNames);
 
-        JScrollPane scrollPane = new JScrollPane(data);
+//        JScrollPane scrollPane = new JScrollPane(data);
+
         JPanel panel = new JPanel();
-        panel.add(scrollPane);
+
+        panel.add(data);
         add(panel);
 
 
         this.advisory= advisory;
-        setSize(300,300);
+        int height = 35 * advisory.getStudents().size();
+        setSize(100,height);
 
         setVisible(true);
 
