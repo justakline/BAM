@@ -29,8 +29,8 @@ public class Test extends JFrame {
         in1.setFrameIcon(new ImageIcon("f:/gfg.jpg"));
 
         // create a Button
-        JButton b = new JButton("button");
-        JButton b1 = new JButton("button1");
+        JToggleButton b = new JToggleButton("button");
+        JToggleButton b1 = new JToggleButton("button1");
 
         // create a label to display text
         l = new JLabel("This is a JInternal Frame no 1  ");

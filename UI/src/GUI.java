@@ -101,10 +101,7 @@ public class GUI extends JFrame {
             this.setLayout(new GridLayout(0, 1, 0, 0));
             separator = new JSeparator(SwingConstants.HORIZONTAL);
             advisors = new Vector<>();
-            title = new JLabel("Advisories");
-            advisorButtons = new ButtonGroup();
-            scrollPane = new JScrollPane(this, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-
+            this.add(new JLabel("Advisories:", SwingConstants.CENTER));
 
             //Create AdvisorButtons
             for (int i = 0; i < data.size(); i++) {
@@ -115,12 +112,8 @@ public class GUI extends JFrame {
                 advisor.addActionListener(RightPane.getRightPane());
                 System.out.println(advisor.getName() + ": Listening");
             }
-            for (AdvisorButton advisor : advisors) {
-                advisorButtons.add(advisor);
-            }
             // Add Buttons to Mr.JFrame to display
             for (JToggleButton advisor : advisors) {
-                scrollPane.add(this);
                 this.add(advisor);
             }
         }
@@ -138,12 +131,13 @@ public class GUI extends JFrame {
         private static RightPane rightPane;
 
         private Vector<AdvisoryFrame> advisoryFrames;
+
         public RightPane() {
             super();
             advisoryFrames = new Vector<>();
 
-            setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-            setVisible(true);
+            this.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+            this.setVisible(true);
         }
 
 
@@ -158,7 +152,11 @@ public class GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             System.out.println("I've been pressed");
             AdvisorButton source = (AdvisorButton) e.getSource();
-            this.add(source.getDetView());
+            if (source.isSelected())
+                this.add(source.getDetView());
+            else {
+                this.remove(source.getDetView());
+            }
         }
 
         public void addAdvisoryButton(AdvisoryFrame frame) {
