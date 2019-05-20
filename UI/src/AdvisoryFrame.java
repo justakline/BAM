@@ -10,11 +10,43 @@ public class AdvisoryFrame extends JInternalFrame {
     private String advisor;
     private JTable data;
 
+    public AdvisoryFrame(AdvisorButton button){
+       super(button.getName(), true, true);
+       createTable();
+        JPanel panel = new JPanel();
+
+        panel.add(data);
+        add(panel);
+
+
+        this.advisory= button.getAdvisory();
+        int height = 35 * advisory.getStudents().size();
+        setSize(100,height);
+
+        setVisible(true);
+
+    }
 
     public AdvisoryFrame(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
 
         setLayout( new FlowLayout());
+        createTable();
+        JPanel panel = new JPanel();
+
+        panel.add(data);
+        add(panel);
+
+
+        this.advisory= advisory;
+        int height = 35 * advisory.getStudents().size();
+        setSize(100,height);
+
+        setVisible(true);
+
+    }
+
+    private void createTable() {
         String[] columnNames = {advisory.getAdvisor()};
         String[][] dat = new String[advisory.getStudents().size()][1];
 
@@ -35,17 +67,7 @@ public class AdvisoryFrame extends JInternalFrame {
 
         data.setModel(tableModel);
 
-        JPanel panel = new JPanel();
-
-        panel.add(data);
-        add(panel);
-
-
-        this.advisory= advisory;
-        int height = 35 * advisory.getStudents().size();
-        setSize(100,height);
-
-        setVisible(true);
-
     }
+
+
 }

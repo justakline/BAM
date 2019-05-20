@@ -136,16 +136,14 @@ public class GUI extends JFrame {
     private static class RightPane extends JDesktopPane implements ActionListener {
 
         private static RightPane rightPane;
-        private JDesktopPane desktopPane = new JDesktopPane();
 
         private Vector<AdvisoryFrame> advisoryFrames;
         public RightPane() {
             super();
             advisoryFrames = new Vector<>();
-            desktopPane = new JDesktopPane();
 
-            desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-            desktopPane.setVisible(true);
+            setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+            setVisible(true);
         }
 
 
@@ -168,9 +166,9 @@ public class GUI extends JFrame {
 //            frame.setBounds(0,0, 100, 100);
             advisoryFrames.add(frame);
             frame.setVisible(true);
-            desktopPane.add(frame);
+            this.add(frame);
 
-            add(desktopPane);
+
 
         }
     }
