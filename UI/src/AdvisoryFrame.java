@@ -3,14 +3,14 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.Vector;
 
-public class AdvisoryButton extends JInternalFrame {
+public class AdvisoryFrame extends JInternalFrame {
 
     private Advisory advisory;
     private String advisor;
     private JTable data;
 
 
-    public AdvisoryButton(Advisory advisory){
+    public AdvisoryFrame(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
         JDesktopPane desktopPane = new JDesktopPane();
         desktopPane.add(this);
