@@ -11,12 +11,17 @@ public class AdvisoryFrame extends JInternalFrame {
 
 
     public AdvisoryFrame(Advisory advisory){
-        super("" + advisory.getAdvisor(), true, true);
-        JDesktopPane desktopPane = new JDesktopPane();
-        desktopPane.add(this);
-        setLayout( new FlowLayout());
+        super("" + advisory.getAdvisor());
 
-        String[] columnNames = {advisory.getAdvisor()};
+
+
+        setLayout( new GridLayout());
+        this.
+        setClosable(true);
+        setResizable(true);
+        setMaximizable(true);
+
+              String[] columnNames = {advisory.getAdvisor()};
         String[][] dat = new String[advisory.getStudents().size()][1];
 
         for(int i = 0; i < advisory.getStudents().size(); i ++){

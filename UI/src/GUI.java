@@ -16,7 +16,8 @@ public class GUI extends JFrame {
     //TEMP DUMMIES
     private final String CENTER = BorderLayout.CENTER;
     private final JPanel main = new JPanel(new BorderLayout());
-    private JPanel left, right;
+    private JPanel left;
+    private JDesktopPane right;
     private JSplitPane split1;
     private JList<String> advisories;
 
@@ -24,7 +25,7 @@ public class GUI extends JFrame {
 
         //Init Components in this block:
         left = LeftPane.getLeftPane();
-        right = RightPane.getRightPane();
+        right = new RightPane();
         split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
         //AddComponents in this block:
         setJMenuBar(new ToolBar()); //accessible with getJMenuBar();
@@ -95,14 +96,21 @@ public class GUI extends JFrame {
         }
     }
 
-    private static class RightPane extends JPanel {
+    private static class RightPane extends JDesktopPane {
 
         private static RightPane rightPane;
+        private JDesktopPane desktopPane = new JDesktopPane();
 
         private Vector<AdvisoryFrame> advisoryFrames;
-        private RightPane() {
+        public RightPane() {
+            super();
+            advisoryFrames = new Vector<>();
+            desktopPane = new JDesktopPane();
 
+            desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+            desktopPane.setVisible(true);
         }
+
 
         public static RightPane getRightPane() {
             if (rightPane == null) {
@@ -112,9 +120,12 @@ public class GUI extends JFrame {
         }
         public void addAdvisoryButton(AdvisoryFrame frame){
 //            advisoryButton.reshape(30,30,30,100);
-            frame.setBounds(0,0, 100, 100);
+//            frame.setBounds(0,0, 100, 100);
             advisoryFrames.add(frame);
-            add(frame);
+            frame.setVisible(true);
+            desktopPane.add(frame);
+
+            add(desktopPane);
 
         }
     }
