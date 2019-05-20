@@ -1,10 +1,14 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
-public class AdvisoryFrame extends JInternalFrame {
+public class AdvisoryFrame extends JInternalFrame implements ListSelectionListener {
 
     private Advisory advisory;
     private String advisor;
@@ -25,6 +29,7 @@ public class AdvisoryFrame extends JInternalFrame {
         setSize(100,height);
 
         setVisible(true);
+        data.getSelectionModel().addListSelectionListener(this);
 
     }
 
@@ -45,6 +50,7 @@ public class AdvisoryFrame extends JInternalFrame {
         setSize(100,height);
 
         setVisible(true);
+        data.getSelectionModel().addListSelectionListener(this);
 
     }
 
@@ -72,5 +78,9 @@ public class AdvisoryFrame extends JInternalFrame {
 
     }
 
-
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        System.out.println("Go");
+       StudentPage studentPage = new StudentPage((Student) e.getSource());
+    }
 }
