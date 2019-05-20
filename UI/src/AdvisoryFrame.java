@@ -12,6 +12,7 @@ public class AdvisoryFrame extends JInternalFrame {
 
     public AdvisoryFrame(AdvisorButton button){
        super(button.getName(), true, true);
+        this.advisory= button.getAdvisory();
        createTable();
         JPanel panel = new JPanel();
 
@@ -19,7 +20,7 @@ public class AdvisoryFrame extends JInternalFrame {
         add(panel);
 
 
-        this.advisory= button.getAdvisory();
+
         int height = 35 * advisory.getStudents().size();
         setSize(100,height);
 
@@ -29,6 +30,7 @@ public class AdvisoryFrame extends JInternalFrame {
 
     public AdvisoryFrame(Advisory advisory){
         super("" + advisory.getAdvisor(), true, true);
+        this.advisory= advisory;
 
         setLayout( new FlowLayout());
         createTable();
@@ -38,7 +40,7 @@ public class AdvisoryFrame extends JInternalFrame {
         add(panel);
 
 
-        this.advisory= advisory;
+
         int height = 35 * advisory.getStudents().size();
         setSize(100,height);
 

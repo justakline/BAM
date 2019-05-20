@@ -7,6 +7,7 @@ import java.util.Vector;
 
 public class StudentPage extends JFrame  {
     private Student student;
+    JDesktopPane desktopPane;
     JInternalFrame internalFrame;
 
     public StudentPage(Student student){
@@ -16,9 +17,16 @@ public class StudentPage extends JFrame  {
         this.setVisible(true);
         setLayout( new FlowLayout());
 
-        internalFrame = new JInternalFrame(student.getName(), true, true);
 
-        JPanel panel = new JPanel(new FlowLayout());
+
+
+
+
+        
+        desktopPane = new JDesktopPane();
+        desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+        desktopPane.setVisible(true);
+        internalFrame = new JInternalFrame(student.getName(), true, true);
 
 
         int tableHeight = 0;
@@ -58,9 +66,10 @@ public class StudentPage extends JFrame  {
         };
 
         table.setModel(tableModel);
-
+        JPanel panel = new JPanel(new FlowLayout());
         panel.add(table);
-        internalFrame.add(panel);
+//        internalFrame.add(panel);
+//        desktopPane.add(internalFrame);
         this.add(panel);
         setVisible(true);
 
