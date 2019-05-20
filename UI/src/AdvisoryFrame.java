@@ -15,9 +15,9 @@ public class AdvisoryFrame extends JInternalFrame {
         this.advisory= button.getAdvisory();
        createTable();
         JPanel panel = new JPanel();
-
-        panel.add(data);
-        add(panel);
+        JScrollPane p = new JScrollPane();
+        p.add(data);
+        add(p);
 
 
 
@@ -56,6 +56,7 @@ public class AdvisoryFrame extends JInternalFrame {
             dat[i][0] = advisory.getStudents().get(i).getName();
         }
         data= new JTable( dat, columnNames);
+        JScrollPane p = new JScrollPane();
         data.setDragEnabled(true);
         //instance table model
         DefaultTableModel tableModel = new DefaultTableModel(dat, columnNames) {
