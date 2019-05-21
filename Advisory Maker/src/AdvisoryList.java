@@ -5,9 +5,8 @@ import java.util.Vector;
 
 public class AdvisoryList extends JList {
     Vector<Advisory> advisories;
-    private ListSelectionListener selectionListener;
 
-    public AdvisoryList(Vector advisories, JPanel panel) {
+    public AdvisoryList(Vector<Advisory> advisories, JPanel panel) {
         super(advisories);
         this.advisories = advisories;
         this.setListData(this.advisories);

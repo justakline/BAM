@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Test extends JFrame {
+public class TestGUI extends JFrame {
     // frame
     static JFrame f;
     // label to display text

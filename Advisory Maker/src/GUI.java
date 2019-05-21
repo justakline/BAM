@@ -11,8 +11,6 @@ public class GUI extends JFrame {
     static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
     //Temp Dummies
 
-    private JSplitPane split1;
-
     public GUI() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -21,33 +19,24 @@ public class GUI extends JFrame {
         }
 
         //Init Components in this block:
-        split1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, LeftPane.getLeftPane(), RightPane.getRightPane());
+        this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, LeftPane.getLeftPane(), RightPane.getRightPane()));
 
         //AddComponents in this block:
         setJMenuBar(new ToolBar()); //accessible with getJMenuBar();
-
-        this.add(split1);
 
         //Attributes of JFrame
         this.setSize(800, 800);
         this.setVisible(true);
         setTitle("Insert Sick UI/UX Here");
 
-        Vector<String> advisors = new Vector<String>();
-        advisors.add("Valente");
-        advisors.add("Smith");
-        advisors.add("Conn");
         Vector<String> interests = new Vector<String>();
         interests.add("Computer Science");
         interests.add("Bike Watching");
         interests.add("Singing in the Shower");
 
-
-
-
-        Student justin = new Student("Justin", advisors, interests, Student.Gender.MALE);
-        Student ryan = new Student("Ryan", advisors, interests, Student.Gender.MALE);
-        Student nick = new Student("Nick", advisors, interests, Student.Gender.MALE);
+        Student justin = new Student("Justin", interests, Student.Gender.MALE);
+        Student ryan = new Student("Ryan", interests, Student.Gender.MALE);
+        Student nick = new Student("Nick", interests, Student.Gender.MALE);
 
         Vector<Student> friends = new Vector<Student>();
         friends.add(ryan);
@@ -62,7 +51,7 @@ public class GUI extends JFrame {
         students.add(ryan);
         students.add(nick);
 
-        Advisory advisory = new Advisory(students, advisors.firstElement());
+        Advisory advisory = new Advisory(students, "Valente");
         AdvisoryFrame advisoryFrame = new AdvisoryFrame(advisory);
         RightPane.getRightPane().add(advisoryFrame);
 
@@ -87,7 +76,7 @@ public class GUI extends JFrame {
 
             //Create AdvisorButtons
             for (int i = 0; i < data.size(); i++) {
-                AdvisorButton adv = new AdvisorButton(new Advisory(new Vector<Student>(), data.get(i)));
+                AdvisorButton adv = new AdvisorButton(new Advisory(new Vector<>(), data.get(i)));
                 adv.addActionListener(RightPane.getRightPane());
                 this.add(adv);
             }

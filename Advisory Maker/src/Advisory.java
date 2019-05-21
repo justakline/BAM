@@ -29,9 +29,7 @@ public class Advisory {
 
     public Vector<String>getStudentsToString() {
         Vector<String> s = new Vector<>();
-        for (Student student : students) {
-            s.add(student.getName());
-        }
+        students.forEach(Student -> s.add(Student.getName()));
         return s;
     }
 

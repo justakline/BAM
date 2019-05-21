@@ -5,11 +5,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Set;
 
-public class StudentPage extends JFrame implements ComponentListener {
+public class StudentPage extends JInternalFrame implements ComponentListener {
     private Student student;
-    JDesktopPane desktopPane;
     JScrollPane scrollPane;
-    JInternalFrame internalFrame;
     JTable table;
 
     public StudentPage(Student student){
