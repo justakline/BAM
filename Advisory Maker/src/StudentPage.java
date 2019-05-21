@@ -13,11 +13,18 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
     JTable table;
 
     public StudentPage(Student student){
-        super(student.getName());
-        this.student = student;
-        this.setSize(200, 300);
-        this.setVisible(true);
-        setLayout( new GridLayout());
+
+            super(student.getName());
+            try {
+                this.student = student;
+                this.setSize(200, 300);
+                this.setVisible(true);
+                setLayout(new GridLayout());
+                throw new NullPointerException();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
 
 //Creation of the data
         String[] col = new String[]{"Friends", "Interests"};
@@ -97,5 +104,8 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+    public Student getStudent(){
+        return student;
     }
 }

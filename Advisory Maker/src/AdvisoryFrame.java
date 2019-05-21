@@ -77,8 +77,13 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
         System.out.println(rowIndex + "  +  " + colIndex);
         System.out.println("Data[" + rowIndex +"][" + colIndex+"] =" + data[rowIndex][colIndex].getName());
         StudentPage newStudentPage = new StudentPage(data[rowIndex][colIndex]);
-        GUI.getRightPane().getStudentPages().add(newStudentPage);
-        GUI.getRightPane().add(newStudentPage );
+
+
+
+        if(!e.getValueIsAdjusting()){
+            GUI.getRightPane().getStudentPages().add(newStudentPage);
+            GUI.getRightPane().add(newStudentPage);
+        }
 //        if(data[rowIndex][colIndex].equals(advisory.getStudents().get(rowIndex-2)))
 //       StudentPage studentPage = new StudentPage((Student) e.getSource());
     }
