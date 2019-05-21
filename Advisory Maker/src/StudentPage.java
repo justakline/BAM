@@ -7,7 +7,6 @@ import java.util.Set;
 
 public class StudentPage extends JInternalFrame implements ComponentListener {
     private Student student;
-
     JDesktopPane desktopPane;
     JScrollPane scrollPane;
     JInternalFrame internalFrame;
