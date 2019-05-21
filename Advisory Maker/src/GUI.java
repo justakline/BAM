@@ -10,6 +10,8 @@ public class GUI extends JFrame {
 
     static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
     //Temp Dummies
+    public static Vector<StudentPage> displayedStudentPages;
+
 
     public GUI() {
         try {
@@ -17,6 +19,7 @@ public class GUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        displayedStudentPages = new Vector<>();
 
         //Init Components in this block:
         this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, LeftPane.getLeftPane(), RightPane.getRightPane()));
@@ -44,7 +47,7 @@ public class GUI extends JFrame {
 
         justin.addFriendGroup(friends);
 
-        StudentPage page = new StudentPage(justin);
+//        StudentPage page = new StudentPage(justin);
 
         Vector<Student> students = new Vector<>();
         students.add(justin);
@@ -54,6 +57,7 @@ public class GUI extends JFrame {
         Advisory advisory = new Advisory(students, "Valente");
         AdvisoryFrame advisoryFrame = new AdvisoryFrame(advisory);
         RightPane.getRightPane().add(advisoryFrame);
+        RightPane.getRightPane().add(new StudentPage(justin));
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -62,6 +66,11 @@ public class GUI extends JFrame {
         GUI test = new GUI();
         test.setVisible(true);
     }
+
+    public static RightPane getRightPane() {
+        return RightPane.getRightPane();
+    }
+
 
     private static class LeftPane extends JPanel {
 
@@ -87,30 +96,48 @@ public class GUI extends JFrame {
         }
     }
 
-    private static class RightPane extends JDesktopPane implements ActionListener {
+    public static class RightPane extends JDesktopPane implements ActionListener {
 
         private static RightPane rightPane; //singleton
+        private Vector<AdvisoryFrame> advisoryFrames;
+        private Vector<StudentPage> studentPages;
 
         public RightPane() {
             super();
+            studentPages = new Vector<>();
             this.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
             this.setVisible(true);
+
         }
 
         public static RightPane getRightPane() {
             return (rightPane == null) ? (rightPane = new RightPane()) : (rightPane);
         }
 
+
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            AdvisorButton source = (AdvisorButton) e.getSource();
-            if (source.isSelected()) {
-                System.out.println("I'm pressed for time");
-                this.add(new AdvisoryFrame(source.getAdvisory()));
+            if(e.getClass().getName().equals("AdvisoryButton")){
+                AdvisorButton source = (AdvisorButton) e.getSource();
+                if (source.isSelected()) {
+                    System.out.println("I'm pressed for time");
+                    this.add(new AdvisoryFrame(source.getAdvisory()));
+                }
+                else {
+                    this.remove(new AdvisoryFrame(source));
+                }
             }
-            else {
-                this.remove(new AdvisoryFrame(source));
+            if(e.getClass().getName().equals("Student")){
+
             }
+
         }
+
+        public Vector<StudentPage> getStudentPages() {
+            return studentPages;
+        }
+
+
     }
 }

@@ -11,13 +11,20 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
     JTable table;
 
     public StudentPage(Student student){
-        super(student.getName());
-        this.student = student;
-        this.setSize(200, 300);
-        this.setVisible(true);
-        setLayout( new GridLayout());
+
+            super(student.getName());
+            try {
+                this.student = student;
+                this.setSize(200, 300);
+                this.setVisible(true);
+                setLayout(new GridLayout());
+                throw new NullPointerException();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
 
 
+//Creation of the data
         String[] col = new String[]{"Friends", "Interests"};
 
         String[][] data = new String[student.getFriends().size() + student.getInterests().size()+2 ][3];
@@ -51,16 +58,23 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
         };
         table.setModel(tableModel);
 
+//        table.
+
+        //Creation of the UI
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(30*student.getFriends().size(),120));
+        scrollPane.setPreferredSize(new Dimension(30 * student.getFriends().size(), 120));
         scrollPane.addComponentListener(this);
-        scrollPane.setViewportView( table );
+        scrollPane.setViewportView(table);
+
 
 
         addComponentListener(this);
 
         add(scrollPane);
+        setSize(new Dimension(200, 70*student.getFriends().size()));
+        setIconifiable(true);
+        setClosable(true);
         setVisible(true);
 
     }
@@ -88,5 +102,8 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+    public Student getStudent(){
+        return student;
     }
 }
