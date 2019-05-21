@@ -31,6 +31,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
         this.setSize(100, 35 * advisory.getStudents().size());
         this.setVisible(true);
         data.getSelectionModel().addListSelectionListener(this);
+        setIconifiable(true);
     }
 
     private void createTable() {

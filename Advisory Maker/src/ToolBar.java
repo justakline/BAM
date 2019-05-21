@@ -15,6 +15,10 @@ public class ToolBar extends JMenuBar {
         this.add(new JMenu("Load"));
         this.add(new JMenu("Run"));
         this.add(new JMenu("Help"));
+
+        JMenu options = new JMenu("Options");
+        options.add(new JMenuItem("Set to One Window"));
+        this.add(options);
     }
 
 

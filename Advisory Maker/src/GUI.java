@@ -11,6 +11,8 @@ public class GUI extends JFrame {
     static Vector<String> data = new Vector<>(Stream.of("Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
     //Temp Dummies
 
+
+
     private JSplitPane split1;
 
     public GUI() {
@@ -55,7 +57,7 @@ public class GUI extends JFrame {
 
         justin.addFriendGroup(friends);
 
-        StudentPage page = new StudentPage(justin);
+//        StudentPage page = new StudentPage(justin);
 
         Vector<Student> students = new Vector<>();
         students.add(justin);
@@ -65,6 +67,7 @@ public class GUI extends JFrame {
         Advisory advisory = new Advisory(students, advisors.firstElement());
         AdvisoryFrame advisoryFrame = new AdvisoryFrame(advisory);
         RightPane.getRightPane().add(advisoryFrame);
+        RightPane.getRightPane().add(new StudentPage(justin));
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
