@@ -4,7 +4,7 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class TestCase {
+public final class TestCases {
     public static final Vector<String> NVinterests = new Vector<>(Stream.of("Computer Science", "Singing", "Competitive Bike Watching").collect(Collectors.toList()));
     //Advisory
     //Student
@@ -14,8 +14,9 @@ public final class TestCase {
     public static final Vector<String> SSinterests = new Vector<>(Stream.of("Neuroscience", "Dog Petting", "Competitive Bike Watching").collect(Collectors.toList()));
     public static final Vector<String> RLinterests = new Vector<>(Stream.of("Computer Science", "Neuroscience", "Fountain Pen", "Running").collect(Collectors.toList()));
     public static final Vector<String> KBinterests = new Vector<>(Stream.of("Neuroscience", "Singing").collect(Collectors.toList()));
+    public static final Vector<String> LLinterests = new Vector<>(Stream.of("Computer Science", "Football", "Baseball", "C++").collect(Collectors.toList()));
 
-    private TestCase() {
+    private TestCases() {
     }
 
     public static Advisory getAdvisoryTest() {
@@ -23,7 +24,7 @@ public final class TestCase {
     }
 
     public static Vector<Student> getStudentGroupTest() {
-        return new Vector<>(Stream.of(getFriendlyFemaleStudentTest(), getFriendlyMaleStudentTest(), getLonelyFemaleStudentTest(), getLonelyMaleStudentTest()).collect(Collectors.toList()));
+        return new Vector<>(Stream.of(getFriendlyFemaleStudentTest(), getFriendlyMaleStudentTest(), getFriendlyOtherStudentTest(), getLonelyFemaleStudentTest(), getLonelyMaleStudentTest()).collect(Collectors.toList()));
     }
 
     public static Student getLonelyMaleStudentTest() {
@@ -32,6 +33,10 @@ public final class TestCase {
 
     public static Student getLonelyFemaleStudentTest() {
         return new Student("Sarah Stamper", SSinterests, Student.Gender.FEMALE);
+    }
+
+    public static Student getFriendlyOtherStudentTest() {
+        return new Student("Logan Lach", getFriendGroupTest(), LLinterests, Student.Gender.OTHER);
     }
 
     public static Student getFriendlyMaleStudentTest() {
@@ -56,5 +61,9 @@ public final class TestCase {
 
     public static AdvisoryList getAdvisoryList(JPanel panel) {
         return new AdvisoryList(new Vector<>(Stream.of(getAdvisoryTest()).collect(Collectors.toList())), panel);
+    }
+
+    public static Vector<String> getAdvisorStringList() {
+        return new Vector<>(Stream.of("Kim Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
     }
 }

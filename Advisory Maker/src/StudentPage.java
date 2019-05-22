@@ -20,6 +20,8 @@ public class StudentPage extends JInternalFrame implements ComponentListener {
         String[][] data = new String[student.getFriends().size() + student.getInterests().size()+2 ][3];
         for (int i = 0; i < student.getFriends().size(); i++) {
             data[i][0] = student.getFriends().get(i).getName();
+        }
+        for (int i = 0; i < student.getInterests().size(); i++) {
             data[i][1] = student.getInterests().get(i);
         }
 
