@@ -19,6 +19,7 @@ public class GUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         displayedStudentPages = new Vector<>();
 
         //Init Components in this block:
@@ -32,32 +33,8 @@ public class GUI extends JFrame {
         this.setVisible(true);
         setTitle("Insert Sick UI/UX Here");
 
-        Vector<String> interests = new Vector<String>();
-        interests.add("Computer Science");
-        interests.add("Bike Watching");
-        interests.add("Singing in the Shower");
-
-        Student justin = new Student("Justin", interests, Student.Gender.MALE);
-        Student ryan = new Student("Ryan", interests, Student.Gender.MALE);
-        Student nick = new Student("Nick", interests, Student.Gender.MALE);
-
-        Vector<Student> friends = new Vector<Student>();
-        friends.add(ryan);
-        friends.add(nick);
-
-        justin.addFriendGroup(friends);
-
-//        StudentPage page = new StudentPage(justin);
-
-        Vector<Student> students = new Vector<>();
-        students.add(justin);
-        students.add(ryan);
-        students.add(nick);
-
-        Advisory advisory = new Advisory(students, "Valente");
-        AdvisoryFrame advisoryFrame = new AdvisoryFrame(advisory);
-        RightPane.getRightPane().add(advisoryFrame);
-        RightPane.getRightPane().add(new StudentPage(justin));
+        RightPane.getRightPane().add(TestCase.getAdvisoryFrame());
+        RightPane.getRightPane().add(new StudentPage(TestCase.getFriendlyMaleStudentTest()));
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }

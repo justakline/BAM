@@ -12,8 +12,8 @@ public final class TestCase {
     //AdvisoryComponents
     //
     public static final Vector<String> SSinterests = new Vector<>(Stream.of("Neuroscience", "Dog Petting", "Competitive Bike Watching").collect(Collectors.toList()));
-    public static final Vector<String> RLinterests = new Vector<>(Stream.of("Computer Science", "Neuroscience", "Fountain Pen").collect(Collectors.toList()));
-    public static final Vector<String> KBinterests = new Vector<>(Stream.of("Dog Petting", "Neuroscience", "Singing").collect(Collectors.toList()));
+    public static final Vector<String> RLinterests = new Vector<>(Stream.of("Computer Science", "Neuroscience", "Fountain Pen", "Running").collect(Collectors.toList()));
+    public static final Vector<String> KBinterests = new Vector<>(Stream.of("Neuroscience", "Singing").collect(Collectors.toList()));
 
     private TestCase() {
     }
@@ -46,7 +46,7 @@ public final class TestCase {
         return new Vector<>(Stream.of(getLonelyFemaleStudentTest(), getLonelyMaleStudentTest()).collect(Collectors.toList()));
     }
 
-    public static AdvisoryFrame getAdvisoryFrameTest() {
+    public static AdvisoryFrame getAdvisoryFrame() {
         return new AdvisoryFrame(getAdvisoryTest());
     }
 
