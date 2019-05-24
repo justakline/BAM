@@ -92,82 +92,81 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
     public void createButton() {
         addStudent  = new JButton("+");
 
-        addStudent.setTransferHandler(new TransferHandler(){
-
-            public int getSourceActions(JComponent c) {
-                System.out.println("Get source");
-                System.out.println(c.getComponent(0));
-                return DnDConstants.ACTION_COPY_OR_MOVE;
-            }
-
-            public Transferable createTransferable(JComponent comp) {
-                System.out.println("Starting");
-                System.out.println(comp.getClass()+"");
-                JTable table=(JTable)comp;
-                row=table.getSelectedRow();
-                col=table.getSelectedColumn();
-                System.out.println("Row = " + row + "  Col = " + col);
-                String value = (String)table.getModel().getValueAt(row,col);
-                StringSelection transferable = new StringSelection(value);
-                table.getModel().setValueAt(null,row,col);
-                System.out.println("Transferab;e");
-                return transferable;
-            }
-            public boolean canImport(TransferHandler.TransferSupport info){
-
-                if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)){
-                    return false;
-                }
-
-                return true;
-            }
-
-            public boolean importData(TransferSupport support) {
-
-                System.out.println(getComponent(0).getName());
-                if (!support.isDrop()) {
-                    return false;
-                }
-
-                if (!canImport(support)) {
-                    return false;
-                }
-
-
-                JButton but=(JButton)support.getComponent();
-                System.out.println("Imported Data");
-                DefaultTableModel tableModel=(DefaultTableModel)table.getModel();
-
-
-//                System.out.println(support.getComponent());
-                System.out.println(tableModel.getColumnName(0));
-
-                System.out.println(but.isDefaultButton());
-                System.out.println("BUT");
-
-
-
-                String data;
-                try {
-                    data = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-                } catch (UnsupportedFlavorException e) {
-                    return false;
-                } catch (IOException e) {
-                    return false;
-                }
-                Vector<String> v = new Vector<>();
-
-//                System.out.println(support.getComponent());
-                v.add((String)(table.getValueAt(row, col)));
-
-                tableModel.addRow(v);
-
-
-                return true;
-            }
-
-        });
-//        addStudent.setPreferredSize(new Dimension(getWidth(), getHeight()));
+//        addStudent.setTransferHandler(new TransferHandler(){
+//
+//            public int getSourceActions(JComponent c) {
+//                System.out.println("Get source");
+//                System.out.println(c.getComponent(0));
+//                return DnDConstants.ACTION_COPY_OR_MOVE;
+//            }
+//
+//            public Transferable createTransferable(JComponent comp) {
+//                System.out.println("Starting");
+//                System.out.println(comp.getClass()+"");
+//                JTable table=(JTable)comp;
+//                row=table.getSelectedRow();
+//                col=table.getSelectedColumn();
+//                System.out.println("Row = " + row + "  Col = " + col);
+//                String value = (String)table.getModel().getValueAt(row,col);
+//                StringSelection transferable = new StringSelection(value);
+//                table.getModel().setValueAt(null,row,col);
+//                System.out.println("Transferab;e");
+//                return transferable;
+//            }
+//            public boolean canImport(TransferHandler.TransferSupport info){
+//
+//                if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)){
+//                    return false;
+//                }
+//
+//                return true;
+//            }
+//
+//            public boolean importData(TransferSupport support) {
+//
+//                System.out.println(getComponent(0).getName());
+//                if (!support.isDrop()) {
+//                    return false;
+//                }
+//
+//                if (!canImport(support)) {
+//                    return false;
+//                }
+//
+//
+//                JButton but=(JButton)support.getComponent();
+//                System.out.println("Imported Data");
+//                DefaultTableModel tableModel=(DefaultTableModel)table.getModel();
+//
+//
+////
+//                System.out.println("BUT");
+//
+//
+//
+//                String data;
+//                try {
+//                    data = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+//                } catch (UnsupportedFlavorException e) {
+//                    return false;
+//                } catch (IOException e) {
+//                    return false;
+//                }
+//                Vector<String> v = new Vector<>();
+//
+////                System.out.println(support.getComponent());
+//                System.out.println( table.getRowCount());
+//
+//                v.add((String)(table.getValueAt(row, col)));
+//
+//                tableModel.addRow(v);
+//
+//
+//                return true;
+//            }
+//
+//        });
+////        addStudent.setPreferredSize(new Dimension(getWidth(), getHeight()));
         Panel p = new Panel(new FlowLayout());
         p.add(addStudent);
 
