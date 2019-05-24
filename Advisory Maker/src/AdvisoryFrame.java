@@ -8,6 +8,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -19,6 +21,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
     private JButton addStudent;
     public int row;
     public int col;
+    MouseListener ml;
 
     public AdvisoryFrame(AdvisorButton button) {
         super(button.getName(), true, true);
@@ -38,13 +41,45 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
          col=0;
         this.advisory= advisory;
 
+
         this.setLayout(new FlowLayout());
 
         createTable();
         createButton();
         setConstraints();
+        addStudent.setDropTarget();
+        ml = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
+            }
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JComponent jc = (JComponent)e.getSource();
+                TransferHandler th = jc.getTransferHandler();
+                th.exportAsDrag(jc, e, TransferHandler.COPY);
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+        addStudent.addMouseListener(ml);
+
+        addStudent.setTransferHandler(new TransferHandler("Kate"));
 
     }
 
@@ -91,6 +126,10 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
 
     public void createButton() {
         addStudent  = new JButton("+");
+
+//        if()
+
+//        addStudent.
 
 //        addStudent.setTransferHandler(new TransferHandler(){
 //
@@ -166,8 +205,8 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
 //            }
 //
 //        });
-////        addStudent.setPreferredSize(new Dimension(getWidth(), getHeight()));
-        Panel p = new Panel(new FlowLayout());
+//        addStudent.setPreferredSize(new Dimension(getWidth(), getHeight()));
+        JPanel p=  new JPanel(new FlowLayout());
         p.add(addStudent);
 
         add(p);
@@ -176,11 +215,10 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        System.out.println("Go");
+
         int rowIndex = table.getSelectedRow();
         int colIndex = table.getSelectedColumn();
-        System.out.println(rowIndex + "  +  " + colIndex);
-        System.out.println("Data[" + rowIndex +"][" + colIndex+"] =" + data[rowIndex][colIndex].getName());
+
         StudentPage newStudentPage = new StudentPage(data[rowIndex][colIndex]);
 
 

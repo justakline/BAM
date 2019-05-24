@@ -22,6 +22,7 @@ public class AdvisoryList extends JList {
 
         @Override
         public void valueChanged(ListSelectionEvent e) {
+
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 
 
