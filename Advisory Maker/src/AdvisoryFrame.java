@@ -3,15 +3,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.Vector;
 
 public class AdvisoryFrame extends JInternalFrame implements ListSelectionListener {
 
@@ -47,7 +40,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
         createTable();
         createButton();
         setConstraints();
-        addStudent.setDropTarget();
+        // addStudent.setDropTarget();
         ml = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

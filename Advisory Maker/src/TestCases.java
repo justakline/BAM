@@ -28,23 +28,23 @@ public final class TestCases {
     }
 
     public static Student getLonelyMaleStudentTest() {
-        return new Student("Nick Valente", NVinterests, Student.Gender.MALE);
+        return new Student("Nick Valente", NVinterests, Student.Gender.M);
     }
 
     public static Student getLonelyFemaleStudentTest() {
-        return new Student("Sarah Stamper", SSinterests, Student.Gender.FEMALE);
+        return new Student("Sarah Stamper", SSinterests, Student.Gender.F);
     }
 
     public static Student getFriendlyOtherStudentTest() {
-        return new Student("Logan Lach", getFriendGroupTest(), LLinterests, Student.Gender.OTHER);
+        return new Student("Logan Lach", getFriendGroupTest(), LLinterests, Student.Gender.O);
     }
 
     public static Student getFriendlyMaleStudentTest() {
-        return new Student("Rufe Leventhal", getFriendGroupTest(), RLinterests, Student.Gender.MALE);
+        return new Student("Rufe Leventhal", getFriendGroupTest(), RLinterests, Student.Gender.M);
     }
 
     public static Student getFriendlyFemaleStudentTest() {
-        return new Student("Kate Barranco", getFriendGroupTest(), KBinterests, Student.Gender.FEMALE);
+        return new Student("Kate Barranco", getFriendGroupTest(), KBinterests, Student.Gender.F);
     }
 
     public static List<Student> getFriendGroupTest() {

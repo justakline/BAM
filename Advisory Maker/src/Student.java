@@ -4,12 +4,27 @@ import java.util.Vector;
 
 public class Student {
     private String name;
+    private String nickName;
     private List<Student> friends;
     private  Vector<String> interests;
     private Gender gender;
+    private int ID;
 
-    public enum Gender{
-        MALE, FEMALE, OTHER
+    //ID,First,Middle,Last,nickName, Gender
+    public Student(String[] fields) {
+        this.ID = Integer.valueOf(fields[0]);
+        this.name = String.format("%s  %s  %s", fields[1], fields[2], fields[3]);
+        this.nickName = fields[4];
+        switch (fields[5]) {
+            case "M":
+                this.gender = Gender.M;
+            case "F":
+                this.gender = Gender.F;
+            case "O":
+                this.gender = Gender.O;
+            default:
+                this.gender = Gender.O;
+        }
     }
 
     public Student(String name, List<Student> friends, Vector<String> interests, Gender gender) {
@@ -22,14 +37,26 @@ public class Student {
 
     public Student(String name, Vector<String> interests, Gender gender) {
         this.name = name;
-        System.out.println(name);
         this.interests = interests;
         this.gender = gender;
         friends = new ArrayList<>();
     }
+
+    public void setInterests(Vector<String> interests) {
+        this.interests = interests;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
     //Adds a group of friends with a predetermined value of how connected they are
     public void addFriendGroup(List<Student> friendGroup) {
         friendGroup.forEach(student -> friends.add(student));
+    }
+
+    public String toString() {
+        return String.format("Student ID: %d, Student name: %s, Student Interests: %s", getID(), getName(), getInterests());
     }
 
     public String getName(){
@@ -42,6 +69,10 @@ public class Student {
 
     public Vector<String> getInterests() {
         return interests;
+    }
+
+    public enum Gender {
+        M, F, O
     }
 
 }
