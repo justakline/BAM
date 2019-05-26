@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -8,226 +9,64 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
-public class AdvisoryFrame extends JInternalFrame implements ListSelectionListener {
+public class AdvisoryFrame extends JInternalFrame{
 
     private Advisory advisory;
-    private JTable table;
-    private Student[][] data;
-    private JButton addStudent;
-    public int row;
-    public int col;
-    MouseListener ml;
-
-    public AdvisoryFrame(AdvisorButton button) {
-        super(button.getName(), true, true);
-        row = 0;
-        col = 0;
-        this.advisory = button.getAdvisory();
-        this.setLayout(new FlowLayout());
-        createTable();
-        createButton();
-        setConstraints();
-
-    }
-
-    public AdvisoryFrame(Advisory advisory){
-        super("" + advisory.getAdvisor(), true, true);
-        row= 0;
-         col=0;
-        this.advisory= advisory;
+    private Vector<StudentLabel> labels;
+    private int default_cell_width = 200;
+    private int default_cell_height = 50;
 
 
-        this.setLayout(new FlowLayout());
+    public AdvisoryFrame(Advisory _advisory){
+        super(_advisory.getAdvisor() + " Advisory", true, true);
+        advisory = _advisory;
+        int numStudents = advisory.getStudents().size();
 
-        createTable();
-        createButton();
-        setConstraints();
-        //addStudent.setDropTarget();
-        ml = new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
+        setLayout(new GridLayout(numStudents, 1));
+        setSize(default_cell_width, default_cell_height * numStudents);
 
-            }
+        //createTable();
+        labels = new Vector<>();
+        for(Student student : advisory.getStudents())
+        {
+            StudentLabel label = new StudentLabel(student);
+            labels.add(label);
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JComponent jc = (JComponent)e.getSource();
-                TransferHandler th = jc.getTransferHandler();
-                th.exportAsDrag(jc, e, TransferHandler.COPY);
+            label.setBorder(new LineBorder(Color.BLACK));
+            label.setBackground(Color.WHITE);
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setVerticalAlignment(SwingConstants.CENTER);
 
-            }
+            label.addMouseListener(new MouseAdapter(){
+                public void mouseClicked(MouseEvent e)
+                {
+                    StudentPage newStudentPage = new StudentPage(student);//label_map.get(label));
+                    GUI.getRightPane().getStudentPages().add(newStudentPage);
+                    GUI.getRightPane().add(newStudentPage);
+                }
+            });
 
-            @Override
-            public void mouseReleased(MouseEvent e) {
+            // Add the JLabel to the JInternalFrame
+            this.add(label);
+        }
 
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        };
-        addStudent.addMouseListener(ml);
-
-        addStudent.setTransferHandler(new TransferHandler("Kate"));
-
-    }
-
-    private void setConstraints(){
-        this.setSize(120, 40 * advisory.getStudents().size());
-        this.setVisible(true);
-        table.getSelectionModel().addListSelectionListener(this);
+        setVisible(true);
         setIconifiable(true);
     }
 
-    private void createTable() {
-        Object[] columnNames = {advisory.getAdvisor()};
-        data = new Student[advisory.getStudents().size()][1];
-         Object[][] tableData = new String[advisory.getStudents().size()][1];
-        for(int i = 0; i < advisory.getStudents().size(); i ++){
-            data[i][0] = advisory.getStudents().get(i);
-
-            tableData[i][0] =advisory.getStudents().get(i).getName();
-
-        }
-
-
-        table= new JTable( tableData, columnNames);
-
-
-        
-        JScrollPane p = new JScrollPane(table);
-        p.setPreferredSize(new Dimension(100,130));
-        add(p);
-
-        table.setDragEnabled(true);
-
-        //instance table model
-
-        table.setModel(new DefaultTableModel(tableData, columnNames) {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-
+    public Advisory getAdvisory() {
+        return advisory;
     }
 
-    public void createButton() {
-        addStudent  = new JButton("+");
-
-//        if()
-
-//        addStudent.
-
-//        addStudent.setTransferHandler(new TransferHandler(){
-//
-//            public int getSourceActions(JComponent c) {
-//                System.out.println("Get source");
-//                System.out.println(c.getComponent(0));
-//                return DnDConstants.ACTION_COPY_OR_MOVE;
-//            }
-//
-//            public Transferable createTransferable(JComponent comp) {
-//                System.out.println("Starting");
-//                System.out.println(comp.getClass()+"");
-//                JTable table=(JTable)comp;
-//                row=table.getSelectedRow();
-//                col=table.getSelectedColumn();
-//                System.out.println("Row = " + row + "  Col = " + col);
-//                String value = (String)table.getModel().getValueAt(row,col);
-//                StringSelection transferable = new StringSelection(value);
-//                table.getModel().setValueAt(null,row,col);
-//                System.out.println("Transferab;e");
-//                return transferable;
-//            }
-//            public boolean canImport(TransferHandler.TransferSupport info){
-//
-//                if (!info.isDataFlavorSupported(DataFlavor.stringFlavor)){
-//                    return false;
-//                }
-//
-//                return true;
-//            }
-//
-//            public boolean importData(TransferSupport support) {
-//
-//                System.out.println(getComponent(0).getName());
-//                if (!support.isDrop()) {
-//                    return false;
-//                }
-//
-//                if (!canImport(support)) {
-//                    return false;
-//                }
-//
-//
-//                JButton but=(JButton)support.getComponent();
-//                System.out.println("Imported Data");
-//                DefaultTableModel tableModel=(DefaultTableModel)table.getModel();
-//
-//
-////
-//                System.out.println("BUT");
-//
-//
-//
-//                String data;
-//                try {
-//                    data = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-//                } catch (UnsupportedFlavorException e) {
-//                    return false;
-//                } catch (IOException e) {
-//                    return false;
-//                }
-//                Vector<String> v = new Vector<>();
-//
-////                System.out.println(support.getComponent());
-//                System.out.println( table.getRowCount());
-//
-//                v.add((String)(table.getValueAt(row, col)));
-//
-//                tableModel.addRow(v);
-//
-//
-//                return true;
-//            }
-//
-//        });
-//        addStudent.setPreferredSize(new Dimension(getWidth(), getHeight()));
-        JPanel p=  new JPanel(new FlowLayout());
-        p.add(addStudent);
-
-        add(p);
-
-    }
-
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-
-        int rowIndex = table.getSelectedRow();
-        int colIndex = table.getSelectedColumn();
-
-        StudentPage newStudentPage = new StudentPage(data[rowIndex][colIndex]);
-
-
-
-        if(!e.getValueIsAdjusting()){
-            GUI.getRightPane().getStudentPages().add(newStudentPage);
-            GUI.getRightPane().add(newStudentPage);
-        }
-//        if(data[rowIndex][colIndex].equals(advisory.getStudents().get(rowIndex-2)))
-//       StudentPage studentPage = new StudentPage((Student) e.getSource());
+    private void update() {
+        for (StudentLabel s : (StudentLabel[])this.getComponents())
+            System.out.println(s.getName());
     }
 }
