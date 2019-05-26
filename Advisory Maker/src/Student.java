@@ -22,7 +22,7 @@ public class Student {
 
     public Student(String name, Vector<String> interests, Gender gender) {
         this.name = name;
-        System.out.println(name);
+        //System.out.println(name);
         this.interests = interests;
         this.gender = gender;
         friends = new ArrayList<>();

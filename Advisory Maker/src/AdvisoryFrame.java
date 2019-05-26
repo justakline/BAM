@@ -1,32 +1,22 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Vector;
 
 public class AdvisoryFrame extends JInternalFrame{
 
     private Advisory advisory;
+    // Vector might be unecessary
     private Vector<StudentLabel> labels;
     private int default_cell_width = 200;
     private int default_cell_height = 50;
 
 
-    public AdvisoryFrame(Advisory _advisory){
-        super(_advisory.getAdvisor() + " Advisory", true, true);
-        advisory = _advisory;
+    public AdvisoryFrame(Advisory advisory, WorkspacePanel host){
+        super(advisory.getAdvisor() + " Advisory", true, true);
+        this.advisory = advisory;
         int numStudents = advisory.getStudents().size();
 
         setLayout(new GridLayout(numStudents, 1));
@@ -47,9 +37,10 @@ public class AdvisoryFrame extends JInternalFrame{
             label.addMouseListener(new MouseAdapter(){
                 public void mouseClicked(MouseEvent e)
                 {
-                    StudentPage newStudentPage = new StudentPage(student);//label_map.get(label));
-                    GUI.getRightPane().getStudentPages().add(newStudentPage);
-                    GUI.getRightPane().add(newStudentPage);
+                    // might have to change argument to ((StudentLabel)e.getSource()).getStudent();
+                    StudentPage newStudentPage = new StudentPage(label.getStudent());
+                    host.getStudentPages().add(newStudentPage);
+                    host.add(newStudentPage);
                 }
             });
 
@@ -65,8 +56,8 @@ public class AdvisoryFrame extends JInternalFrame{
         return advisory;
     }
 
-    private void update() {
-        for (StudentLabel s : (StudentLabel[])this.getComponents())
-            System.out.println(s.getName());
+    public Vector<StudentLabel> getLabels() {
+        return labels;
     }
+
 }

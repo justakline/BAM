@@ -12,9 +12,11 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     private JMenu run;
     private JMenu help;
     private JMenu options;
+    private GUI host;
 
-    public ToolBar(){
+    public ToolBar(GUI host){
         super();
+        this.host = host;
         fc = new JFileChooser();
         JMenuItem temp;
 
@@ -54,6 +56,6 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        fc.showOpenDialog(GUI.RightPane.getRightPane());
+        fc.showOpenDialog(host.getRightPanel());
     }
 }
