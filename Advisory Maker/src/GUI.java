@@ -28,7 +28,7 @@ public class GUI extends JFrame {
         //Attributes of JFrame
         this.setSize(800, 800);
         this.setVisible(true);
-        setTitle("Insert Sick UI/UX Here");
+        setTitle("BAM!!!");
 
         RightPane.getRightPane().add(TestCases.getAdvisoryFrame());
         RightPane.getRightPane().add(new StudentPage(TestCases.getFriendlyMaleStudentTest()));

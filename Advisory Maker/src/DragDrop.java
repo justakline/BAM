@@ -1,6 +1,8 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.*;
+
 public class DragDrop implements DragGestureListener,
         DragSourceListener,
         DropTargetListener, Transferable {
@@ -95,7 +97,7 @@ public class DragDrop implements DragGestureListener,
         country.add("India");
         country.add("US");
         country.add("Australia");
-        Frame source = new Frame("Source Frame");
+        JFrame source = new JFrame("Source Frame");
 
         source.setLayout(new FlowLayout());
         source.add(button);
@@ -103,8 +105,13 @@ public class DragDrop implements DragGestureListener,
         source.add(checkbox);
         source.add(checkbox1);
         source.add(country);
-        Frame target = new Frame("Target Frame");
+
+        JFrame target = new JFrame("Target Frame");
         target.setLayout(new FlowLayout());
+
+        JFrame target2 = new JFrame("Target Frame 2");
+        target2.setLayout(new FlowLayout());
+
         DragDrop dndListener = new DragDrop();
         DragSource dragSource = new DragSource();
         DropTarget dropTarget1 = new DropTarget(source,
@@ -112,6 +119,10 @@ public class DragDrop implements DragGestureListener,
         DropTarget dropTarget2 = new DropTarget(target,
                 DnDConstants.ACTION_MOVE,
                 dndListener);
+        DropTarget dropTarget3 = new DropTarget(target2,
+                DnDConstants.ACTION_MOVE,
+                dndListener);
+
         DragGestureRecognizer dragRecognizer1 = dragSource.
                 createDefaultDragGestureRecognizer(button,
                         DnDConstants.ACTION_MOVE, dndListener);
@@ -129,7 +140,11 @@ public class DragDrop implements DragGestureListener,
                         DnDConstants.ACTION_MOVE, dndListener);
         source.setBounds(0, 200, 200, 200);
         target.setBounds(220, 200, 200, 200);
-        source.show();
-        target.show();
+        target2.setBounds(440, 200, 200, 200);
+
+
+        source.setVisible(true);
+        target.setVisible(true);
+        target2.setVisible(true);
     }
 } 

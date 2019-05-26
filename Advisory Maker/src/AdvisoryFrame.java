@@ -47,7 +47,7 @@ public class AdvisoryFrame extends JInternalFrame implements ListSelectionListen
         createTable();
         createButton();
         setConstraints();
-        addStudent.setDropTarget();
+        //addStudent.setDropTarget();
         ml = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
