@@ -9,6 +9,7 @@ public class Student {
     private  Vector<String> interests;
     private Gender gender;
     private int ID;
+    private Advisory advisory;
 
     //ID,First,Middle,Last,nickName, Gender
     public Student(String[] fields) {
@@ -32,6 +33,10 @@ public class Student {
         this.friends = friends;
         this.interests = interests;
         this.gender = gender;
+
+    }
+    //Supposed to nothing... is just a Ghost because it is needed in the algo
+    public Student () {
 
     }
 
@@ -69,6 +74,9 @@ public class Student {
 
     public Vector<String> getInterests() {
         return interests;
+    }
+    public Advisory getAdvisory(){
+        return advisory;
     }
 
     public enum Gender {

@@ -27,6 +27,10 @@ public class Advisory {
         return students;
     }
 
+    public float getScore() {
+        return score;
+    }
+
     public Vector<String>getStudentsToString() {
         Vector<String> s = new Vector<>();
         students.forEach(Student -> s.add(Student.getName()));
