@@ -8,7 +8,6 @@ public class Algorithm {
 
     private Algorithm() {
         viableSwapsExist = false;
-
         //Don't understand the CSV Parser Class so...
         students = new Vector<>();
         advisories = new Vector();
@@ -19,27 +18,23 @@ public class Algorithm {
         return 0.0f;
     }
 
-
     public void swap(Student student0, Student student1) {
-
-        //Go to s0's advisory, look at studentList and remove
+        //Go to s0's advisory, look at studentList and remove itself, then add to s1's advisory
         student1.getAdvisory().getStudents().add( student0.getAdvisory().getStudents().remove(
                 student0.getAdvisory().getStudents().indexOf(student0))
         );
+
+        //Same but for s1
         student0.getAdvisory().getStudents().add(student1.getAdvisory().getStudents().remove(
                 student1.getAdvisory().getStudents().indexOf(student1))
         );
-        
-
-
-
     }
 
-    public boolean mutallyBenificial() {
-        return false;
+    public void createFloyds() {
+        //UHHHHHHH
     }
 
-    public void run() {
+    public void runSwaps() {
         while(viableSwapsExist){
             //Iterate through every student and get its fields
             for (Student student0 : students){
@@ -70,6 +65,8 @@ public class Algorithm {
             }
         }
     }
+
+
 
 
 }
