@@ -7,7 +7,6 @@ public class AdvisorButton extends JToggleButton {
     public AdvisorButton(Advisory advisory) {
         super(advisory.getAdvisor());
         this.advisory = advisory;
-
     }
 
     @Override

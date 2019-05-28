@@ -11,6 +11,14 @@ public class Student {
     private int ID;
     private Advisory advisory;
 
+    public Student(String name, List<Student> friends, Vector<String> interests, Gender gender) {
+        this.name = name;
+        this.friends = friends;
+        this.interests = interests;
+        this.gender = gender;
+
+    }
+
     //ID,First,Middle,Last,nickName, Gender
     public Student(String[] fields) {
         this.ID = Integer.valueOf(fields[0]);
@@ -28,27 +36,17 @@ public class Student {
         }
     }
 
-    public Student(String name, List<Student> friends, Vector<String> interests, Gender gender) {
-        this.name = name;
-        this.friends = friends;
-        this.interests = interests;
-        this.gender = gender;
-
-    }
-    //Supposed to nothing... is just a Ghost because it is needed in the algo
-    public Student () {
-
-    }
-
     public Student(String name, Vector<String> interests, Gender gender) {
         this.name = name;
         this.interests = interests;
         this.gender = gender;
         friends = new ArrayList<>();
+        friends.add(new Student());
     }
 
-    public void setInterests(Vector<String> interests) {
-        this.interests = interests;
+    //Supposed to nothing... is just a Ghost because it is needed in the algo
+    public Student () {
+
     }
 
     public int getID() {
@@ -64,7 +62,7 @@ public class Student {
         return String.format("Student ID: %d, Student name: %s, Student Interests: %s", getID(), getName(), getInterests());
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -75,12 +73,18 @@ public class Student {
     public Vector<String> getInterests() {
         return interests;
     }
-    public Advisory getAdvisory(){
+
+    public void setInterests(Vector<String> interests) {
+        this.interests = interests;
+    }
+
+    public Advisory getAdvisory() {
         return advisory;
     }
 
     public enum Gender {
         M, F, O
     }
-
 }
+
+

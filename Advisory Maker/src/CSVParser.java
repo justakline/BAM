@@ -25,17 +25,19 @@ public class CSVParser {
     public static ArrayList<Student> parseStudentFile(File file) throws IOException {
         ArrayList<Student> students = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        reader.readLine(); //eliminates column headers
+	    if (reader.readLine().split(",").length != 6)
+		    throw new IllegalArgumentException(); //eliminates column headers
         while (reader.ready()) {
             students.add(new Student(reader.readLine().split(",")));
         }
         return students;
     }
 
-    public static HashMap<Integer, Vector<String>> parseActivities(File file) throws IOException {
+	public static HashMap<Integer, Vector<String>> parseActivities(File file) throws IOException, IllegalArgumentException {
         HashMap<Integer, Vector<String>> map = new HashMap<>();
         BufferedReader reader = new BufferedReader(new FileReader(file));
-        reader.readLine();
+		if (reader.readLine().split(",").length != 2)
+			throw new IllegalArgumentException();
         while (reader.ready()) {
             String[] line = reader.readLine().split(",");
             if (map.containsKey(Integer.valueOf(line[0]))) {

@@ -16,11 +16,13 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     private JMenu run;
     private JMenu help;
     private JMenu options;
+	private GUI host;
     private File studentCSV;
     private File activitiesCSV;
 
-    public ToolBar() {
+	public ToolBar(GUI host) {
         super();
+		this.host = host;
         fc = new JFileChooser() {
             @Override
             public void setFileFilter(FileFilter filter) {
@@ -54,12 +56,12 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if ((e.getSource().equals(load.getMenuComponent(0)))) {
-            if (fc.showOpenDialog(GUI.RightPane.getRightPane()) == JFileChooser.APPROVE_OPTION) {
+	        if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 studentCSV = fc.getSelectedFile();
                 System.out.println("student: " + studentCSV);
             }
         } else if ((e.getSource().equals(load.getMenuComponent(1)))) {
-            if (fc.showOpenDialog(GUI.RightPane.getRightPane()) == JFileChooser.APPROVE_OPTION) {
+	        if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 activitiesCSV = fc.getSelectedFile();
                 System.out.println("activities: " + activitiesCSV);
             }
@@ -86,4 +88,5 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     public void menuCanceled(MenuEvent e) {
 
     }
+
 }
