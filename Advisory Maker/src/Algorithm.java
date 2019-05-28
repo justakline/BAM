@@ -1,16 +1,27 @@
+import java.lang.reflect.Array;
 import java.util.Vector;
 
 public class Algorithm {
     private boolean viableSwapsExist;
-	private Student[] students;
-	private double[][] values;
+	private static Student[] students;
+	private static double[][] values;
     private Vector<Advisory> advisories;
 
+    private float friendMult;
+    private float interestMult;
+
+
+    static{
+
+    }
 
 	public Algorithm(int studentNum) { //make Singleton later
         viableSwapsExist = false;
         //Don't understand the CSV Parser Class so...
 		students = new Student[studentNum];
+		friendMult = 0.5f;
+		interestMult= (float)(1-friendMult);
+		
 		values = new double[students.length][students.length];
 		for (int i = 0; i < values.length; i++) {
 			for (int j = 0; j < values.length; j++) {
@@ -20,9 +31,16 @@ public class Algorithm {
 		advisories = new Vector<>();
     }
 
-    public float scoreStudents(Student s1, Student s2) {
-        return (float)values[s1.getID()][s2.getID()];
+    public float weightEdge(Student s1, Student s2) {
+        return friendMult+(interestMult*(s1.interestCount(s2)));
+    }
 
+    public static float scoreStudents(Student s1, Student s2) {
+        return (float)values[s1.getID()][s2.getID()];
+    }
+
+    public double[][] getValues() {
+	    return values;
     }
 
     //Probably going through the advisory and adding up the total score between all of the members?
