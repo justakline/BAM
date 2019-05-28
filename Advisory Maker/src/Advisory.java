@@ -13,9 +13,11 @@ public class Advisory {
 
     public void addStudent(Student s) {
         students.add(s);
+        updateScoreAdd(s);
     }
 
     public void removeStudent(Student s) {
+        updateScoreRemove(s);
         students.remove(s);
     }
 
@@ -37,8 +39,18 @@ public class Advisory {
         return s;
     }
 
-    public void updateScore() {
+    public void updateScoreAdd(Student s) {
+        for (Student friend:students) {
+            score+=Algorithm.scoreStudents(s, friend) +Algorithm.scoreStudents(friend, s);
+        }
 
+    }
+
+    public void updateScoreRemove(Student s){
+        for (Student friend:students) {
+            score-=Algorithm.scoreStudents(s, friend);
+            score-=Algorithm.scoreStudents(friend,s);
+        }
     }
 
 }

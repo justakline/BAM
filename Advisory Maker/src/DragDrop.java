@@ -1,6 +1,9 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.*;
 import java.awt.dnd.*;
+
+@SuppressWarnings("unused")
 public class DragDrop implements DragGestureListener,
         DragSourceListener,
         DropTargetListener, Transferable {
@@ -84,6 +87,8 @@ public class DragDrop implements DragGestureListener,
         ev.dropComplete(true);
     }
     public static void main(String[] arg) {
+
+        // Create Components
         Button button = new Button("Drag this button");
         Label label = new Label("Drag this label");
         Checkbox checkbox = new Checkbox("Drag this check box");
@@ -91,27 +96,39 @@ public class DragDrop implements DragGestureListener,
         Checkbox checkbox1 = new Checkbox("Drag this check box",
                 radiobutton, false);
         Choice country = new Choice();
-        // adding possible choices
-        country.add("India");
-        country.add("US");
-        country.add("Australia");
-        Frame source = new Frame("Source Frame");
+            country.add("India");
+            country.add("US");
+            country.add("Australia");
 
-        source.setLayout(new FlowLayout());
-        source.add(button);
-        source.add(label);
-        source.add(checkbox);
-        source.add(checkbox1);
-        source.add(country);
-        Frame target = new Frame("Target Frame");
+        // Create frames
+        JFrame source_frame = new JFrame("Source Frame");
+        source_frame.setLayout(new FlowLayout());
+        source_frame.add(button);
+        source_frame.add(label);
+        source_frame.add(checkbox);
+        source_frame.add(checkbox1);
+        source_frame.add(country);
+
+        JFrame target = new JFrame("Target Frame");
         target.setLayout(new FlowLayout());
+
+        JFrame target2 = new JFrame("Target Frame 2");
+        target2.setLayout(new FlowLayout());
+
+        // Create main DragDrop Listener
         DragDrop dndListener = new DragDrop();
-        DragSource dragSource = new DragSource();
-        DropTarget dropTarget1 = new DropTarget(source,
+
+        // Every frame gets 1 DropTarget linked to a DragDrop Listener (this)
+        DropTarget dropTarget1 = new DropTarget(source_frame,
                 DnDConstants.ACTION_MOVE, dndListener);
         DropTarget dropTarget2 = new DropTarget(target,
-                DnDConstants.ACTION_MOVE,
-                dndListener);
+                DnDConstants.ACTION_MOVE, dndListener);
+        DropTarget dropTarget3 = new DropTarget(target2,
+                DnDConstants.ACTION_MOVE, dndListener);
+
+        // Every draggable object (Component) gets 1 DragGestureRecognizer, linked to a DragSource
+        // and a DragDrop Listener (this)
+        DragSource dragSource = new DragSource();
         DragGestureRecognizer dragRecognizer1 = dragSource.
                 createDefaultDragGestureRecognizer(button,
                         DnDConstants.ACTION_MOVE, dndListener);
@@ -127,9 +144,15 @@ public class DragDrop implements DragGestureListener,
         DragGestureRecognizer dragRecognizer5 = dragSource.
                 createDefaultDragGestureRecognizer(country,
                         DnDConstants.ACTION_MOVE, dndListener);
-        source.setBounds(0, 200, 200, 200);
+
+        // Size and show frames
+        source_frame.setBounds(0, 200, 200, 200);
         target.setBounds(220, 200, 200, 200);
-        source.show();
-        target.show();
+        target2.setBounds(440, 200, 200, 200);
+
+
+        source_frame.setVisible(true);
+        target.setVisible(true);
+        target2.setVisible(true);
     }
 } 

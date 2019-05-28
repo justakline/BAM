@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
 
-    private final JFileChooser fc;
+    private JFileChooser fc;
     private JMenu file;
     private JMenu load;
     private JMenu run;
@@ -18,8 +18,12 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     private JMenu options;
     private File studentCSV;
     private File activitiesCSV;
+    private GUI host;
 
     public ToolBar() {
+
+    }
+    public ToolBar(GUI host){
         super();
         fc = new JFileChooser() {
             @Override
@@ -29,6 +33,9 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
         };
         JMenuItem temp1;
         JMenu temp2;
+        this.host = host;
+        fc = new JFileChooser();
+        JMenuItem temp;
 
         //Creation of the file Tab and associated submenu items
         this.add(file = new JMenu("File"));
@@ -54,12 +61,12 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if ((e.getSource().equals(load.getMenuComponent(0)))) {
-            if (fc.showOpenDialog(GUI.RightPane.getRightPane()) == JFileChooser.APPROVE_OPTION) {
+            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 studentCSV = fc.getSelectedFile();
                 System.out.println("student: " + studentCSV);
             }
         } else if ((e.getSource().equals(load.getMenuComponent(1)))) {
-            if (fc.showOpenDialog(GUI.RightPane.getRightPane()) == JFileChooser.APPROVE_OPTION) {
+            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 activitiesCSV = fc.getSelectedFile();
                 System.out.println("activities: " + activitiesCSV);
             }
@@ -86,4 +93,9 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     public void menuCanceled(MenuEvent e) {
 
     }
+
+//    @Override
+//    public void actionPerformed(ActionEvent e) {
+//        fc.showOpenDialog(host.getRightPanel());
+//    }
 }

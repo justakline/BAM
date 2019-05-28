@@ -52,7 +52,7 @@ public final class TestCases {
     }
 
     public static AdvisoryFrame getAdvisoryFrame() {
-        return new AdvisoryFrame(getAdvisoryTest());
+        return new AdvisoryFrame(getAdvisoryTest(), null);
     }
 
     public static AdvisorButton getAdvisorButton() {

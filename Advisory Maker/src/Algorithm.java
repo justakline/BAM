@@ -13,21 +13,24 @@ public class Algorithm {
         advisories = new Vector();
     }
 
-    //Probably going through the advisory and adding up the total score between all of the members?
-    public float getAdvisoryRank() {
-        return 0.0f;
+    public static float scoreStudents(Student s1, Student s2) {
+//        return values[s1.getID()][s2.getID()];
+        return 1.0f;
     }
+
+    //Probably going through the advisory and adding up the total score between all of the members?
 
     public void swap(Student student0, Student student1) {
         //Go to s0's advisory, look at studentList and remove itself, then add to s1's advisory
-        student1.getAdvisory().getStudents().add( student0.getAdvisory().getStudents().remove(
-                student0.getAdvisory().getStudents().indexOf(student0))
-        );
 
-        //Same but for s1
-        student0.getAdvisory().getStudents().add(student1.getAdvisory().getStudents().remove(
-                student1.getAdvisory().getStudents().indexOf(student1))
-        );
+        student0.getAdvisory().removeStudent(student0);
+        student1.getAdvisory().removeStudent(student1);
+        student0.getAdvisory().addStudent(student0);
+        student1.getAdvisory().addStudent(student1);
+//        //Same but for s1
+//        student0.getAdvisory().getStudents().add(student1.getAdvisory().getStudents().remove(
+//                student1.getAdvisory().getStudents().indexOf(student1))
+//        );
     }
 
     public void createFloyds() {

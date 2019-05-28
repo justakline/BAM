@@ -15,5 +15,6 @@ public class AdvisorButton extends JToggleButton {
         return advisory.getAdvisor();
     }
 
+
     public Advisory getAdvisory(){return advisory;}
 }
