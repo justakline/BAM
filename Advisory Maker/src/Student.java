@@ -82,6 +82,22 @@ public class Student {
         return advisory;
     }
 
+    public boolean isFriend(Student friend) {
+        return friends.contains(friend);
+    }
+
+    public float interestCount(Student friend) {
+        float commonInterests = 0;
+        for (String friendInterest:friend.getInterests()) {
+            for(String thisInterest:interests){
+                if(friendInterest.equals(thisInterest)){
+                    commonInterests++;
+                }
+            }
+        }
+        return commonInterests/interests.size();
+    }
+
     public enum Gender {
         M, F, O
     }

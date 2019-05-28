@@ -13,7 +13,7 @@ public class CSVParser {
     private File file;
 
     public static ArrayList<Student> buildStudentList(File students, File activities) throws IOException {
-        ArrayList<Student> studentList = parseStudentFile(students);
+
         HashMap<Integer, Vector<String>> map = parseActivities(activities);
         for (Student student : studentList) {
             student.setInterests(map.get(student.getID()));

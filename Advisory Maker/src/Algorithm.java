@@ -20,9 +20,9 @@ public class Algorithm {
 		advisories = new Vector<>();
     }
 
-    public static float scoreStudents(Student s1, Student s2) {
-//        return values[s1.getID()][s2.getID()];
-        return 1.0f;
+    public float scoreStudents(Student s1, Student s2) {
+        return (float)values[s1.getID()][s2.getID()];
+
     }
 
     //Probably going through the advisory and adding up the total score between all of the members?

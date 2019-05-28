@@ -19,7 +19,6 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
 	private GUI host;
     private File studentCSV;
     private File activitiesCSV;
-    private GUI host;
 
 	public ToolBar(GUI host) {
         super();
