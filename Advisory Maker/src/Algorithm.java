@@ -3,9 +3,10 @@ import java.util.Vector;
 
 public class Algorithm {
     private boolean viableSwapsExist;
-	private static Student[] students;
-	private static double[][] values;
+	private  Student[] students;
+	private  double[][] values;
     private Vector<Advisory> advisories;
+    private static Algorithm algorithm; //singleton
 
     private float friendMult;
     private float interestMult;
@@ -13,21 +14,29 @@ public class Algorithm {
 
     static{
 
-    }
 
-	public Algorithm(int studentNum) { //make Singleton later
+    }
+    public Algorithm createValues(int n) {
+        students = new Student[n];
+        values = new double[students.length][students.length];
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values.length; j++) {
+                values[i][j] = -1;
+            }
+        }
+        return algorithm;
+    }
+	private Algorithm() { //make Singleton later
         viableSwapsExist = false;
+        students = null;
+        values = null;
         //Don't understand the CSV Parser Class so...
-		students = new Student[studentNum];
+
 		friendMult = 0.5f;
 		interestMult= (float)(1-friendMult);
-		
-		values = new double[students.length][students.length];
-		for (int i = 0; i < values.length; i++) {
-			for (int j = 0; j < values.length; j++) {
-				values[i][j] = -1;
-			}
-		}
+
+
+
 		advisories = new Vector<>();
     }
 
@@ -35,7 +44,7 @@ public class Algorithm {
         return friendMult+(interestMult*(s1.interestCount(s2)));
     }
 
-    public static float scoreStudents(Student s1, Student s2) {
+    public float scoreStudents(Student s1, Student s2) {
         return (float)values[s1.getID()][s2.getID()];
     }
 
@@ -101,7 +110,12 @@ public class Algorithm {
         }
     }
 
-
+    public static Algorithm getInstance() {
+        if (algorithm == null) {
+            return new Algorithm();
+        }
+        return algorithm;
+    }
 
 
 }

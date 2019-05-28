@@ -41,15 +41,15 @@ public class Advisory {
 
     public void updateScoreAdd(Student s) {
         for (Student friend:students) {
-            score+=Algorithm.scoreStudents(s, friend) +Algorithm.scoreStudents(friend, s);
+            score+=Algorithm.getInstance().scoreStudents(s, friend) + Algorithm.getInstance().scoreStudents(friend, s);
         }
 
     }
 
     public void updateScoreRemove(Student s){
         for (Student friend:students) {
-            score-=Algorithm.scoreStudents(s, friend);
-            score-=Algorithm.scoreStudents(friend,s);
+            score-=Algorithm.getInstance().scoreStudents(s, friend);
+            score-=Algorithm.getInstance().scoreStudents(friend,s);
         }
     }
 
