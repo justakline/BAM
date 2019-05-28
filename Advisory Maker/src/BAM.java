@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-public class BAM
-{
-    public static void main(String[] args)
-    {
-        GUI test = new GUI();
-        test.setVisible(true);
-    }
+public class BAM {
+	public static void main(String[] args) {
+		GUI test = new GUI();
+		test.setVisible(true);
+	}
 }

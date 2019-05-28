@@ -2,15 +2,22 @@ import java.util.Vector;
 
 public class Algorithm {
     private boolean viableSwapsExist;
-    private Vector <Student> students;
+	private Student[] students;
+	private double[][] values;
     private Vector<Advisory> advisories;
 
 
-    private Algorithm() {
+	public Algorithm(int studentNum) { //make Singleton later
         viableSwapsExist = false;
         //Don't understand the CSV Parser Class so...
-        students = new Vector<>();
-        advisories = new Vector();
+		students = new Student[studentNum];
+		values = new double[students.length][students.length];
+		for (int i = 0; i < values.length; i++) {
+			for (int j = 0; j < values.length; j++) {
+				values[i][j] = -1;
+			}
+		}
+		advisories = new Vector<>();
     }
 
     public static float scoreStudents(Student s1, Student s2) {
@@ -33,8 +40,15 @@ public class Algorithm {
 //        );
     }
 
-    public void createFloyds() {
-        //UHHHHHHH
+	public double[][] Floyds() {
+		for (int k = 0; k < students.length; k++) {
+			for (int i = 0; i < students.length; i++) {
+				for (int j = 0; j < students.length; j++) {
+					values[i][j] = Math.min(values[i][j], values[i][k] + values[k][j]);
+				}
+			}
+		}
+		return values;
     }
 
     public void runSwaps() {

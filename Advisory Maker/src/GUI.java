@@ -1,15 +1,16 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
-public class GUI extends JFrame
-{
+public class GUI extends JFrame {
 
-    public Vector<StudentPage> displayedStudentPages;
-    private AdvisorySelectionPanel leftPanel;
-    private WorkspacePanel rightPanel;
+	public Vector<StudentPage> displayedStudentPages;
+	private AdvisorySelectionPanel leftPanel;
+	private AdvisoryDisplayPanel rightPanel;
 
-    public GUI()
-    {
+	public GUI() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -19,28 +20,23 @@ public class GUI extends JFrame
         displayedStudentPages = new Vector<>();
 
         //Init Components in this block:
-        rightPanel = new WorkspacePanel();
-        leftPanel = new AdvisorySelectionPanel(this);
-        this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel));
+		rightPanel = new AdvisoryDisplayPanel();
+		leftPanel = new AdvisorySelectionPanel(this);
+		this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel));
 
         //AddComponents in this block:
-        setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
+		setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
 
         //Attributes of JFrame
         this.setSize(800, 800);
         this.setVisible(true);
-        setTitle("BAM!!!");
-
-        //rightPanel.add(TestCases.getAdvisoryFrame());
-        //rightPanel.add(new StudentPage(TestCases.getFriendlyMaleStudentTest()));
+		setTitle("BAM!!!");
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public WorkspacePanel getRightPanel() {
-        return rightPanel;
-    }
-
-
+	public AdvisoryDisplayPanel getRightPanel() {
+		return rightPanel;
+	}
 
 }
