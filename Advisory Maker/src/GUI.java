@@ -1,7 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class GUI extends JFrame {
@@ -20,7 +17,7 @@ public class GUI extends JFrame {
         displayedStudentPages = new Vector<>();
 
         //Init Components in this block:
-		rightPanel = new AdvisoryDisplayPanel();
+		rightPanel = new AdvisoryDisplayPanel(this);
 		leftPanel = new AdvisorySelectionPanel(this);
 		this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel));
 
@@ -37,6 +34,10 @@ public class GUI extends JFrame {
 
 	public AdvisoryDisplayPanel getRightPanel() {
 		return rightPanel;
+	}
+
+	public AdvisorySelectionPanel getLeftPanel() {
+		return leftPanel;
 	}
 
 }
