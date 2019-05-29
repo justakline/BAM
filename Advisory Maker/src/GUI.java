@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.util.Vector;
 
 public class GUI extends JFrame {
@@ -26,14 +27,19 @@ public class GUI extends JFrame {
 		setSize(new Dimension(700,700));
 		welcomeWindow = new WelcomeWindow(this);
         add(welcomeWindow);
-        while(welcomeWindow.isWorking()) {
 
+
+        while(welcomeWindow.isWorking()) {
+			System.out.println(welcomeWindow.isWorking());
 		}
+		System.out.println("Moved");
         remove(welcomeWindow);
+
+		System.out.println("Bye Welcome Window");
         setupWindow = new SetupWindow(this);
         add(setupWindow);
-        settingsWindow = new SettingsWindow(setupWindow);
-        add(settingsWindow);
+//        settingsWindow = new SettingsWindow(setupWindow);
+//        add(settingsWindow);
 
         while(setupWindow.isWorking()){
 

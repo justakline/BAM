@@ -75,7 +75,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
         add(up);
         add(middle);
         add(down);
-        setVisible(true);
+        setVisible(false);
 
     }
 
@@ -85,8 +85,17 @@ public class SettingsWindow extends JFrame implements ActionListener {
 
         }else if(e.getSource().equals((Object)(confirm))){
             Vector<Float> vals = new Vector<>();
-            vals.add((Float)friendGroupNumb.getValue());
-            vals.add((Float)interestsNumb.getValue());
+            Object v = friendGroupNumb.getValue();
+            Integer i = (Integer)v;
+            Float friend = new Float(i.floatValue());
+
+
+            Object o = interestsNumb.getValue();
+            Integer j = (Integer)o;
+            Float interest = new Float(j.floatValue());
+
+            vals.add(friend);
+            vals.add(interest);
             host.initializeValues(vals);
             System.out.println("Confirm");
         }

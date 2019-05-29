@@ -69,6 +69,8 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 
         students.addActionListener(this);
         friends.addActionListener(this);
+        settings.addActionListener(this);
+        run.addActionListener(this);
         interests.addActionListener(this);
         this.butt = new Vector<>();
         butt.add(students);
@@ -138,34 +140,32 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 
     }
     public void actionPerformed(ActionEvent e) {
-
+        JButton source  = (JButton)e.getSource();
         System.out.println("Action performed");
-        if ((e.getSource().equals(students))) {
-
-
+        if ((source.equals(students))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 studentCSV = fc.getSelectedFile();
                 studentBox.setSelected(true);
                 System.out.println("student: " + studentCSV);
             }
-        } else if ((e.getSource().equals(interests))) {
+        } else if ((source.equals(interests))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 activitiesCSV = fc.getSelectedFile();
                 interestsBox.setSelected(true);
                 System.out.println("activities: " + activitiesCSV);
             }
-        } else if ((e.getSource().equals(friends))) {
+        } else if ((source.equals(friends))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 friendsCSV = fc.getSelectedFile();
                 friendsBox.setSelected(true);
                 System.out.println("Friends: " + friendsCSV);
             }
-        }else if ((e.getSource().equals(settings))) {
+        }else if ((source.equals(settings))) {
             System.out.println("Settings");
             settingsWindow.setVisible(true);
         }
 //Wait for all toher checkMarks to be hit, then leave
-        else if(e.getSource().equals(run)){
+        else if(source.equals(run)){
             if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected()){
                 isWorking= false;
             }

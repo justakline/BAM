@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 
 public class WelcomeWindow extends JInternalFrame implements ActionListener {
 
@@ -55,17 +56,20 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
     }
 
     public boolean isWorking() {
+
         return isWorking;
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Hi");
         JButton source = (JButton) e.getSource();
         if(source.equals(start)){
             System.out.println("False");
             isWorking = false;
+
+//
+
         }
     }
 
