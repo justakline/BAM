@@ -10,15 +10,39 @@ public class GUI extends JFrame {
 	private AdvisorySelectionPanel leftPanel;
 	private AdvisoryDisplayPanel rightPanel;
 	private WelcomeWindow welcomeWindow;
+	private SetupWindow setupWindow;
 	private SettingsWindow settingsWindow;
 
+	private float friendGroupValue;
+	private float interestValue;
+
 	public GUI() {
+		super();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             e.printStackTrace();
         }
-		welcomeWindow = new WelcomeWindow();
+
+		this.setVisible(true);
+        this.setPreferredSize(new Dimension(700, 700));
+		setSize(new Dimension(700,700));
+		welcomeWindow = new WelcomeWindow(this);
+        add(welcomeWindow);
+        while(welcomeWindow.isWorking()) {
+
+		}
+        remove(welcomeWindow);
+        setupWindow = new SetupWindow(this);
+        add(setupWindow);
+        settingsWindow = new SettingsWindow(setupWindow);
+        add(settingsWindow);
+
+        while(setupWindow.isWorking()){
+
+		}
+        friendGroupValue = setupWindow.getFriendValue();
+        interestValue = setupWindow.getInterestValue();
 //        settingsWindow = new SettingsWindow(this);
 
         displayedStudentPages = new Vector<>();
@@ -33,7 +57,7 @@ public class GUI extends JFrame {
 
         //Attributes of JFrame
         this.setSize(800, 800);
-        this.setVisible(true);
+
 		setTitle("BAM!!!");
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

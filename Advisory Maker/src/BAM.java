@@ -20,19 +20,13 @@ import java.awt.*;
 public class BAM {
 	public static void main(String[] args) {
 		System.err.println("STart");
-		JFrame f = new JFrame("Test");
-		f.setVisible(true);
-		f.setSize(new Dimension(500,500));
-		WelcomeWindow w = new WelcomeWindow();
-		f.add(w);
-		JFrame f2 = new JFrame("Test2");
-		f2.setVisible(true);
-		f2.setSize(new Dimension(500,500));
+
+
 		System.out.println("Gui");
 		GUI test = new GUI();
-		SettingsWindow s = new SettingsWindow(test);
-		f2.add(s);
-		System.out.println("F2");
+
 		test.setVisible(true);
+		test.setPreferredSize(new Dimension(500, 500));
+		test.setSize(new Dimension(500,500));
 	}
 }
