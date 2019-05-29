@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Vector;
 
 public class Algorithm {
@@ -13,7 +12,6 @@ public class Algorithm {
 
 
     static{
-
 
     }
     public Algorithm createValues(int n) {
@@ -40,7 +38,15 @@ public class Algorithm {
 		advisories = new Vector<>();
     }
 
-    public float weightEdge(Student s1, Student s2) {
+	public static synchronized Algorithm getInstance() {
+		if (algorithm == null) {
+			algorithm = new Algorithm();
+		}
+		return algorithm;
+	}
+
+
+	public float weightEdge(Student s1, Student s2) {
         return friendMult+(interestMult*(s1.interestCount(s2)));
     }
 
@@ -110,12 +116,19 @@ public class Algorithm {
         }
     }
 
-    public static Algorithm getInstance() {
-        if (algorithm == null) {
-            return new Algorithm();
-        }
-        return algorithm;
-    }
+	public float getFriendMult() {
+		return friendMult;
+	}
 
+	public void setFriendMult(float friendMult) {
+		this.friendMult = friendMult;
+	}
 
+	public float getInterestMult() {
+		return interestMult;
+	}
+
+	public void setInterestMult(float interestMult) {
+		this.interestMult = interestMult;
+	}
 }

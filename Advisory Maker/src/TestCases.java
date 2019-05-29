@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 import java.util.stream.Collectors;
@@ -65,5 +67,9 @@ public final class TestCases {
 
     public static Vector<String> getAdvisorStringList() {
         return new Vector<>(Stream.of("Kim Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
+    }
+
+    public static Vector<Student> getSophmoreList() throws IOException {
+        return CSVParser.buildStudentList(new File("C:/Users/ryanl/Documents/Students - export (51).csv"), new File("C:/Users/ryanl/Documents/Activities - Sheet1.csv"), new File("C:/Users/ryanl/Documents/Rising Sophomore Advisory Selection Form (Responses) - Form Responses.csv"));
     }
 }

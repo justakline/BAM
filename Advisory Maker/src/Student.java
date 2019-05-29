@@ -13,7 +13,7 @@ public class Student {
 
     public Student(String name, List<Student> friends, Vector<String> interests, Gender gender) {
         this.name = name;
-        this.friends = friends;
+        this.setFriends(friends);
         this.interests = interests;
         this.gender = gender;
 
@@ -40,8 +40,8 @@ public class Student {
         this.name = name;
         this.interests = interests;
         this.gender = gender;
-        friends = new ArrayList<>();
-        friends.add(new Student());
+        setFriends(new ArrayList<>());
+        getFriends().add(new Student());
     }
 
     //Supposed to nothing... is just a Ghost because it is needed in the algo
@@ -55,7 +55,7 @@ public class Student {
 
     //Adds a group of friends with a predetermined value of how connected they are
     public void addFriendGroup(List<Student> friendGroup) {
-        friendGroup.forEach(student -> friends.add(student));
+        friendGroup.forEach(student -> getFriends().add(student));
     }
 
     public String toString() {
@@ -83,7 +83,7 @@ public class Student {
     }
 
     public boolean isFriend(Student friend) {
-        return friends.contains(friend);
+        return getFriends().contains(friend);
     }
 
     public float interestCount(Student friend) {
@@ -96,6 +96,10 @@ public class Student {
             }
         }
         return commonInterests/interests.size();
+    }
+
+    public void setFriends(List<Student> friends) {
+        this.friends = friends;
     }
 
     public enum Gender {

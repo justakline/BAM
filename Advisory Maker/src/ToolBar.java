@@ -19,6 +19,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
 	private GUI host;
     private File studentCSV;
     private File activitiesCSV;
+    private File friendsCSV;
 
 	public ToolBar(GUI host) {
         super();
@@ -29,22 +30,25 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
                 super.setFileFilter(new FileNameExtensionFilter(".CSV files", "CSV", "csv"));
             }
         };
-        JMenuItem temp1;
-        JMenu temp2;
-        this.host = host;
+        JMenuItem temp1; //temp for attaching listeners
+        JMenu temp2; //temp for attaching listeners
         fc = new JFileChooser();
-        JMenuItem temp;
 
         //Creation of the file Tab and associated submenu items
         this.add(file = new JMenu("File"));
-        file.add(temp1 = new JMenuItem("New"));
-        file.add(new JMenuItem("Open"));
-        file.add(new JMenuItem("Print"));
+        file.add(temp1 = new JMenuItem("New")); //0
+        temp1.addActionListener(this);
+        file.add(temp1 = new JMenuItem("Open")); //1
+        temp1.addActionListener(this);
+        file.add(temp1 = new JMenuItem("Print")); //2
+        temp1.addActionListener(this);
 
         this.add(load = new JMenu("Load"));
         load.add(temp1 = new JMenuItem("Load Student List"));
         temp1.addActionListener(this);
         load.add(temp1 = new JMenuItem("Load Activities List"));
+        temp1.addActionListener(this);
+        load.add(temp1 = new JMenuItem("Load Friends List"));
         temp1.addActionListener(this);
 
         this.add(temp2 = run = new JMenu("Run"));
@@ -61,12 +65,20 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
         if ((e.getSource().equals(load.getMenuComponent(0)))) {
 	        if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 studentCSV = fc.getSelectedFile();
-                System.out.println("student: " + studentCSV);
             }
         } else if ((e.getSource().equals(load.getMenuComponent(1)))) {
-	        if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
+            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 activitiesCSV = fc.getSelectedFile();
-                System.out.println("activities: " + activitiesCSV);
+            }
+        } else if ((e.getSource().equals(load.getMenuComponent(2)))) {
+            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
+                friendsCSV = fc.getSelectedFile();
+            }
+        } else if (e.getSource().equals(file.getMenuComponent(2))) {
+            try {
+                host.getLeftPanel().getCSV();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -75,7 +87,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
     public void menuSelected(MenuEvent e) {
         if ((e.getSource().equals(this.run))) {
             try {
-                System.out.println(CSVParser.buildStudentList(studentCSV, activitiesCSV));
+                System.out.println(CSVParser.buildStudentList(studentCSV, activitiesCSV, friendsCSV));
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

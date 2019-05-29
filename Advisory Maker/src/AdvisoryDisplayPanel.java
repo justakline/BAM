@@ -12,6 +12,7 @@ import java.util.Vector;
 
 public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener, DragGestureListener, DragSourceListener,
 		                                                                  DropTargetListener, Transferable, InternalFrameListener {
+	private GUI host;
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////// DND BOILERPLATE - DO NOT TOUCH ////////////////////////////////////////////
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	private Vector<DragGestureRecognizer> dragRecogs;
 	private DragSource dragSource;
 
-	public AdvisoryDisplayPanel() {
+	public AdvisoryDisplayPanel(GUI host) {
 		super();
 		studentPages = new Vector<>();
 		this.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
@@ -41,6 +42,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		dragRecogs = new Vector<>();
 		dragSource = new DragSource();
 		advisoryFrames = new Vector<>();
+		this.host = host;
 	}
 
 	// Call by AdvisorySelectionPanel when an advisory button is pressed.
@@ -180,8 +182,12 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	@Override
 	public void internalFrameClosing(InternalFrameEvent e) {
 		//Will be used to disable button upon closed AdvisoryFrame, TBIL
-//		AdvisoryFrame source = (AdvisoryFrame) e.getSource();
-//		findFrame()
+		AdvisoryFrame source = (AdvisoryFrame) e.getSource();
+		for (AdvisorButton advisor : getHost().getLeftPanel().getAdvisors()) {
+			if (advisor.getAdvisory().equals(source.getAdvisory())) {
+				advisor.setSelected(false);
+			}
+		}
 	}
 
 	@Override
@@ -209,4 +215,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 	}
 
+	public GUI getHost() {
+		return host;
+	}
 }
