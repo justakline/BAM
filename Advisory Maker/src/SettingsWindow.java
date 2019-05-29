@@ -97,6 +97,8 @@ public class SettingsWindow extends JFrame implements ActionListener {
             vals.add(friend);
             vals.add(interest);
             host.initializeValues(vals);
+            host.getSettingsWindow().setVisible(false);
+            host.getSettingsBox().setSelected(true);
             System.out.println("Confirm");
         }
     }

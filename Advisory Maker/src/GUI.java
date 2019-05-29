@@ -42,10 +42,12 @@ public class GUI extends JFrame {
 //        add(settingsWindow);
 
         while(setupWindow.isWorking()){
-
+			System.out.println("isWorking");
 		}
+
         friendGroupValue = setupWindow.getFriendValue();
         interestValue = setupWindow.getInterestValue();
+		remove(setupWindow);
 //        settingsWindow = new SettingsWindow(this);
 
         displayedStudentPages = new Vector<>();

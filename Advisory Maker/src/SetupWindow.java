@@ -166,6 +166,10 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         }
 //Wait for all toher checkMarks to be hit, then leave
         else if(source.equals(run)){
+            System.out.println("Checking");
+            System.out.println("iBox  " + interestsBox.isSelected());
+            System.out.println("fBox  " + friendsBox.isSelected());
+            System.out.println("sBox  " + settingsBox.isSelected());
             if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected()){
                 isWorking= false;
             }
@@ -177,7 +181,8 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     public void initializeValues(Vector<Float> vals) {
         friendValue = vals.get(0);
         interestValue = vals.get(1);
-        settingsWindow.setVisible(false);
+
+        System.out.println("Values initialized");
     }
 
     public float getFriendValue() {
@@ -192,5 +197,11 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         return isWorking;
     }
 
+    public SettingsWindow getSettingsWindow(){
+        return settingsWindow;
+    }
 
+    public JCheckBox getSettingsBox() {
+        return settingsBox;
+    }
 }
