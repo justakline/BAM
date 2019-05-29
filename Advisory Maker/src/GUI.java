@@ -9,6 +9,8 @@ public class GUI extends JFrame {
 	public Vector<StudentPage> displayedStudentPages;
 	private AdvisorySelectionPanel leftPanel;
 	private AdvisoryDisplayPanel rightPanel;
+	private WelcomeWindow welcomeWindow;
+	private SettingsWindow settingsWindow;
 
 	public GUI() {
         try {
@@ -16,6 +18,8 @@ public class GUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		welcomeWindow = new WelcomeWindow();
+//        settingsWindow = new SettingsWindow(this);
 
         displayedStudentPages = new Vector<>();
 
