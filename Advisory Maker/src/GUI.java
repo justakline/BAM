@@ -10,6 +10,7 @@ public class GUI extends JFrame {
 	private WelcomeWindow welcomeWindow;
 	private SetupWindow setupWindow;
 	private SettingsWindow settingsWindow;
+	private SearchBox studentFinder;
 
 	private float friendGroupValue;
 	private float interestValue;
@@ -21,6 +22,8 @@ public class GUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		studentFinder = new SearchBox();
+		welcomeWindow = new WelcomeWindow(this);
 
 		this.setVisible(true);
         this.setPreferredSize(new Dimension(700, 700));
@@ -60,7 +63,7 @@ public class GUI extends JFrame {
 
         //Attributes of JFrame
         this.setSize(800, 800);
-
+		this.setVisible(true);
 		setTitle("BAM!!!");
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -72,6 +75,10 @@ public class GUI extends JFrame {
 
 	public AdvisorySelectionPanel getLeftPanel() {
 		return leftPanel;
+	}
+
+	public SearchBox getStudentFinder() {
+		return studentFinder;
 	}
 
 }
