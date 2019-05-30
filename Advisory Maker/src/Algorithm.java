@@ -1,73 +1,47 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Vector;
 
-public class Algorithm implements Serializable {
-    private boolean viableSwapsExist;
-	private Student[] students;
-	private double[][] values;
+public class Algorithm {
+	private Vector<Student> students;
     private Vector<Advisory> advisories;
-    private static Algorithm algorithm; //singleton
-
-
+    private int numStudents;
+	private double[][] values;
 
     private float friendMult;
     private float interestMult;
 
+    private Algorithm(Vector<Student> students, Vector<Advisory> advisories) { //make Singleton later
+        this.students = students;
+        this.advisories = advisories;
+        numStudents = students.size();
+        values = new double[numStudents][numStudents];
 
-    static{
+        friendMult = 0.5f;
+        interestMult = (1-friendMult);
 
-    }
-    public Algorithm createValues(int n) {
-        students = new Student[n];
-        values = new double[students.length][students.length];
-        for (int i = 0; i < values.length; i++) {
-            for (int j = 0; j < values.length; j++) {
-                values[i][j] = -1;
-            }
-        }
-
-        return algorithm;
-    }
-	private Algorithm() { //make Singleton later
-        viableSwapsExist = false;
-        students = null;
-        values = null;
-        //Don't understand the CSV Parser Class so...
-
-		friendMult = 0.5f;
-		interestMult= (float)(1-friendMult);
-
-
-
-		advisories = new Vector<>();
-    }
-
-	public static synchronized Algorithm getInstance() {
-		if (algorithm == null) {
-			algorithm = new Algorithm();
-		}
-		return algorithm;
-	}
-
-
-	public float weightEdge(Student s1, Student s2) {
-        return friendMult+(interestMult*(s1.interestCount(s2)));
     }
 
     public float scoreStudents(Student s1, Student s2) {
-        return (float)values[s1.getID()][s2.getID()];
-    }
 
-    public double[][] getValues() {
-	    return values;
+        return (float)values[s1.getINDEX()][s2.getINDEX()];
     }
 
     //Probably going through the advisory and adding up the total score between all of the members?
 
-    public void swap(Student student0, Student student1) {
+    public void addStudentToAdvisory(Student student, Advisory a) {
+        float score = a.getScore();
+        for (Student otherStudent : a.getStudents()) {
+            score += scoreStudents(student, otherStudent) + scoreStudents(otherStudent, student);
+        }
+        a.addStudent(student);
+    }
+    public void removeStudentFromAdvisory(Student s){
+        for (Student friend:students) {
+            score-=Algorithm.getInstance().scoreStudents(s, friend);
+            score-=Algorithm.getInstance().scoreStudents(friend,s);
+        }
+    }
+
+    private void swap(Student student0, Student student1) {
         //Go to s0's advisory, look at studentList and remove itself, then add to s1's advisory
 
         student0.getAdvisory().removeStudent(student0);
@@ -80,44 +54,58 @@ public class Algorithm implements Serializable {
 //        );
     }
 
-	public double[][] Floyds() {
-		for (int k = 0; k < students.length; k++) {
-			for (int i = 0; i < students.length; i++) {
-				for (int j = 0; j < students.length; j++) {
+
+
+    public float weightEdge(Student s1, Student s2) {
+        int areFriends = s1.isFriend(s2) ? 1 : 0;
+        float weight = friendMult*areFriends + interestMult*(s1.interestCount(s2));
+        return weight == 0 ? Integer.MAX_VALUE : 1/weight;
+    }
+
+    private void initializeValues() {
+        for (int i = 0; i < numStudents; i++) {
+            for (int j = 0; j < numStudents; j++) {
+                values[i][j] = weightEdge(students.get(i),students.get(j));
+            }
+        }
+    }
+
+	private void Floyds() {
+        initializeValues();
+		for (int k = 0; k < numStudents; k++) {
+			for (int i = 0; i < numStudents; i++) {
+				for (int j = 0; j < numStudents; j++) {
 					values[i][j] = Math.min(values[i][j], values[i][k] + values[k][j]);
 				}
 			}
 		}
-
-
-		return values;
     }
 
     public void runSwaps() {
+        boolean viableSwapsExist = true;
+
         while(viableSwapsExist){
+            viableSwapsExist = false;
             //Iterate through every student and get its fields
             for (Student student0 : students){
                 Advisory advisory0 = student0.getAdvisory();
                 float currentRank0 = advisory0.getScore();
 
-                //iterate through every advisory
-                for(Advisory advisory1: advisories){
-                    if(!advisory1.getStudents().contains(student0)){
-                        float currentRank1 = advisory1.getScore();
+                for(Student student1 : students){
+                    Advisory advisory1 = student1.getAdvisory();
+                    float currentRank1 = advisory1.getScore();
 
-                        //iterate through the current advisory and simulate a swap
-                        for(Student student1 : advisory1.getStudents()){
+                    if(advisory1 != advisory0){
+                        swap(student0, student1);
+                        float simulatedRank0 = advisory0.getScore();
+                        float simulatedRank1 = advisory1.getScore();
+
+                        //if swap is mutually beneficial, keep swap, else swap back
+                        if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1){
+                            viableSwapsExist = true;
+                            break;
+                        }else{
                             swap(student0, student1);
-                            float simulatedRank0 = advisory0.getScore();
-                            float simulatedRank1 = advisory1.getScore();
-
-                            //if swap is mutually benificial, keep swap, else swap back
-                            if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1){
-                                break;
-                            }else{
-                                swap(student0, student1);
-                            }
-
                         }
                     }
                 }
@@ -125,39 +113,34 @@ public class Algorithm implements Serializable {
         }
     }
 
+    public boolean run()
+    {
+        // Run Floyd's
+        //
+        // Calculate initial scores
+
+        // run Swaps
+        return true;
+    }
+
+
+    public double[][] getValues() {
+        return values;
+    }
+
 	public float getFriendMult() {
 		return friendMult;
 	}
+
+    public float getInterestMult() {
+        return interestMult;
+    }
 
 	public void setFriendMult(float friendMult) {
 		this.friendMult = friendMult;
 	}
 
-	public float getInterestMult() {
-		return interestMult;
-	}
-
 	public void setInterestMult(float interestMult) {
 		this.interestMult = interestMult;
-	}
-
-	public static int levDistance(String a, String b) {
-		a = a.toLowerCase();
-		b = b.toLowerCase();
-		// i == 0
-		int[] costs = new int[b.length() + 1];
-		for (int j = 0; j < costs.length; j++)
-			costs[j] = j;
-		for (int i = 1; i <= a.length(); i++) {
-			// j == 0; nw = lev(i - 1, j)
-			costs[0] = i;
-			int nw = i - 1;
-			for (int j = 1; j <= b.length(); j++) {
-				int cj = Math.min(1 + Math.min(costs[j], costs[j - 1]), a.charAt(i - 1) == b.charAt(j - 1) ? nw : nw + 1);
-				nw = costs[j];
-				costs[j] = cj;
-			}
-		}
-		return costs[b.length()];
 	}
 }
