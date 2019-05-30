@@ -34,12 +34,15 @@ public class AdvisoryFrame extends JInternalFrame {
 
 			label.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					// might have to change argument to ((StudentLabel)e.getSource()).getStudent();
-					StudentPage newStudentPage = new StudentPage(label.getStudent());
-					host.getStudentPages().add(newStudentPage);
-					host.add(newStudentPage);
+					if(e.getClickCount() ==2) {
+						// might have to change argument to ((StudentLabel)e.getSource()).getStudent();
+						StudentPage newStudentPage = new StudentPage(label.getStudent());
+						host.getStudentPages().add(newStudentPage);
+						host.add(newStudentPage);
+					}
 				}
 			});
+
 
 			// Add the JLabel to the JInternalFrame
 			this.add(label);

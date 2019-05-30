@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements Serializable {
 
 	public Vector<StudentPage> displayedStudentPages;
 	private AdvisorySelectionPanel leftPanel;
@@ -22,8 +23,11 @@ public class GUI extends JFrame {
             e.printStackTrace();
         }
 
+
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		this.setVisible(true);
-        this.setPreferredSize(new Dimension(700, 700));
+//        this.setPreferredSize(new Dimension(700, 700));
 		setSize(new Dimension(700,700));
 		welcomeWindow = new WelcomeWindow(this);
         add(welcomeWindow);
@@ -47,6 +51,9 @@ public class GUI extends JFrame {
 
         friendGroupValue = setupWindow.getFriendValue();
         interestValue = setupWindow.getInterestValue();
+
+
+        setupWindow.getProgressFrame().setVisible(false);
 		remove(setupWindow);
 //        settingsWindow = new SettingsWindow(this);
 
@@ -65,7 +72,7 @@ public class GUI extends JFrame {
 
 		setTitle("BAM!!!");
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
 
 	public AdvisoryDisplayPanel getRightPanel() {

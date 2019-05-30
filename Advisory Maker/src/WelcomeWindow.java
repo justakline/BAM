@@ -3,12 +3,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class WelcomeWindow extends JInternalFrame implements ActionListener {
 
     private JTextField text;
     private JButton howTo;
     private JButton start;
+    private JButton previous;
     private boolean isWorking;
     private SetupWindow setupWindow;
     private GUI host;
@@ -40,11 +45,16 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         start.setFont(new Font("Start" , 1, 20));
         start.setPreferredSize(new Dimension(200,100));
         start.addActionListener(this);
+        previous = new JButton("Open Previous");
+        previous.setFont(new Font("Open Previous" , 1, 20));
+        previous.setPreferredSize(new Dimension(200,100));
+        previous.addActionListener(this);
 
 //        start.action;
 
         up.add(text);
         downUp.add(howTo);
+        downDown.add(previous);
         downDown.add(start);
 
         down.add(downUp);
@@ -69,7 +79,15 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
             isWorking = false;
 
 //
+        }else if(source.equals(previous)){
+            System.out.println("Try........................");
 
+            try {
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream("intial_save.ser"));
+                host = (GUI)in.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
