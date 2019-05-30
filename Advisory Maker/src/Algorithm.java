@@ -1,11 +1,17 @@
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Algorithm {
+public class Algorithm implements Serializable {
     private boolean viableSwapsExist;
 	private Student[] students;
 	private double[][] values;
     private Vector<Advisory> advisories;
     private static Algorithm algorithm; //singleton
+
+
 
     private float friendMult;
     private float interestMult;
@@ -22,6 +28,7 @@ public class Algorithm {
                 values[i][j] = -1;
             }
         }
+
         return algorithm;
     }
 	private Algorithm() { //make Singleton later
@@ -81,6 +88,8 @@ public class Algorithm {
 				}
 			}
 		}
+
+
 		return values;
     }
 
