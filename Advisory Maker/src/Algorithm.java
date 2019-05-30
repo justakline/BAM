@@ -21,40 +21,36 @@ public class Algorithm {
     }
 
     public float scoreStudents(Student s1, Student s2) {
-
         return (float)values[s1.getINDEX()][s2.getINDEX()];
     }
 
     //Probably going through the advisory and adding up the total score between all of the members?
 
-    public void addStudentToAdvisory(Student student, Advisory a) {
-        float score = a.getScore();
-        for (Student otherStudent : a.getStudents()) {
+    public void addStudentToAdvisory(Student student, Advisory advisory) {
+        float score = advisory.getScore();
+        for (Student otherStudent : advisory.getStudents())
             score += scoreStudents(student, otherStudent) + scoreStudents(otherStudent, student);
-        }
-        a.addStudent(student);
+
+        advisory.addStudent(student);
+        advisory.setScore(score);
     }
-    public void removeStudentFromAdvisory(Student s){
-        for (Student friend:students) {
-            score-=Algorithm.getInstance().scoreStudents(s, friend);
-            score-=Algorithm.getInstance().scoreStudents(friend,s);
-        }
+    public void removeStudentFromAdvisory(Student student){
+        Advisory advisory = student.getAdvisory();
+        float score = advisory.getScore();
+        advisory.removeStudent(student);
+        for (Student otherStudent : advisory.getStudents())
+            score -= (scoreStudents(student, otherStudent) + scoreStudents(otherStudent, student));
+        advisory.setScore(score);
     }
 
     private void swap(Student student0, Student student1) {
-        //Go to s0's advisory, look at studentList and remove itself, then add to s1's advisory
-
-        student0.getAdvisory().removeStudent(student0);
-        student1.getAdvisory().removeStudent(student1);
-        student0.getAdvisory().addStudent(student0);
-        student1.getAdvisory().addStudent(student1);
-//        //Same but for s1
-//        student0.getAdvisory().getStudents().add(student1.getAdvisory().getStudents().remove(
-//                student1.getAdvisory().getStudents().indexOf(student1))
-//        );
+        Advisory advisory0 = student0.getAdvisory();
+        Advisory advisory1 = student1.getAdvisory();
+        removeStudentFromAdvisory(student0);
+        removeStudentFromAdvisory(student1);
+        addStudentToAdvisory(student0, advisory1);
+        addStudentToAdvisory(student1, advisory0);
     }
-
-
 
     public float weightEdge(Student s1, Student s2) {
         int areFriends = s1.isFriend(s2) ? 1 : 0;
@@ -71,7 +67,6 @@ public class Algorithm {
     }
 
 	private void Floyds() {
-        initializeValues();
 		for (int k = 0; k < numStudents; k++) {
 			for (int i = 0; i < numStudents; i++) {
 				for (int j = 0; j < numStudents; j++) {
@@ -115,14 +110,11 @@ public class Algorithm {
 
     public boolean run()
     {
-        // Run Floyd's
-        //
-        // Calculate initial scores
-
-        // run Swaps
+        initializeValues();
+        Floyds();
+        runSwaps();
         return true;
     }
-
 
     public double[][] getValues() {
         return values;
