@@ -23,6 +23,7 @@ public class GUI extends JFrame implements Serializable {
             e.printStackTrace();
         }
 
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);

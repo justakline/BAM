@@ -49,13 +49,36 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	// Creates a new AdvisoryFrame, adds to WorkspacePanel, and attaches DND Listeners
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		AdvisorButton source = (AdvisorButton) e.getSource();
-		if (source.isSelected()) {
-			findFrame(source.getAdvisory()).setVisible(true);
-		} else {
-			findFrame(source.getAdvisory()).setVisible(false);
+		Vector <Student> s = new Vector<>();
+		AdvisorButton b = new AdvisorButton(new Advisory(s, "Test"));
+		if(e.getSource().getClass().getName().equals(b.getClass().getName())) {
+			AdvisorButton source = (AdvisorButton) e.getSource();
+			if (source.isSelected()) {
+				findFrame(source.getAdvisory()).setVisible(true);
+			} else {
+				findFrame(source.getAdvisory()).setVisible(false);
+			}
+		}else{
+			JComboBox<String> source = (JComboBox<String>) e.getSource();
+			boolean setLeave = false;
+			for(AdvisoryFrame frame : advisoryFrames){
+				for(Student student : frame.getAdvisory().getStudents()){
+					if(source.getSelectedItem()==student.getName()){
+						frame.setVisible(true);
+						System.out.println(frame.getAdvisory().getAdvisor());
+					}
+				}
+			}
+
 		}
+
+
 	}
+
+
+
+
+
 
 	public void addFrame(AdvisorButton source) {
 		AdvisoryFrame newFrame = new AdvisoryFrame(source.getAdvisory(), this);
@@ -217,5 +240,18 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 	public GUI getHost() {
 		return host;
+	}
+
+	public void findStudent(Student find) {
+		for(AdvisoryFrame advisorFrame: advisoryFrames){
+			for(Student student: advisorFrame.getAdvisory().getStudents()){
+				if(find==student){
+					advisorFrame.show();
+				}
+			}
+		}
+	}
+	public Vector<AdvisoryFrame> getAdvisoryFrames() {
+		return advisoryFrames;
 	}
 }
