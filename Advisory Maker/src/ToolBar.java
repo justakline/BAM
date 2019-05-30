@@ -119,6 +119,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             }
         } else if (e.getSource().equals(file.getItem(0))) {//New
 //            host.dispose();
+//            BAM.main();
             host = new GUI();
             host.setVisible(true);
             host.setSize(new Dimension(500, 500));
@@ -141,7 +142,6 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             int width = host.getWidth()/mult;
             int height = host.getHeight()/mult;
             int count = 1;
-            System.out.println("The size is "+ mult);
             for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
                 advisoryFrame.setVisible(true);
                 advisoryFrame.setLocation(width*count,height*count);
