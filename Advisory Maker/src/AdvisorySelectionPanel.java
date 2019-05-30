@@ -16,9 +16,11 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		this.add(new JLabel("Advisories:", SwingConstants.CENTER));
 		this.host = host;
 
+		Vector<Vector<Student>> studentGroups = randDivAdv(host.getStudents());
+
 		//Create AdvisorButtons
 		for (int i = 0; i < TestCases.getAdvisorStringList().size(); i++) {
-			AdvisorButton adv = new AdvisorButton(new Advisory(TestCases.getStudentGroupTest(), TestCases.getAdvisorStringList().get(i)));
+			AdvisorButton adv = new AdvisorButton(new Advisory(studentGroups.get(i), TestCases.getAdvisorStringList().get(i)));
 			adv.addActionListener(host.getRightPanel());
 			advisors.add(adv);
 			this.add(adv);
@@ -59,5 +61,25 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 		stream.write(data.toString().getBytes());
 		return csv;
+	}
+
+	public Vector<Advisory> getAdvisories() {
+		Vector<Advisory> advisories = new Vector<>();
+		for (AdvisorButton advisor : advisors) {
+			advisories.add(advisor.getAdvisory());
+		}
+		return advisories;
+	}
+
+	private Vector<Vector<Student>> randDivAdv(Vector<Student> students) {
+		int n = TestCases.getAdvisorStringList().size();
+		Vector<Vector<Student>> groups = new Vector<>();
+		for (int i = 0; i < n; i++) {
+			groups.add(new Vector<>());
+		}
+		for (int i = 0; i < students.size(); i++) {
+			groups.get(i % n).add(students.get(i));
+		}
+		return groups;
 	}
 }

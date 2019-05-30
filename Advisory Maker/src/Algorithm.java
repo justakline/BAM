@@ -9,7 +9,7 @@ public class Algorithm {
     private float friendMult;
     private float interestMult;
 
-    private Algorithm(Vector<Student> students, Vector<Advisory> advisories) { //make Singleton later
+    public Algorithm(Vector<Student> students, Vector<Advisory> advisories) { //make Singleton later
         this.students = students;
         this.advisories = advisories;
         numStudents = students.size();

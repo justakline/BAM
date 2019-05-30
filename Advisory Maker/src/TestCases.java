@@ -66,7 +66,7 @@ public final class TestCases {
     }
 
     public static Vector<String> getAdvisorStringList() {
-        return new Vector<>(Stream.of("Kim Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton").collect(Collectors.toList()));
+        return new Vector<>(Stream.of("Kim Smith", "Valente", "Fouchet", "Wilson", "Shang", "Conn", "Stamper", "Rheingold", "Bakewell", "Newton", "Smith", "Rego", "Gardner", "Frank", "Lotito", "Smoot", "Veltri", "Mahon", "Hardcastle", "Howard").collect(Collectors.toList()));
     }
 
     public static Vector<Student> getSophmoreList() throws IOException {

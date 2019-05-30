@@ -174,7 +174,7 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 activitiesCSV = fc.getSelectedFile();
                 interestsBox.setSelected(true);
-                System.out.println("activities: " + activitiesCSV);
+                System.out.println("activities: " + getActivitiesCSV());
             }
         } else if ((source.equals(friends))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
@@ -238,5 +238,21 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     }
     public JCheckBox getSettingsBox() {
         return settingsBox;
+    }
+
+    public File getStudentCSV() {
+        return studentCSV;
+    }
+
+    public File getActivitiesCSV() {
+        return activitiesCSV;
+    }
+
+    public File getFriendsCSV() {
+        return friendsCSV;
+    }
+
+    public File getMasterCSV() {
+        return masterCSV;
     }
 }

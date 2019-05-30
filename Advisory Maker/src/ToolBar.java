@@ -163,11 +163,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     @Override
     public void menuSelected(MenuEvent e) {
         if ((e.getSource().equals(this.run))) {
-            try {
-                System.out.println(CSVParser.buildStudentList(studentCSV, activitiesCSV, friendsCSV));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            host.getAl().run();
         } else if (e.getSource().equals(this.find)) {
             host.getStudentFinder().show();
 

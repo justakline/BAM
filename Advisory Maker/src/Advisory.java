@@ -34,7 +34,7 @@ public class Advisory {
     }
 
     public float setScore(float score){
-        this.score = score;
+        return this.score = score;
     }
 
     public Vector<String>getStudentsToString() {

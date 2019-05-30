@@ -40,7 +40,11 @@ public class CSVParser {
             }
             student.setFriends(friends); //set student's friends to be the ones found(References to proper object from ID)
         }
-        return new Vector<>(studentIDMap.values());
+        Vector<Student> students = new Vector<>(studentIDMap.values());
+        for (int i = 0; i < students.size(); i++) {
+            students.get(i).setINDEX(i);
+        }
+        return students;
     }
 
     public static Vector<Student> buildStudentList(File studentFile, File activitiesFile, File friendsList) throws IOException {
@@ -125,7 +129,7 @@ public class CSVParser {
         //chooser.showOpenDialog(frame.getComponent(0));
         File csv = new File("C:/Users/ryanl/Documents/Student Index.csv");
         try {
-            System.out.println(masterCSVParser(csv));
+            System.out.println(masterCSVParser(new File("C:/Users/ryanl/Documents/Student Index.csv")));
         } catch (IOException e) {
             e.printStackTrace();
         }
