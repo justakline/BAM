@@ -27,8 +27,9 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     private GUI host;
     private Vector<JButton> butt = new Vector<>();
     private SettingsWindow settingsWindow;
+    private JProgressBar progressBar;
 
-    private JFrame realSettings;
+    private JFrame realSettings, progressFrame;
 
     private float friendValue;
     private float interestValue;
@@ -149,6 +150,13 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 
         settingsWindow = new SettingsWindow(this);
 
+        progressFrame = new JFrame("Progress");
+
+        progressFrame.setSize(new Dimension(200, 50));
+        progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+
+        progressFrame.add(progressBar);
 
 
 
@@ -190,6 +198,7 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 //Wait for all toher checkMarks to be hit, then leave
         else if(source.equals(run)){
             if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected() && studentBox.isSelected()){
+                progressFrame.setVisible(true);
                 isWorking= false;
             }
         }
@@ -224,6 +233,9 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         return settingsWindow;
     }
 
+    public JFrame getProgressFrame() {
+        return progressFrame;
+    }
     public JCheckBox getSettingsBox() {
         return settingsBox;
     }

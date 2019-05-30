@@ -51,7 +51,7 @@ public class BAM implements Serializable {
 		}
 
 		test.setVisible(true);
-		test.setPreferredSize(new Dimension(500, 500));
-		test.setSize(new Dimension(500,500));
+
+		test.setSize(new Dimension(700,700));
 	}
 }

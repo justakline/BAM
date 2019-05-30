@@ -51,6 +51,8 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		Vector <Student> s = new Vector<>();
 		AdvisorButton b = new AdvisorButton(new Advisory(s, "Test"));
+		JComboBox<String> t = new JComboBox<>();
+		JMenuItem m = new JMenuItem();
 		if(e.getSource().getClass().getName().equals(b.getClass().getName())) {
 			AdvisorButton source = (AdvisorButton) e.getSource();
 			if (source.isSelected()) {
@@ -58,20 +60,21 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 			} else {
 				findFrame(source.getAdvisory()).setVisible(false);
 			}
-		}else{
-			JComboBox<String> source = (JComboBox<String>) e.getSource();
-			boolean setLeave = false;
-			for(AdvisoryFrame frame : advisoryFrames){
-				for(Student student : frame.getAdvisory().getStudents()){
-					if(source.getSelectedItem()==student.getName()){
-						frame.setVisible(true);
-						System.out.println(frame.getAdvisory().getAdvisor());
+		}else if (e.getSource().getClass().getName().equals(t.getClass().getName())) {
+				JComboBox<String> source = (JComboBox<String>) e.getSource();
+				boolean setLeave = false;
+				for (AdvisoryFrame frame : advisoryFrames) {
+					for (Student student : frame.getAdvisory().getStudents()) {
+						if (source.getSelectedItem() == student.getName()) {
+							frame.setVisible(true);
+							System.out.println(frame.getAdvisory().getAdvisor());
+						}
 					}
 				}
-			}
+
+
 
 		}
-
 
 	}
 

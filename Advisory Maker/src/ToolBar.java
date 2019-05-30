@@ -71,7 +71,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
         }
         studentJComboBox = new JComboBox<>(studs);
-
+        options.add( temp1 =new JMenuItem("Open All Advisories"));
+        temp1.addActionListener(this);
+        options.add( temp1 =new JMenuItem("Close All Advisories"));
+        temp1.addActionListener(this);
     }
 
     @Override
@@ -103,7 +106,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
                 try {
                     FileInputStream fileIn = new FileInputStream("initial_save.ser");
                     ObjectInputStream in = new ObjectInputStream(fileIn);
-                     host = (GUI)in.readObject();
+                    host = (GUI) in.readObject();
 //                    System.out.println( hash.toString() );
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
@@ -114,30 +117,44 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
                 }
 //                host = fc.getSelectedFile();
             }
-        }  else if (e.getSource().equals(file.getItem(0))){//New
+        } else if (e.getSource().equals(file.getItem(0))) {//New
 //            host.dispose();
             host = new GUI();
             host.setVisible(true);
-            host.setSize(new Dimension(500,500));
-            host.setPreferredSize(new Dimension(500,500));
+            host.setSize(new Dimension(500, 500));
+            host.setPreferredSize(new Dimension(500, 500));
 
-        }else if (e.getSource().equals(options.getItem(0))){//Find Student
+        } else if (e.getSource().equals(options.getItem(0))) {//Find Student
             System.out.println("GO");
             JInternalFrame frame = new JInternalFrame();
             frame.setVisible(true);
             frame.setSize(200, 80);
-            frame.setPreferredSize(new Dimension(200,60));
+            frame.setPreferredSize(new Dimension(200, 60));
             frame.add(studentJComboBox);
             host.getRightPanel().add(frame);
             studentJComboBox.addActionListener(host.getRightPanel());
             frame.setClosable(true);
             frame.setTitle("Find Student");
-//            host.getRightPanel().findStudent();
+        } else if (e.getSource().equals(options.getItem(1))) {
+            int mult = 2*host.getRightPanel().getAdvisoryFrames().size();
+
+            int width = host.getWidth()/mult;
+            int height = host.getHeight()/mult;
+            int count = 1;
+            System.out.println("The size is "+ mult);
+            for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
+                advisoryFrame.setVisible(true);
+                advisoryFrame.setLocation(width*count,height*count);
+                count++;
+            }
+        } else if (e.getSource().equals(options.getItem(2))) {
+            for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
+                advisoryFrame.setVisible(false);
+                advisoryFrame.setLocation(0,0);
+            }
 
 
         }
-
-
     }
 
     @Override
@@ -149,6 +166,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
                 ex.printStackTrace();
             }
         }
+    }
+
+    public JMenu getOptions() {
+	    return options;
     }
 
     @Override
