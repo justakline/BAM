@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Vector;
 
 public class SettingsWindow extends JFrame implements ActionListener {
@@ -94,12 +95,15 @@ public class SettingsWindow extends JFrame implements ActionListener {
             Integer j = (Integer)o;
             Float interest = new Float(j.floatValue());
 
+//
+            System.out.println("friend = "+friend);
             vals.add(friend);
             vals.add(interest);
             host.initializeValues(vals);
             host.getSettingsWindow().setVisible(false);
             host.getSettingsBox().setSelected(true);
             System.out.println("Confirm");
+
         }
     }
 }

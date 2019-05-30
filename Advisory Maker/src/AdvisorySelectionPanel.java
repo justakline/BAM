@@ -3,9 +3,10 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class AdvisorySelectionPanel extends JPanel {
+public class AdvisorySelectionPanel extends JPanel implements Serializable {
 	private Vector<AdvisorButton> advisors;
 	private GUI host;
 

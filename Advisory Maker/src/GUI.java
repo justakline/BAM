@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements Serializable {
 
 	public Vector<StudentPage> displayedStudentPages;
 	private AdvisorySelectionPanel leftPanel;
@@ -21,6 +22,8 @@ public class GUI extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);
         this.setPreferredSize(new Dimension(700, 700));
@@ -65,7 +68,7 @@ public class GUI extends JFrame {
 
 		setTitle("BAM!!!");
 
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
     }
 
 	public AdvisoryDisplayPanel getRightPanel() {

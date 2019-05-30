@@ -7,8 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class ToolBar extends JMenuBar implements ActionListener, MenuListener {
+public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
     private JFileChooser fc;
     private JMenu file;

@@ -16,12 +16,14 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     private JButton interests;
     private JButton settings;
     private JButton run;
+    private JButton importAll;
 
-    private JCheckBox studentBox, friendsBox, interestsBox, settingsBox;
+    private JCheckBox studentBox, friendsBox, interestsBox, settingsBox, importAllBox;
 
     private File studentCSV;
     private File activitiesCSV;
     private File friendsCSV;
+    private File masterCSV;
     private GUI host;
     private Vector<JButton> butt = new Vector<>();
     private SettingsWindow settingsWindow;
@@ -30,13 +32,13 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 
     private float friendValue;
     private float interestValue;
-    private  boolean isWorking;
+    private boolean isWorking;
 
     public SetupWindow(GUI host) {
         super("Setup");
         isWorking = true;
         setSize(new Dimension(500, 500));
-        setLayout(new GridLayout(5,1));
+        setLayout(new GridLayout(6,1));
 
         Panel zero = new Panel();
         zero.setLayout(new GridLayout(1,2));
@@ -45,13 +47,18 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         Panel two = new Panel();
         two.setLayout(new GridLayout(1,2));
         Panel three = new Panel();
-        zero.setLayout(new GridLayout(1,2));
+        three.setLayout(new GridLayout(1,2));
         Panel four = new Panel();
+        four.setLayout(new GridLayout(1,2));
+        Panel five = new Panel();
+        five.setLayout(new GridLayout(1,2));
+
         three.setLayout(new GridLayout(1,3));
         students = new JButton("Import Students");
         friends = new JButton ("Import Friends");
         interests = new JButton("Import Interests");
         settings = new JButton("Open Settings");
+        importAll = new JButton("Import All");
         run = new JButton("Run");
         studentBox = new JCheckBox();
         studentBox.addActionListener(this);
@@ -62,6 +69,9 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         friendsBox = new JCheckBox();
         friendsBox.addActionListener(this);
         friendsBox.setEnabled(false);
+        importAllBox = new JCheckBox();
+        importAllBox.addActionListener(this);
+        importAllBox.setEnabled(false);
         settingsBox = new JCheckBox();
         settingsBox.addActionListener(this);
         settingsBox.setEnabled(false);
@@ -70,12 +80,14 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         students.addActionListener(this);
         friends.addActionListener(this);
         settings.addActionListener(this);
+        importAll.addActionListener(this);
         run.addActionListener(this);
         interests.addActionListener(this);
         this.butt = new Vector<>();
         butt.add(students);
         butt.add(friends);
         butt.add(interests);
+        butt.add(importAll);
         butt.add(settings);
         butt.add(run);
         for (JButton b : butt){
@@ -87,8 +99,9 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         butt.get(0).setFont(new Font("Import Students", 1, 20));
         butt.get(1).setFont(new Font("Import Friends", 1, 20));
         butt.get(2).setFont(new Font("Import Interests", 1, 20));
-        butt.get(3).setFont(new Font("Open Settings", 1, 20));
-        butt.get(4).setFont(new Font("Run", 1, 20));
+        butt.get(3).setFont(new Font("Import All", 1, 20));
+        butt.get(4).setFont(new Font("Open Settings", 1, 20));
+        butt.get(5).setFont(new Font("Run", 1, 20));
 
 
 //        students = new JButton(butt.get(0));
@@ -99,13 +112,16 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
         two.add(butt.get(2));
         two.add(interestsBox);
         three.add(butt.get(3));
-        three.add(settingsBox);
+        three.add(importAllBox);
         four.add(butt.get(4));
+        four.add(settingsBox);
+        five.add(butt.get(5));
         add(zero);
         add(one);
         add(two);
         add(three);
         add(four);
+        add(five);
 
 //        setSize(new Dimension(400, 400));
 //        setLayout(new GridLayout(3,1));
@@ -121,8 +137,6 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 //        down.setLayout(new GridLayout(2,1));
 //        Panel downUp = new Panel();
 //        Panel downDown = new Panel();
-
-        System.out.println("Working");
 
         fc = new JFileChooser() {
             @Override
@@ -141,12 +155,12 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     }
     public void actionPerformed(ActionEvent e) {
         JButton source  = (JButton)e.getSource();
-        System.out.println("Action performed");
+
         if ((source.equals(students))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 studentCSV = fc.getSelectedFile();
                 studentBox.setSelected(true);
-                System.out.println("student: " + studentCSV);
+
             }
         } else if ((source.equals(interests))) {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
@@ -158,21 +172,30 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
             if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
                 friendsCSV = fc.getSelectedFile();
                 friendsBox.setSelected(true);
-                System.out.println("Friends: " + friendsCSV);
+
+            }
+        }else if ((source.equals(importAll))) {
+            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
+                masterCSV = fc.getSelectedFile();
+                friendsBox.setSelected(true);
+                interestsBox.setSelected(true);
+                studentBox.setSelected(true);
+                importAllBox.setSelected(true);
+
             }
         }else if ((source.equals(settings))) {
-            System.out.println("Settings");
+
             settingsWindow.setVisible(true);
         }
 //Wait for all toher checkMarks to be hit, then leave
         else if(source.equals(run)){
-            System.out.println("Checking");
-            System.out.println("iBox  " + interestsBox.isSelected());
-            System.out.println("fBox  " + friendsBox.isSelected());
-            System.out.println("sBox  " + settingsBox.isSelected());
-            if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected()){
+            if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected() && studentBox.isSelected()){
                 isWorking= false;
             }
+        }
+
+        if(interestsBox.isSelected() && friendsBox.isSelected() &&  studentBox.isSelected()){
+            importAllBox.setSelected(true);
         }
 
 

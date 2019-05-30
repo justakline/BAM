@@ -16,14 +16,39 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class BAM {
+public class BAM implements Serializable {
+
+
+	private static String fileName = "initial_save.ser";
+	static{
+
+	}
 	public static void main(String[] args) {
-		System.err.println("STart");
 
 
-		System.out.println("Gui");
+
+
 		GUI test = new GUI();
+
+		try {
+			FileOutputStream file = new FileOutputStream(fileName);
+			ObjectOutputStream out = new ObjectOutputStream(file);
+
+			// Method for serialization of object
+			out.writeObject(test);
+
+			out.close();
+			file.close();
+
+			System.out.println("Serialized GUI");
+		}catch(IOException ex){
+			System.out.println("IOException is caught");
+		}
 
 		test.setVisible(true);
 		test.setPreferredSize(new Dimension(500, 500));
