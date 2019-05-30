@@ -6,9 +6,10 @@ public class Student {
     private String name;
     private String nickName;
     private List<Student> friends;
-    private  Vector<String> interests;
+    private Vector<String> interests;
     private Gender gender;
     private int ID;
+    private int INDEX;
     private Advisory advisory;
 
     public Student(String name, List<Student> friends, Vector<String> interests, Gender gender) {
@@ -74,6 +75,18 @@ public class Student {
         return interests;
     }
 
+    public int getINDEX(){
+        return INDEX;
+    }
+
+    public void setINDEX(int index){
+        this.INDEX = index;
+    }
+
+    public void setAdvisory(Advisory a){
+        this.advisory = a;
+    }
+
     public void setInterests(Vector<String> interests) {
         this.interests = interests;
     }
@@ -83,7 +96,7 @@ public class Student {
     }
 
     public boolean isFriend(Student friend) {
-        return getFriends().contains(friend);
+        return friends.contains(friend);
     }
 
     public float interestCount(Student friend) {
