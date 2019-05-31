@@ -24,7 +24,7 @@ import java.io.Serializable;
 public class BAM implements Serializable {
 
 
-	private static String fileName = "initial_save.ser";
+
 	static{
 
 	}
@@ -35,20 +35,20 @@ public class BAM implements Serializable {
 
 		GUI test = new GUI();
 
-		try {
-			FileOutputStream file = new FileOutputStream(fileName);
-			ObjectOutputStream out = new ObjectOutputStream(file);
-
-			// Method for serialization of object
-			out.writeObject(test);
-
-			out.close();
-			file.close();
-
-			System.out.println("Serialized GUI");
-		}catch(IOException ex){
-			System.out.println("IOException is caught");
-		}
+//		try {
+//			FileOutputStream file = new FileOutputStream(fileName);
+//			ObjectOutputStream out = new ObjectOutputStream(file);
+//
+//			// Method for serialization of object
+//			out.writeObject(test);
+//
+//			out.close();
+//			file.close();
+//
+//			System.out.println("Serialized GUI");
+//		}catch(IOException ex){
+//			System.out.println("IOException is caught");
+//		}
 
 		test.setVisible(true);
 
