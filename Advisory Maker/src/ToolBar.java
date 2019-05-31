@@ -23,6 +23,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     private File activitiesCSV;
     private File friendsCSV;
     private JComboBox<String>studentJComboBox;
+    private JTextField newAdvisory;
+    private JInternalFrame hosting;
+    private JButton adding;
+    private Advisory newAdd;
 
 	public ToolBar(GUI host) {
         super();
@@ -63,6 +67,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         this.add(temp2 = help = new JMenu("Help"));
         temp2.addMenuListener(this);
 
+        //Instantiation the options
+
         this.add(options = new JMenu("Options"));
         options.add( temp1 =new JMenuItem("Find Student"));
         temp1.addActionListener(this);
@@ -78,6 +84,22 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         temp1.addActionListener(this);
         options.add( temp1 =new JMenuItem("Close All Advisories"));
         temp1.addActionListener(this);
+        options.add( temp1 =new JMenuItem("Add Custom Advisory"));
+        temp1.addActionListener(this);
+
+         hosting = new JInternalFrame("New Advisory", true, true);
+         hosting.setLayout(new FlowLayout());
+        hosting.setSize(new Dimension(150,40));
+        hosting.setPreferredSize(new Dimension(150,40));
+        newAdvisory = new JTextField("Click and Set Advisor's Name");
+        newAdvisory.setEditable(true);
+        newAdvisory.setSize(new Dimension(300,100));
+        newAdvisory.setVisible(true);
+        adding = new JButton("Add");
+        adding.addActionListener(this);
+        hosting.add(newAdvisory);
+        hosting.add(adding);
+
     }
 
     @Override
@@ -140,25 +162,37 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             frame.setClosable(true);
             frame.setTitle("Find Student");
         } else if (e.getSource().equals(options.getItem(1))) {
-            int mult = 2*host.getRightPanel().getAdvisoryFrames().size();
+            int mult = 2 * host.getRightPanel().getAdvisoryFrames().size();
 
-            int width = host.getWidth()/mult;
-            int height = host.getHeight()/mult;
+            int width = host.getWidth() / mult;
+            int height = host.getHeight() / mult;
             int count = 1;
             for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
                 advisoryFrame.setVisible(true);
-                advisoryFrame.setLocation(width*count,height*count);
+                advisoryFrame.setLocation(width * count, height * count);
                 count++;
             }
         } else if (e.getSource().equals(options.getItem(2))) {
             for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
                 advisoryFrame.setVisible(false);
-                advisoryFrame.setLocation(0,0);
+                advisoryFrame.setLocation(0, 0);
             }
+        } else if (e.getSource().equals(options.getItem(3))) {//Create Custom Advisory
+                newAdvisory.setVisible(true);
+                host.getRightPanel().add(hosting);
+                hosting.show();
 
+            System.out.println("Working");
 
+            }else {
+            JButton source = (JButton)e.getSource();
+                if(source.equals(adding)) {
+                    host.getRightPanel().addNewAdvisory(newAdvisory.getName());
+                    System.out.println("Adding");
+                }
+         }
         }
-    }
+
 
     @Override
     public void menuSelected(MenuEvent e) {

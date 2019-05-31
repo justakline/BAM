@@ -260,4 +260,12 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	public Vector<AdvisoryFrame> getAdvisoryFrames() {
 		return advisoryFrames;
 	}
+
+	public void addNewAdvisory(String advisor){
+		Vector<Student> studs = new Vector<>();
+		Advisory newAdvisory = new Advisory(studs, advisor);
+		AdvisorButton but  = new AdvisorButton(newAdvisory);
+		getHost().getLeftPanel().addButton(but);
+		addFrame(but);
+	}
 }
