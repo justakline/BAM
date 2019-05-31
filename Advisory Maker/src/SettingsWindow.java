@@ -87,15 +87,13 @@ public class SettingsWindow extends JFrame implements ActionListener {
 	        interestsNumb.setValue(2);
         } else if (e.getSource().equals(confirm)) {
             Vector<Float> vals = new Vector<>();
-//            Object v = friendGroupNumb.getValue();
-//            Integer i = (Integer)v;
-//            Float friend = i.floatValue();
-	        Float friend = (float) friendGroupNumb.getValue();
+            Object v = friendGroupNumb.getValue();
+            Integer i = (Integer)v;
+            Float friend = i.floatValue();
 
-//            Object o = interestsNumb.getValue();
-//            Integer j = (Integer)o;
-//            Float interest = j.floatValue();
-	        Float interest = (float) interestsNumb.getValue();
+            Object o = interestsNumb.getValue();
+            Integer j = (Integer)o;
+            Float interest = j.floatValue();
 
 //
             System.out.println("friend = "+friend);
