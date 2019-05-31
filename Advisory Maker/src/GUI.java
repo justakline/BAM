@@ -42,7 +42,7 @@ public class GUI extends JFrame implements Serializable {
 		welcomeWindow = new WelcomeWindow(this);
         add(welcomeWindow);
 
-
+		int i = 0;
         while(welcomeWindow.isWorking()) {
 			System.out.println(welcomeWindow.isWorking());
 		}

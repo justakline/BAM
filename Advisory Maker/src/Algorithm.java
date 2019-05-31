@@ -15,31 +15,31 @@ public class Algorithm {
         numStudents = students.size();
         values = new double[numStudents][numStudents];
 
-        friendMult = 0.5f;
-        interestMult = (1-friendMult);
+        friendMult = 0.75f;
+        interestMult = 0.25f;
 
     }
 
-    public float scoreStudents(Student s1, Student s2) {
-        return (float)values[s1.getINDEX()][s2.getINDEX()];
+    private float scoreStudents(Student s1, Student s2) {
+        return (float)(values[s1.getINDEX()][s2.getINDEX()] + values[s2.getINDEX()][s1.getINDEX()]);
     }
 
     //Probably going through the advisory and adding up the total score between all of the members?
 
-    public void addStudentToAdvisory(Student student, Advisory advisory) {
+    private void addStudentToAdvisory(Student student, Advisory advisory) {
         float score = advisory.getScore();
         for (Student otherStudent : advisory.getStudents())
-            score += scoreStudents(student, otherStudent) + scoreStudents(otherStudent, student);
+            score += scoreStudents(student, otherStudent);
 
         advisory.addStudent(student);
         advisory.setScore(score);
     }
-    public void removeStudentFromAdvisory(Student student){
+    private void removeStudentFromAdvisory(Student student){
         Advisory advisory = student.getAdvisory();
         float score = advisory.getScore();
         advisory.removeStudent(student);
         for (Student otherStudent : advisory.getStudents())
-            score -= (scoreStudents(student, otherStudent) + scoreStudents(otherStudent, student));
+            score -= scoreStudents(student, otherStudent);
         advisory.setScore(score);
     }
 
@@ -52,10 +52,10 @@ public class Algorithm {
         addStudentToAdvisory(student1, advisory0);
     }
 
-    public float weightEdge(Student s1, Student s2) {
+    private float weightEdge(Student s1, Student s2) {
         int areFriends = s1.isFriend(s2) ? 1 : 0;
         float weight = friendMult*areFriends + interestMult*(s1.interestCount(s2));
-        return weight == 0 ? Integer.MAX_VALUE : 1/weight;
+        return (weight == 0) ? Integer.MAX_VALUE : 1/weight;
     }
 
     private void initializeValues() {
@@ -66,7 +66,16 @@ public class Algorithm {
         }
     }
 
+    private void normalizeValues() {
+        for (int i = 0; i < numStudents; i++) {
+            for (int j = 0; j < numStudents; j++) {
+                values[i][j] = 1/values[i][j];
+            }
+        }
+    }
+
 	private void Floyds() {
+        initializeValues();
 		for (int k = 0; k < numStudents; k++) {
 			for (int i = 0; i < numStudents; i++) {
 				for (int j = 0; j < numStudents; j++) {
@@ -74,6 +83,20 @@ public class Algorithm {
 				}
 			}
 		}
+        normalizeValues();
+    }
+
+    private void initializeScores(){
+        for(Advisory advisory : advisories){
+            float score = 0;
+            for(Student s0 : advisory.getStudents())
+                for(Student s1 : advisory.getStudents())
+                    if(s1 != s0)
+                        score += scoreStudents(s0, s1);
+
+            advisory.setScore(score);
+        }
+
     }
 
     public void runSwaps() {
@@ -81,7 +104,7 @@ public class Algorithm {
 
         while(viableSwapsExist){
             viableSwapsExist = false;
-            //Iterate through every student and get its fields
+
             for (Student student0 : students){
                 Advisory advisory0 = student0.getAdvisory();
                 float currentRank0 = advisory0.getScore();
@@ -110,9 +133,16 @@ public class Algorithm {
 
     public boolean run()
     {
-        initializeValues();
         Floyds();
+        initializeScores();
         runSwaps();
+
+        /////DEBUG/////
+        for (Advisory advisory : advisories) {
+            System.out.println(advisory);
+            advisory.analyze();
+        }
+
         return true;
     }
 
