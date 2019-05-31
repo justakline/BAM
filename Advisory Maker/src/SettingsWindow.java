@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
 import java.util.Vector;
 
 public class SettingsWindow extends JFrame implements ActionListener {
@@ -45,9 +44,10 @@ public class SettingsWindow extends JFrame implements ActionListener {
         interests.setPreferredSize(new Dimension(400, 200));
         interests.setHorizontalAlignment(JTextField.CENTER);
 
-         friendGroupNumb = new JSpinner();
+
+	    friendGroupNumb = new JSpinner(new SpinnerNumberModel(10, 0, 100, 1));
         friendGroupNumb.setFont(new Font("Font", 1, 40));
-         interestsNumb = new JSpinner();
+	    interestsNumb = new JSpinner(new SpinnerNumberModel(2, 0, 100, 1));
         interestsNumb.setFont(new Font("Int", 1, 40));
 
         confirm = new JButton ("Confirm");
@@ -83,17 +83,19 @@ public class SettingsWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource().equals(defaultButton)){
-
-        }else if(e.getSource().equals((Object)(confirm))){
+	        friendGroupNumb.setValue(10);
+	        interestsNumb.setValue(2);
+        } else if (e.getSource().equals(confirm)) {
             Vector<Float> vals = new Vector<>();
-            Object v = friendGroupNumb.getValue();
-            Integer i = (Integer)v;
-            Float friend = new Float(i.floatValue());
+//            Object v = friendGroupNumb.getValue();
+//            Integer i = (Integer)v;
+//            Float friend = i.floatValue();
+	        Float friend = (float) friendGroupNumb.getValue();
 
-
-            Object o = interestsNumb.getValue();
-            Integer j = (Integer)o;
-            Float interest = new Float(j.floatValue());
+//            Object o = interestsNumb.getValue();
+//            Integer j = (Integer)o;
+//            Float interest = j.floatValue();
+	        Float interest = (float) interestsNumb.getValue();
 
 //
             System.out.println("friend = "+friend);
