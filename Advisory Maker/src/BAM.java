@@ -15,23 +15,14 @@
  */
 
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class BAM implements Serializable {
 
 
+	private static String fileName = "initial_save.ser";
 
-	static{
-
-	}
 	public static void main(String[] args) {
-
-
-
-
 		GUI test = new GUI();
 
 //		try {

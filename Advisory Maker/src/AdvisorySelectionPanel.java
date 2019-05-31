@@ -33,6 +33,12 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		return advisors;
 	}
 
+	public void setAdvisories(Vector<Advisory> advisories) {
+		for(int i = 0; i < advisors.size(); i++) {
+			advisors.get(i).setAdvisory(advisories.get(i));
+		}
+	}
+
 	private int largestAdvSize() {
 		int size = 0;
 		for (AdvisorButton advisor : advisors) {

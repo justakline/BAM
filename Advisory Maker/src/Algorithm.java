@@ -11,8 +11,8 @@ public class Algorithm {
 
     public Algorithm(Vector<Student> students, Vector<Advisory> advisories) { //make Singleton later
         this.students = students;
-        this.advisories = advisories;
-        numStudents = students.size();
+		this.setAdvisories(advisories);
+		 numStudents = students.size();
         values = new double[numStudents][numStudents];
 
         friendMult = 0.75f;
@@ -74,8 +74,8 @@ public class Algorithm {
         }
     }
 
-	private void Floyds() {
-        initializeValues();
+	private void floyds() {
+		 initializeValues();
 		for (int k = 0; k < numStudents; k++) {
 			for (int i = 0; i < numStudents; i++) {
 				for (int j = 0; j < numStudents; j++) {
@@ -87,8 +87,8 @@ public class Algorithm {
     }
 
     private void initializeScores(){
-        for(Advisory advisory : advisories){
-            float score = 0;
+		for(Advisory advisory : getAdvisories()) {
+			 float score = 0;
             for(Student s0 : advisory.getStudents())
                 for(Student s1 : advisory.getStudents())
                     if(s1 != s0)
@@ -133,13 +133,13 @@ public class Algorithm {
 
     public boolean run()
     {
-        Floyds();
-        initializeScores();
+		floyds();
+		 initializeScores();
         runSwaps();
 
         /////DEBUG/////
-        for (Advisory advisory : advisories) {
-            System.out.println(advisory);
+		for(Advisory advisory : getAdvisories()) {
+			 System.out.println(advisory);
             advisory.analyze();
         }
 
@@ -164,5 +164,13 @@ public class Algorithm {
 
 	public void setInterestMult(float interestMult) {
 		this.interestMult = interestMult;
+	}
+
+	public Vector<Advisory> getAdvisories() {
+		return advisories;
+	}
+
+	public void setAdvisories(Vector<Advisory> advisories) {
+		this.advisories = advisories;
 	}
 }

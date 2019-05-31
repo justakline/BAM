@@ -162,10 +162,13 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
     @Override
     public void menuSelected(MenuEvent e) {
-        if ((e.getSource().equals(this.run))) {
-            host.getAl().run();
-        } else if (e.getSource().equals(this.find)) {
-            host.getStudentFinder().show();
+		if((e.getSource().equals(this.run))) { //ALGORITHM RUNS
+			host.getAl().run();
+			host.getLeftPanel().setAdvisories(host.getAl().getAdvisories());
+			host.getRightPanel().updAdvisory(host.getAl().getAdvisories());
+			System.out.println(host.getLeftPanel().getAdvisories().get(19));
+		} else if(e.getSource().equals(this.find)) {
+			 host.getStudentFinder().show();
 
         }
     }

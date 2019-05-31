@@ -78,9 +78,12 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 	}
 
-
-
-
+	public void updAdvisory(Vector<Advisory> advisories) {
+		for(int i = 0; i < advisoryFrames.size(); i++) {
+			advisoryFrames.get(i).setAdvisory(advisories.get(i));
+			advisoryFrames.get(i).updLabels();
+		}
+	}
 
 
 	public void addFrame(AdvisorButton source) {

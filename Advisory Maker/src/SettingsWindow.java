@@ -95,8 +95,8 @@ public class SettingsWindow extends JFrame implements ActionListener {
             Integer j = (Integer)o;
             Float interest = j.floatValue();
 
-//
-            System.out.println("friend = "+friend);
+
+			System.out.println("friend = "+friend);
             vals.add(friend);
             vals.add(interest);
             host.initializeValues(vals);

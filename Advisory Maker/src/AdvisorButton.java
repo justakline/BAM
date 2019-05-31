@@ -11,8 +11,17 @@ public class AdvisorButton extends JToggleButton {
 
     @Override
     public String getName() {
-        return advisory.getAdvisor();
-    }
+		return advisory.getAdvisor();
+		}
 
-    public Advisory getAdvisory(){return advisory;}
+	public void setName(String name) {
+		advisory.setName(name);
+		this.setText(advisory.getAdvisor());
+	}
+
+	public Advisory getAdvisory() {return advisory;}
+
+	public void setAdvisory(Advisory advisory) {
+		this.advisory = advisory;
+	}
 }

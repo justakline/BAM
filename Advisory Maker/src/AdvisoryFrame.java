@@ -11,11 +11,13 @@ public class AdvisoryFrame extends JInternalFrame {
 	private Vector<StudentLabel> labels;
 	private int default_cell_width = 200;
 	private int default_cell_height = 50;
+	private AdvisoryDisplayPanel host;
 
 
 	public AdvisoryFrame(Advisory advisory, AdvisoryDisplayPanel host) {
 		super(advisory.getAdvisor() + " Advisory", true, true);
-		this.advisory = advisory;
+		this.setAdvisory(advisory);
+		this.host = host;
 		int numStudents = advisory.getStudents().size();
 
 		setLayout(new GridLayout(numStudents, 1));
@@ -42,12 +44,9 @@ public class AdvisoryFrame extends JInternalFrame {
 					}
 				}
 			});
-
-
 			// Add the JLabel to the JInternalFrame
-			this.add(label);
+			this.add(labels.get(labels.indexOf(label)));
 		}
-
         this.setVisible(true);
 		this.setIconifiable(true);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
@@ -60,6 +59,39 @@ public class AdvisoryFrame extends JInternalFrame {
 
 	public Vector<StudentLabel> getLabels() {
 		return labels;
-    }
+	}
 
+	public void setAdvisory(Advisory advisory) {
+		this.advisory = advisory;
+	}
+
+	public void updLabels() {
+		for(StudentLabel label : labels) {
+			this.remove(label);
+		}
+		labels.clear();
+		for(Student student : advisory.getStudents()) {
+			StudentLabel label;
+			labels.add(label = new StudentLabel(student));
+
+			label.setBorder(new LineBorder(Color.BLACK));
+			label.setBackground(Color.WHITE);
+			label.setHorizontalAlignment(SwingConstants.CENTER);
+			label.setVerticalAlignment(SwingConstants.CENTER);
+
+			label.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2) {
+						// might have to change argument to ((StudentLabel)e.getSource()).getStudent();
+						StudentPage newStudentPage = new StudentPage(label.getStudent());
+						host.getStudentPages().add(newStudentPage);
+						host.add(newStudentPage);
+					}
+				}
+			});
+
+			// Add the JLabel to the JInternalFrame
+			this.add(label);
+		}
+	}
 }
