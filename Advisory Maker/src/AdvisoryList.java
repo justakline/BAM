@@ -27,5 +27,8 @@ public class AdvisoryList extends JList {
 
 
         }
+        public void addAdvisory(Advisory a) {
+            advisories.add(a);
+        }
     }
 }

@@ -82,4 +82,8 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 		return groups;
 	}
+
+	public void addButton(AdvisorButton b) {
+		advisors.add(b);
+	}
 }
