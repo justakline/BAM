@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.IOException;

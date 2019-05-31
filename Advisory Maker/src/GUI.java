@@ -1,19 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
 
 public class GUI extends JFrame implements Serializable {
 
 	public Vector<StudentPage> displayedStudentPages;
+
+	private Vector<Student> students;
 	private AdvisorySelectionPanel leftPanel;
 	private AdvisoryDisplayPanel rightPanel;
 	private WelcomeWindow welcomeWindow;
 	private SetupWindow setupWindow;
 	private SettingsWindow settingsWindow;
+	private SearchBox studentFinder;
+	private Algorithm al;
 
-	private float friendGroupValue;
-	private float interestValue;
+	private File studentsCSV;
+	private File activitiesCSV;
+	private File friendsCSV;
+	private File masterCSV;
 
 	public GUI() {
 		super();
@@ -22,6 +30,8 @@ public class GUI extends JFrame implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		studentFinder = new SearchBox();
+		welcomeWindow = new WelcomeWindow(this);
 
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -32,7 +42,7 @@ public class GUI extends JFrame implements Serializable {
 		welcomeWindow = new WelcomeWindow(this);
         add(welcomeWindow);
 
-
+		int i = 0;
         while(welcomeWindow.isWorking()) {
 			System.out.println(welcomeWindow.isWorking());
 		}
@@ -49,11 +59,20 @@ public class GUI extends JFrame implements Serializable {
 			System.out.println("isWorking");
 		}
 
-        friendGroupValue = setupWindow.getFriendValue();
-        interestValue = setupWindow.getInterestValue();
+		float friendGroupValue = setupWindow.getFriendValue();
+		float interestValue = setupWindow.getInterestValue();
+		masterCSV = setupWindow.getMasterCSV();
+		activitiesCSV = setupWindow.getActivitiesCSV();
+		studentsCSV = setupWindow.getStudentCSV();
+		activitiesCSV = setupWindow.getActivitiesCSV();
 
+		try {
+			students = CSVParser.masterCSVParser(masterCSV);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        setupWindow.getProgressFrame().setVisible(false);
+		setupWindow.getProgressFrame().setVisible(false);
 		remove(setupWindow);
 //        settingsWindow = new SettingsWindow(this);
 
@@ -69,10 +88,12 @@ public class GUI extends JFrame implements Serializable {
 
         //Attributes of JFrame
         this.setSize(800, 800);
-
+		this.setVisible(true);
 		setTitle("BAM!!!");
 
-
+		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories());
+		al.setFriendMult(friendGroupValue);
+		al.setInterestMult(interestValue);
     }
 
 	public AdvisoryDisplayPanel getRightPanel() {
@@ -83,4 +104,15 @@ public class GUI extends JFrame implements Serializable {
 		return leftPanel;
 	}
 
+	public Algorithm getAl() {
+		return al;
+	}
+
+	public SearchBox getStudentFinder() {
+		return studentFinder;
+	}
+
+	public Vector<Student> getStudents() {
+		return students;
+	}
 }

@@ -15,6 +15,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     private JMenu file;
     private JMenu load;
     private JMenu run;
+    private JMenu find;
     private JMenu help;
     private JMenu options;
 	private GUI host;
@@ -56,6 +57,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         temp1.addActionListener(this);
 
         this.add(temp2 = run = new JMenu("Run"));
+        temp2.addMenuListener(this);
+        this.add(temp2 = find = new JMenu("Find"));
         temp2.addMenuListener(this);
         this.add(temp2 = help = new JMenu("Help"));
         temp2.addMenuListener(this);
@@ -160,11 +163,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     @Override
     public void menuSelected(MenuEvent e) {
         if ((e.getSource().equals(this.run))) {
-            try {
-                System.out.println(CSVParser.buildStudentList(studentCSV, activitiesCSV, friendsCSV));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            host.getAl().run();
+        } else if (e.getSource().equals(this.find)) {
+            host.getStudentFinder().show();
+
         }
     }
 
