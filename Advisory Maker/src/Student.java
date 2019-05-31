@@ -127,6 +127,7 @@ public class Student {
         return commonInterests/interests.size();
     }
 
+
     public void setFriends(List<Student> friends) {
         this.friends = friends;
     }
