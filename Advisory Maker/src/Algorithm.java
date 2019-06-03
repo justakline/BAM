@@ -118,8 +118,10 @@ public class Algorithm {
                         float simulatedRank0 = advisory0.getScore();
                         float simulatedRank1 = advisory1.getScore();
 
-                        //if swap is mutually beneficial, keep swap, else swap back
-                        if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1){
+                        //if swap is mutually beneficial and good genderQuota, keep swap, else swap back
+                        if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1 &&
+                                advisory0.getTotalMale() > 2&& advisory1.getTotalMale() > 2 && advisory1.getTotalFemale() > 2
+                                && advisory1.getTotalFemale() > 2 ){
                             viableSwapsExist = true;
                             break;
                         }else{
@@ -129,6 +131,21 @@ public class Algorithm {
                 }
             }
         }
+    }
+
+    public boolean everyoneHasFriend(Advisory advisory){
+            for(Student s1: advisory.getStudents()){
+                int count = 0;
+                for(Student s2: advisory.getStudents()){
+                    if(s1 != s2&& s1.isFriend(s2)){
+                        count++;
+                    }
+                }
+                if(count ==0){//If someone does not have a friend
+                    return false;
+                }
+            }
+        return false;
     }
 
     public boolean run()

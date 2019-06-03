@@ -45,7 +45,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         this.add(file = new JMenu("File"));
         file.add(temp1 = new JMenuItem("New")); //0
         temp1.addActionListener(this);
-        file.add(temp1 = new JMenuItem("Open")); //1
+        file.add(temp1 = new JMenuItem("Export")); //1
         temp1.addActionListener(this);
         file.add(temp1 = new JMenuItem("Print")); //2
         temp1.addActionListener(this);
@@ -126,21 +126,27 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else if (e.getSource().equals(file.getItem(1))) {//Open
-            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
-                try {
-                    FileInputStream fileIn = new FileInputStream("initial_save.ser");
-                    ObjectInputStream in = new ObjectInputStream(fileIn);
-                    host = (GUI) in.readObject();
-//                    System.out.println( hash.toString() );
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
-                }
-//                host = fc.getSelectedFile();
+        } else if (e.getSource().equals(file.getItem(1))) {//Export
+
+            try {
+                File csv = host.getLeftPanel().getCSV();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+//            }
+//            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
+//                try {
+//                    FileInputStream fileIn = new FileInputStream("initial_save.ser");
+//                    ObjectInputStream in = new ObjectInputStream(fileIn);
+//                    host = (GUI) in.readObject();
+////                    System.out.println( hash.toString() );
+//                } catch (FileNotFoundException ex) {
+//                    ex.printStackTrace();
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                } catch (ClassNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+////                host = fc.getSelectedFile();
             }
         } else if (e.getSource().equals(file.getItem(0))) {//New
 //            host.dispose();

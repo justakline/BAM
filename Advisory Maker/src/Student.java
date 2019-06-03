@@ -118,6 +118,10 @@ public class Student {
         return friends.contains(friend);
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
     public float interestCount(Student friend) {
         float commonInterests = 0;
         for (String friendInterest:friend.getInterests()) {
