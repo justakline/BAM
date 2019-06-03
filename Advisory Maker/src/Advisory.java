@@ -5,21 +5,40 @@ public class Advisory {
     private Vector<Student> students;
     private String advisor;
     private float score;
+    private int totalMale;
+    private int totalFemale;
 
     public Advisory(Vector<Student> students, String advisor){
         this.students = students;
         this.advisor = advisor;
-        for (Student student : students)
+        for (Student student : students) {
             student.setAdvisory(this);
+            if(student.getGender() == Student.Gender.M){
+                totalMale++;
+            }else if(student.getGender() == Student.Gender.F){
+                totalFemale++;
+            }
+        }
+
     }
 
     public void addStudent(Student s) {
         students.add(s);
+        if (s.getGender() == Student.Gender.M){
+            totalMale++;
+        }else if (s.getGender() == Student.Gender.F){
+            totalFemale++;
+        }
         s.setAdvisory(this);
     }
 
     public void removeStudent(Student s) {
         students.remove(s);
+        if (s.getGender() == Student.Gender.M){
+            totalMale--;
+        }else if (s.getGender() == Student.Gender.F){
+            totalFemale--;
+        }
         s.setAdvisory(null);
     }
 
@@ -72,5 +91,11 @@ public class Advisory {
         return s;
     }
 
+    public int getTotalFemale() {
+        return totalFemale;
+    }
 
+    public int getTotalMale() {
+        return totalMale;
+    }
 }

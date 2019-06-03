@@ -33,8 +33,10 @@ public class GUI extends JFrame implements Serializable {
         }
 		studentFinder = new SearchBox();
 		welcomeWindow = new WelcomeWindow(this);
+		welcomeWindow.setResizable(true);
 		setupWindow = new SetupWindow(this);
 		setupWindow.setVisible(false);
+
 		add(welcomeWindow);
 		add(setupWindow);
 		showWelcome();
