@@ -62,4 +62,9 @@ public class AdvisoryFrame extends JInternalFrame {
 		return labels;
     }
 
+    public void removeLabel(int index){
+		labels.remove(index);
+
+	}
+
 }

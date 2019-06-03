@@ -25,6 +25,7 @@ public class GUI extends JFrame implements Serializable {
 
 	public GUI() {
 		super();
+		setSize(new Dimension(800,800));
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -32,68 +33,39 @@ public class GUI extends JFrame implements Serializable {
         }
 		studentFinder = new SearchBox();
 		welcomeWindow = new WelcomeWindow(this);
-
+		setupWindow = new SetupWindow(this);
+		setupWindow.setVisible(false);
+		add(welcomeWindow);
+		add(setupWindow);
+		showWelcome();
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);
 //        this.setPreferredSize(new Dimension(700, 700));
 		setSize(new Dimension(700,700));
-		welcomeWindow = new WelcomeWindow(this);
-        add(welcomeWindow);
 
-		int i = 0;
-        while(welcomeWindow.isWorking()) {
-			System.out.println(welcomeWindow.isWorking());
-		}
-		System.out.println("Moved");
-        remove(welcomeWindow);
 
-		System.out.println("Bye Welcome Window");
-        setupWindow = new SetupWindow(this);
-        add(setupWindow);
-//        settingsWindow = new SettingsWindow(setupWindow);
-//        add(settingsWindow);
 
-        while(setupWindow.isWorking()){
-			System.out.println("isWorking");
-		}
-
-		float friendGroupValue = setupWindow.getFriendValue();
-		float interestValue = setupWindow.getInterestValue();
-		masterCSV = setupWindow.getMasterCSV();
-		activitiesCSV = setupWindow.getActivitiesCSV();
-		studentsCSV = setupWindow.getStudentCSV();
-		activitiesCSV = setupWindow.getActivitiesCSV();
-
-		try {
-			students = CSVParser.masterCSVParser(masterCSV);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		setupWindow.getProgressFrame().setVisible(false);
-		remove(setupWindow);
 //        settingsWindow = new SettingsWindow(this);
 
         displayedStudentPages = new Vector<>();
+		rightPanel = new AdvisoryDisplayPanel(this);
+		rightPanel.setVisible(false);
 
         //Init Components in this block:
-		rightPanel = new AdvisoryDisplayPanel(this);
-		leftPanel = new AdvisorySelectionPanel(this);
-		this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel));
+
+
 
         //AddComponents in this block:
-		setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
+
 
         //Attributes of JFrame
         this.setSize(800, 800);
 		this.setVisible(true);
 		setTitle("BAM!!!");
 
-		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories());
-		al.setFriendMult(friendGroupValue);
-		al.setInterestMult(interestValue);
+
     }
 
 	public AdvisoryDisplayPanel getRightPanel() {
@@ -114,5 +86,61 @@ public class GUI extends JFrame implements Serializable {
 
 	public Vector<Student> getStudents() {
 		return students;
+	}
+
+	public void showSettings() {
+		settingsWindow.setVisible(true);
+	}
+
+	public void showSetup(){
+		welcomeWindow.setVisible(false);
+		setupWindow.setVisible(true);
+
+	}
+
+	public void showWelcome (){
+		welcomeWindow.setVisible(true);
+	}
+
+	public void showPanels() {
+		//Init Components in this block:
+		setupWindow.setVisible(false);
+		rightPanel.setVisible(true);
+		leftPanel.setVisible(true);
+		this.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel));
+
+		setMenu();
+	}
+
+	public void makeCSV() {
+		float friendGroupValue = setupWindow.getFriendValue();
+		float interestValue = setupWindow.getInterestValue();
+		masterCSV = setupWindow.getMasterCSV();
+		activitiesCSV = setupWindow.getActivitiesCSV();
+		studentsCSV = setupWindow.getStudentCSV();
+		activitiesCSV = setupWindow.getActivitiesCSV();
+
+		try {
+			students = CSVParser.masterCSVParser(masterCSV);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		leftPanel = new AdvisorySelectionPanel(this);
+		leftPanel.setVisible(false);
+		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories());
+		al.setFriendMult(friendGroupValue);
+		al.setInterestMult(interestValue);
+
+		try {
+			students = CSVParser.masterCSVParser(masterCSV);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		showPanels();
+
+	}
+
+	public void setMenu(){
+		setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
 	}
 }

@@ -89,7 +89,19 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		attachListeners(newFrame);
 		advisoryFrames.add(newFrame);
 		this.add(newFrame);
+
 	}
+
+	public void removeFrame(Advisory advisory) {
+
+	    for(AdvisoryFrame frame : advisoryFrames){
+	        if(frame.getAdvisory().equals(advisory)){
+	            this.remove(frame.getLabels().get(0));
+                frame.removeLabel(0);
+
+            }
+        }
+    }
 
 	public void removeFrame(AdvisoryFrame frame) {
 		dropTargets.removeElement(frame);
@@ -262,7 +274,10 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		Vector<Student> studs = new Vector<>();
 		Advisory newAdvisory = new Advisory(studs, advisor);
 		AdvisorButton but  = new AdvisorButton(newAdvisory);
-		getHost().getLeftPanel().addButton(but);
+		but.addActionListener(host.getRightPanel());
+        getHost().getLeftPanel().addButton(but);
+        getHost().getLeftPanel().add(but);
 		addFrame(but);
+		but.show();
 	}
 }
