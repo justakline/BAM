@@ -89,8 +89,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
          hosting = new JInternalFrame("New Advisory", true, true);
          hosting.setLayout(new FlowLayout());
-        hosting.setSize(new Dimension(150,40));
-        hosting.setPreferredSize(new Dimension(150,40));
+        hosting.setSize(new Dimension(200,100));
+        hosting.setPreferredSize(new Dimension(200,100));
         newAdvisory = new JTextField("Click and Set Advisor's Name");
         newAdvisory.setEditable(true);
         newAdvisory.setSize(new Dimension(300,100));
@@ -187,8 +187,23 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             }else {
             JButton source = (JButton)e.getSource();
                 if(source.equals(adding)) {
-                    host.getRightPanel().addNewAdvisory(newAdvisory.getName());
-                    System.out.println("Adding");
+                    Student test = new Student("BOB");
+                    Vector<Student> stud = new Vector<>();
+                    stud.add(test);
+                    String advis = newAdvisory.getText();
+                    Advisory advisory = new Advisory(stud ,advis);
+                    AdvisorButton button  =new AdvisorButton(advisory);
+                    button.addActionListener(host.getRightPanel());
+                    host.getLeftPanel().getAdvisors().add(button);
+                    host.getLeftPanel().add(button);
+                    host.getRightPanel().addFrame(button);
+                    advisory.removeStudent(test);
+                    host.getRightPanel().removeFrame(advisory);
+
+//
+//                    host.getRightPanel().addNewAdvisory(newAdvisory.getText());
+//                    System.out.println(newAdvisory.getText());
+//                    System.out.println("Adding");
                 }
          }
         }

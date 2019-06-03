@@ -18,7 +18,7 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
 
     public WelcomeWindow(GUI host) {
         super();
-        setSize(new Dimension(400, 400));
+        setSize(new Dimension(host.getWidth(), host.getHeight()));
         setLayout(new GridLayout(2,1));
         this.host = host;
         isWorking = true;
@@ -30,8 +30,8 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         Panel downDown = new Panel();
 
 
-        text = new JTextField("Welcome to BAM!");
-        text.setFont(new Font("Weclome to BAM", 1, 40));
+        text = new JTextField("BAM!");
+        text.setFont(new Font("BAM", 1, 80));
         text.setEditable(false);;
         text.setPreferredSize(new Dimension(400, 200));
         text.setHorizontalAlignment(JTextField.CENTER);
@@ -43,17 +43,16 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         start.setFont(new Font("Start" , 1, 20));
         start.setPreferredSize(new Dimension(200,100));
         start.addActionListener(this);
-        previous = new JButton("Open Previous");
-        previous.setFont(new Font("Open Previous" , 1, 20));
-        previous.setPreferredSize(new Dimension(200,100));
-        previous.addActionListener(this);
+
+
 
 //        start.action;
 
         up.add(text);
-        downUp.add(howTo);
-        downDown.add(previous);
-        downDown.add(start);
+        downUp.add(start);
+        downDown.add(howTo);
+
+
 
         down.add(downUp);
         down.add(downDown);
@@ -63,10 +62,10 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         setVisible(true);
     }
 
-    public boolean isWorking() {
-
-        return isWorking;
-    }
+//    public boolean isWorking() {
+//
+//        return isWorking;
+//    }
 
 
     @Override
@@ -74,7 +73,8 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         JButton source = (JButton) e.getSource();
         if(source.equals(start)){
             System.out.println("False");
-            isWorking = false;
+//            isWorking = false;
+            host.showSetup();
 
 //
         }else if(source.equals(previous)){

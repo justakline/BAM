@@ -38,7 +38,7 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
     public SetupWindow(GUI host) {
         super("Setup");
         isWorking = true;
-        setSize(new Dimension(500, 500));
+        setSize(new Dimension(host.getWidth(), host.getHeight()));
         setLayout(new GridLayout(6,1));
 
         Panel zero = new Panel();
@@ -198,8 +198,10 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 //Wait for all toher checkMarks to be hit, then leave
         else if(source.equals(run)){
             if(interestsBox.isSelected() && friendsBox.isSelected() && settingsBox.isSelected() && studentBox.isSelected()){
-                progressFrame.setVisible(true);
-                isWorking= false;
+//                progressFrame.setVisible(true);
+                host.makeCSV();
+                host.showPanels();
+//                isWorking= false;
             }
         }
 

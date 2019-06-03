@@ -56,6 +56,9 @@ public class Student {
     public Student () {
 
     }
+    public Student (String name) {
+        this.name = name;
+    }
 
     public int getID() {
         return ID;
