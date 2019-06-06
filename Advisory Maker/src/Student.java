@@ -31,12 +31,13 @@ public class Student {
         switch (fields[5]) {
             case "M":
                 this.gender = Gender.M;
+                break;
             case "F":
                 this.gender = Gender.F;
-            case "O":
-                this.gender = Gender.O;
+                break;
             default:
                 this.gender = Gender.O;
+                break;
         }
         if (fields[12] != null) {
             setInterests(new Vector<>(Stream.of(fields[12], fields[13], fields[14]).collect(Collectors.toList())));
