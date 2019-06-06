@@ -95,7 +95,7 @@ public class GUI extends JFrame implements Serializable {
 	public void showPanels(Vector<Advisory> advisories) {
 		//Init Components in this block:
 		rightPanel = new AdvisoryDisplayPanel(this);
-		leftPanel = new AdvisorySelectionPanel(this, advisories);
+		leftPanel = new AdvisorySelectionPanel(this);
 
 
 		setupWindow.setVisible(false);

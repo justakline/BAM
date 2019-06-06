@@ -25,7 +25,7 @@ public class SearchBox extends JInternalFrame {
 					} else {
 						DefaultComboBoxModel m = getSuggestedModel(students, text);
 						if (m.getSize() == 0 || hide_flag) {
-							combo.hidePopup();
+//							combo.hidePopup();
 							hide_flag = false;
 						} else {
 							setModel(m, text);
@@ -53,25 +53,14 @@ public class SearchBox extends JInternalFrame {
 						if (str.startsWith(text)) {
 							combo.setSelectedIndex(-1);
 							tf.setText(str);
-							return;
+//							return;
 						}
 					}
 				}
 			}
 		});
-		String[] countries = {"Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina"
-				, "Armenia", "Austria", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
-				"Benin", "Bhutan", "Bolivia", "Bosnia & Herzegovina", "Botswana", "Brazil", "Bulgaria",
-				"Burkina Faso", "Burma", "Burundi", "Cambodia", "Cameroon", "Canada", "China", "Colombia",
-				"Comoros", "Congo", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Georgia",
-				"Germany", "Ghana", "Great Britain", "Greece", "Hungary", "Holland", "India", "Iran", "Iraq",
-				"Italy", "Somalia", "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden",
-				"Switzerland", "Syria", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom",
-				"United States", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam",
-				"Yemen", "Zaire", "Zambia", "Zimbabwe"};
-		for (int i = 0; i < countries.length; i++) {
-			students.addElement(countries[i]);
-		}
+
+
 		setModel(new DefaultComboBoxModel(students), "");
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBorder(BorderFactory.createTitledBorder("AutoSuggestion Box"));

@@ -12,7 +12,7 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 	private Vector<AdvisorButton> advisors;
 	private GUI host;
 
-	public AdvisorySelectionPanel(GUI host) {
+	public AdvisorySelectionPanel(GUI host)  {
 		super(new GridLayout(0, 1, 0, 0));
 		advisors = new Vector<>();
 		this.add(new JLabel("Advisories:", SwingConstants.CENTER));

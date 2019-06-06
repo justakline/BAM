@@ -244,4 +244,6 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 	public float getAdvNumb() {
 		return advNumb;
 	}
+
+
 }
