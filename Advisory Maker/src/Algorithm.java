@@ -104,62 +104,80 @@ public class Algorithm {
 		while(viableSwapsExist) {
 			viableSwapsExist = false;
 
-			for(Student student0 : students) {
-				Advisory advisory0 = student0.getAdvisory();
-				float currentRank0 = advisory0.getScore();
+            for (Student student0 : students){
+                Advisory advisory0 = student0.getAdvisory();
+                float currentRank0 = advisory0.getBalancedScore();
 
-				for(Student student1 : students) {
-					Advisory advisory1 = student1.getAdvisory();
-					float currentRank1 = advisory1.getScore();
+                for(Student student1 : students){
+                    Advisory advisory1 = student1.getAdvisory();
+                    float currentRank1 = advisory1.getBalancedScore();
 
-					if(advisory1 != advisory0) {
-						swap(student0, student1);
-						float simulatedRank0 = advisory0.getScore();
-						float simulatedRank1 = advisory1.getScore();
+                    if(advisory1 != advisory0){
+                        swap(student0, student1);
+                        float simulatedRank0 = advisory0.getBalancedScore();
+                        float simulatedRank1 = advisory1.getBalancedScore();
 
-						//if swap is mutually beneficial and good genderQuota, keep swap, else swap back
-						if(simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1 &&
-							advisory0.getTotalMale() > 2 && advisory1.getTotalMale() > 2 &&
-							advisory0.getTotalFemale() > 2 && advisory1.getTotalFemale() > 2) {
-							viableSwapsExist = true;
-							break;
-						} else {
-							swap(student0, student1);
-						}
-					}
-				}
-			}
-		}
-	}
+                        //if swap is mutually beneficial then keep it, else swap back
+                        if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1){
+                            viableSwapsExist = true;
+                            break;
+                        }else{
+                            swap(student0, student1);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-	public boolean everyoneHasFriend(Advisory advisory) {
-		for(Student s1 : advisory.getStudents()) {
-			int count = 0;
-			for(Student s2 : advisory.getStudents()) {
-				if(s1 != s2 && s1.isFriend(s2)) {
-					count++;
-				}
-			}
-			if(count == 0) {//If someone does not have a friend
-				return false;
-			}
-		}
-		return false;
-	}
-
-	public boolean run() {
-		floyds();
-		initializeScores();
-		runSwaps();
-
-		/////DEBUG/////
-		for(Advisory advisory : getAdvisories()) {
-			System.out.println(advisory);
-			advisory.analyze();
-		}
-
+    public boolean run()
+    {
+        floyds();
+        initializeScores();
+        runSwaps();
+        //DEBUG();
 		return true;
 	}
+
+	private void DEBUG(){
+        for (Advisory advisory : advisories) {
+            System.out.println(advisory);
+            System.out.println(advisory.getTotalFemale() + " girls and " + advisory.getTotalMale() + " boys");
+            System.out.println((int)(advisory.friendBalanceMultiplier()-1) + " / " + advisory.getStudents().size());
+
+            //Analyze friend network
+            for (Student student0 : advisory.getStudents()) {
+                String cxn = student0.getINDEX() + ": ";
+                int i = student0.getINDEX();
+                for (Student student1 : advisory.getStudents()) {
+                    int j = student1.getINDEX();
+                    if(i != j){
+                        cxn += Math.round(100*values[i][j])/100.0 + "  ";
+                    }
+                }
+                System.out.println(cxn);
+            }
+
+            //advisory.analyze();
+        }
+
+        double size = (double)advisories.size();
+        double sum = 0;
+        for (Advisory advisory : advisories) sum += advisory.getScore();
+        double mean = sum/size;
+        System.out.println("mean score = " + mean);
+
+        sum = 0;
+        for (Advisory advisory : advisories) sum += Math.pow((advisory.getScore() - mean), 2);
+        double stdev = Math.sqrt(sum/size);
+        int stdev_p = (int)Math.round(100*stdev/mean);
+        System.out.println("stdev_p = " + stdev_p + "%");
+
+        sum = 0;
+        for (Advisory advisory : advisories) sum += advisory.friendBalanceMultiplier()-1;
+        mean = sum/size;
+        System.out.println("mean friends = " + mean);
+    }
 
 	public double[][] getValues() {
 		return values;
