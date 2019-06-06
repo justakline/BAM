@@ -42,7 +42,11 @@ public class Advisory {
         s.setAdvisory(null);
     }
 
-    public String getAdvisor() {
+	public void setName(String name) {
+		this.advisor = name;
+	}
+
+	 public String getAdvisor() {
         return advisor;
     }
 

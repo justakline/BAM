@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,6 +35,12 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		return advisors;
 	}
 
+	public void setAdvisories(Vector<Advisory> advisories) {
+		for(int i = 0; i < advisors.size(); i++) {
+			advisors.get(i).setAdvisory(advisories.get(i));
+		}
+	}
+
 	private int largestAdvSize() {
 		int size = 0;
 		for (AdvisorButton advisor : advisors) {
@@ -42,18 +50,18 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 	} //71490
 
 	public File getCSV() throws IOException {
-		File csv = new File("C:/Users/ryanl/Documents/export.csv");
-
-		JFileChooser filechooser = new JFileChooser();
-		if(filechooser.showSaveDialog(this) ==
-				JFileChooser.APPROVE_OPTION) {
-			File f = filechooser.getSelectedFile();
-			System.out.println
-					("This file was chosen for saving: " + f);
-		} else {
-			System.out.println
-					("No file was chosen or an error occurred");
+		JFileChooser fc = new JFileChooser() {
+			@Override
+			public void setFileFilter(FileFilter filter) {
+				super.setFileFilter(new FileNameExtensionFilter(".CSV files", "CSV", "csv"));
+			}
 		};
+		fc.setDialogTitle("Specify a file to save");
+		File csv = new File(System.getProperty("user.home"), "Advisories.csv");
+		if(fc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+			csv = new File(fc.getSelectedFile().getAbsoluteFile() + ".csv");
+		}
+
 		FileOutputStream stream = new FileOutputStream(csv);
 		StringBuilder data = new StringBuilder();
 		//file row one with advisor names, newline
@@ -65,8 +73,12 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 		data.append("\n");
 		for (int i = 1; i < largestAdvSize(); i++) {
-			for (int j = 0; j < advisors.size(); j++) {
-				data.append(String.format("%s,", advisors.get(j).getAdvisory().getStudents().get(i).getName()));
+			for(int j = 0; j < advisors.get(i).getAdvisory().getStudents().size(); j++) {
+				try {
+					data.append(String.format("%s,", advisors.get(j).getAdvisory().getStudents().get(i).getName()));
+				} catch(Exception e) {
+
+				}
 			}
 			data.append("\n");
 		}
