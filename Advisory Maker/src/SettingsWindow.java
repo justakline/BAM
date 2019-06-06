@@ -105,7 +105,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
 			Float interest = j.floatValue();
 
 			Object w = advNumb.getValue();
-			Integer k = (Integer) o;
+			Integer k = (Integer) w;
 			Float advNumb = k.floatValue();
 
 

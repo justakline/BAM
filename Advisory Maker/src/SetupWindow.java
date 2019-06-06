@@ -196,6 +196,7 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 		friendValue = vals.get(0);
 		interestValue = vals.get(1);
 		advNumb = vals.get(2);
+		System.out.println(vals.get(2));
 		System.out.println("Values initialized");
 	}
 
@@ -237,5 +238,9 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 
 	public File getMasterCSV() {
 		return masterCSV;
+	}
+
+	public float getAdvNumb() {
+		return advNumb;
 	}
 }

@@ -119,7 +119,7 @@ public class GUI extends JFrame implements Serializable {
 	}
 
 	private Vector<Advisory> initAdv(Vector<Student> students) {
-		int n = TestCases.getAdvisorStringList().size();
+		int n = (int) setupWindow.getAdvNumb();
 		Vector<Vector<Student>> groups = new Vector<>();
 		for(int i = 0; i < n; i++) {
 			groups.add(new Vector<>());
