@@ -60,7 +60,7 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 		data.append("\n");
 		for (int i = 1; i < largestAdvSize(); i++) {
-			for (int j = 0; j < advisors.size(); j++) {
+			for(int j = 0; j < advisors.get(i).getAdvisory().getStudents().size(); j++) {
 				data.append(String.format("%s,", advisors.get(j).getAdvisory().getStudents().get(i).getName()));
 			}
 			data.append("\n");
