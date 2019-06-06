@@ -132,7 +132,7 @@ public class Algorithm {
 
     public boolean run()
     {
-        Floyds();
+        floyds();
         initializeScores();
         runSwaps();
 
