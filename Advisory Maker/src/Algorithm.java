@@ -1,109 +1,108 @@
 import java.util.Vector;
 
 public class Algorithm {
+	private GUI host;
 	private Vector<Student> students;
-    private Vector<Advisory> advisories;
-    private int numStudents;
+	private Vector<Advisory> advisories;
+	private int numStudents;
 	private double[][] values;
 
-    private float friendMult;
-    private float interestMult;
+	private float friendMult;
+	private float interestMult;
 
-    public Algorithm(Vector<Student> students, Vector<Advisory> advisories) { //make Singleton later
-        this.students = students;
-        this.advisories = advisories;
-        numStudents = students.size();
-        values = new double[numStudents][numStudents];
+	public Algorithm(GUI host, float friendMult, float interestMult) { //make Singleton later
+		this.students = host.getStudents();
+		this.advisories = host.getAdvisories();
+		numStudents = students.size();
+		values = new double[numStudents][numStudents];
 
-        friendMult = 0.75f;
-        interestMult = 0.25f;
+		this.friendMult = friendMult;
+		this.interestMult = interestMult;
 
-    }
+	}
 
-    private float scoreStudents(Student s1, Student s2) {
-        return (float)(values[s1.getINDEX()][s2.getINDEX()] + values[s2.getINDEX()][s1.getINDEX()]);
-    }
+	private float scoreStudents(Student s1, Student s2) {
+		return (float) (values[s1.getINDEX()][s2.getINDEX()] + values[s2.getINDEX()][s1.getINDEX()]);
+	}
 
-    //Probably going through the advisory and adding up the total score between all of the members?
+	//Probably going through the advisory and adding up the total score between all of the members?
 
-    private void addStudentToAdvisory(Student student, Advisory advisory) {
-        float score = advisory.getScore();
-        for (Student otherStudent : advisory.getStudents())
-            score += scoreStudents(student, otherStudent);
+	private void addStudentToAdvisory(Student student, Advisory advisory) {
+		float score = advisory.getScore();
+		for(Student otherStudent : advisory.getStudents()) { score += scoreStudents(student, otherStudent); }
 
-        advisory.addStudent(student);
-        advisory.setScore(score);
-    }
-    private void removeStudentFromAdvisory(Student student){
-        Advisory advisory = student.getAdvisory();
-        float score = advisory.getScore();
-        advisory.removeStudent(student);
-        for (Student otherStudent : advisory.getStudents())
-            score -= scoreStudents(student, otherStudent);
-        advisory.setScore(score);
-    }
+		advisory.addStudent(student);
+		advisory.setScore(score);
+	}
 
-    private void swap(Student student0, Student student1) {
-        Advisory advisory0 = student0.getAdvisory();
-        Advisory advisory1 = student1.getAdvisory();
-        removeStudentFromAdvisory(student0);
-        removeStudentFromAdvisory(student1);
-        addStudentToAdvisory(student0, advisory1);
-        addStudentToAdvisory(student1, advisory0);
-    }
+	private void removeStudentFromAdvisory(Student student) {
+		Advisory advisory = student.getAdvisory();
+		float score = advisory.getScore();
+		advisory.removeStudent(student);
+		for(Student otherStudent : advisory.getStudents()) { score -= scoreStudents(student, otherStudent); }
+		advisory.setScore(score);
+	}
 
-    private float weightEdge(Student s1, Student s2) {
-        int areFriends = s1.isFriend(s2) ? 1 : 0;
-        float weight = friendMult*areFriends + interestMult*(s1.interestCount(s2));
-        return (weight == 0) ? Integer.MAX_VALUE : 1/weight;
-    }
+	private void swap(Student student0, Student student1) {
+		Advisory advisory0 = student0.getAdvisory();
+		Advisory advisory1 = student1.getAdvisory();
+		removeStudentFromAdvisory(student0);
+		removeStudentFromAdvisory(student1);
+		addStudentToAdvisory(student0, advisory1);
+		addStudentToAdvisory(student1, advisory0);
+	}
 
-    private void initializeValues() {
-        for (int i = 0; i < numStudents; i++) {
-            for (int j = 0; j < numStudents; j++) {
-                values[i][j] = weightEdge(students.get(i),students.get(j));
-            }
-        }
-    }
+	private float weightEdge(Student s1, Student s2) {
+		int areFriends = s1.isFriend(s2) ? 1 : 0;
+		float weight = getFriendMult() * areFriends + getInterestMult() * (s1.interestCount(s2));
+		return (weight == 0) ? Integer.MAX_VALUE : 1 / weight;
+	}
 
-    private void normalizeValues() {
-        for (int i = 0; i < numStudents; i++) {
-            for (int j = 0; j < numStudents; j++) {
-                values[i][j] = 1/values[i][j];
-            }
-        }
-    }
+	private void initializeValues() {
+		for(int i = 0; i < numStudents; i++) {
+			for(int j = 0; j < numStudents; j++) {
+				values[i][j] = weightEdge(students.get(i), students.get(j));
+			}
+		}
+	}
 
-	private void Floyds() {
-        initializeValues();
-		for (int k = 0; k < numStudents; k++) {
-			for (int i = 0; i < numStudents; i++) {
-				for (int j = 0; j < numStudents; j++) {
+	private void normalizeValues() {
+		for(int i = 0; i < numStudents; i++) {
+			for(int j = 0; j < numStudents; j++) {
+				values[i][j] = 1 / values[i][j];
+			}
+		}
+	}
+
+	private void floyds() {
+		initializeValues();
+		for(int k = 0; k < numStudents; k++) {
+			for(int i = 0; i < numStudents; i++) {
+				for(int j = 0; j < numStudents; j++) {
 					values[i][j] = Math.min(values[i][j], values[i][k] + values[k][j]);
 				}
 			}
 		}
-        normalizeValues();
-    }
+		normalizeValues();
+	}
 
-    private void initializeScores(){
-        for(Advisory advisory : advisories){
-            float score = 0;
-            for(Student s0 : advisory.getStudents())
-                for(Student s1 : advisory.getStudents())
-                    if(s1 != s0)
-                        score += scoreStudents(s0, s1);
+	private void initializeScores() {
+		for(Advisory advisory : getAdvisories()) {
+			float score = 0;
+			for(Student s0 : advisory.getStudents()) {
+				for(Student s1 : advisory.getStudents()) { if(s1 != s0) { score += scoreStudents(s0, s1); } }
+			}
 
-            advisory.setScore(score);
-        }
+			advisory.setScore(score);
+		}
 
-    }
+	}
 
-    public void runSwaps() {
-        boolean viableSwapsExist = true;
+	public void runSwaps() {
+		boolean viableSwapsExist = true;
 
-        while(viableSwapsExist){
-            viableSwapsExist = false;
+		while(viableSwapsExist) {
+			viableSwapsExist = false;
 
             for (Student student0 : students){
                 Advisory advisory0 = student0.getAdvisory();
@@ -177,26 +176,34 @@ public class Algorithm {
         System.out.println("mean friends = " + mean);
 
 
-        return true;
-    }
+		return true;
+	}
 
-    public double[][] getValues() {
-        return values;
-    }
+	public double[][] getValues() {
+		return values;
+	}
 
 	public float getFriendMult() {
 		return friendMult;
 	}
 
-    public float getInterestMult() {
-        return interestMult;
-    }
-
 	public void setFriendMult(float friendMult) {
 		this.friendMult = friendMult;
 	}
 
+	public float getInterestMult() {
+		return interestMult;
+	}
+
 	public void setInterestMult(float interestMult) {
 		this.interestMult = interestMult;
+	}
+
+	public Vector<Advisory> getAdvisories() {
+		return advisories;
+	}
+
+	public void setAdvisories(Vector<Advisory> advisories) {
+		this.advisories = advisories;
 	}
 }

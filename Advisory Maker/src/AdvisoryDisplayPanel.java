@@ -32,7 +32,11 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	private Vector<DropTarget> dropTargets;
 	private Vector<DragGestureRecognizer> dragRecogs;
 	private DragSource dragSource;
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////     IMPORTANT... DO NOT TOUCH DRAG AND DROP    ////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////
 	public AdvisoryDisplayPanel(GUI host) {
 		super();
 		studentPages = new Vector<>();
@@ -78,12 +82,12 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 	}
 
-
-
-
-
-
+	//Creates a new Frame... duh
 	public void addFrame(AdvisorButton source) {
+		if(source.getAdvisory().getStudents().contains(TestCases.getFriendlyMaleStudentTest())) {
+			source.setAdvisory(new Advisory(new Vector<>(), source.getAdvisory().getAdvisor()));
+			System.out.println("CONTAINS");
+		}
 		AdvisoryFrame newFrame = new AdvisoryFrame(source.getAdvisory(), this);
 		newFrame.setVisible(false);
 		attachListeners(newFrame);
@@ -91,7 +95,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		this.add(newFrame);
 
 	}
-
+//Remove Frame... Duh
 	public void removeFrame(Advisory advisory) {
 
 	    for(AdvisoryFrame frame : advisoryFrames){
@@ -111,15 +115,17 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		this.remove(frame);
 	}
 
+	//Finds the frame for a specified advisory, used for the find student
 	private AdvisoryFrame findFrame(Advisory advisory) throws NoSuchElementException {
 		for (AdvisoryFrame advisoryFrame : advisoryFrames) {
 			if (advisoryFrame.getAdvisory().equals(advisory))
+//				advisoryFrame.moveToFront();
 				return advisoryFrame;
 		}
 		throw new NoSuchElementException();
 	}
 
-
+//Do not touch
 	private void attachListeners(AdvisoryFrame frame) {
 		dropTargets.add(new DropTarget(frame, DnDConstants.ACTION_MOVE, this));
 		for (StudentLabel label : frame.getLabels()) {
@@ -139,11 +145,11 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 			return null;
 		}
 	}
-
+	//Do not touch
 	public DataFlavor[] getTransferDataFlavors() {
 		return supportedFlavors;
 	}
-
+	//Do not touch
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
 		return flavor.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType);
 	}
@@ -156,39 +162,39 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	// DragSourceListener methods.
 	public void dragDropEnd(DragSourceDropEvent ev) {
 	}
-
+	//Do not touch
 	public void dragEnter(DragSourceDragEvent ev) {
 	}
-
+	//Do not touch
 	public void dragExit(DragSourceEvent ev) {
 	}
-
+	//Do not touch
 	public void dragOver(DragSourceDragEvent ev) {
 		object = ev.getSource();
 	}
-
+	//Do not touch
 	public void dropActionChanged(DragSourceDragEvent ev) {
 	}
 
 	// DropTargetListener methods.
 	public void dragEnter(DropTargetDragEvent ev) {
 	}
-
+	//Do not touch
 	public void dragExit(DropTargetEvent ev) {
 	}
 
 	public void dragOver(DropTargetDragEvent ev) {
 		dropTargetDrag(ev);
 	}
-
+	//Do not touch
 	public void dropActionChanged(DropTargetDragEvent ev) {
 		dropTargetDrag(ev);
 	}
-
+	//Do not touch
 	void dropTargetDrag(DropTargetDragEvent ev) {
 		ev.acceptDrag(ev.getDropAction());
 	}
-
+	//Do not touch, Drag and Drop works, but it's so complicated that we basically hvae no idea how
 	public void drop(DropTargetDropEvent ev) {
 		ev.acceptDrop(ev.getDropAction());
 		try {
@@ -256,15 +262,17 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	public GUI getHost() {
 		return host;
 	}
-
+//finds student
 	public void findStudent(Student find) {
-		for(AdvisoryFrame advisorFrame: advisoryFrames){
-			for(Student student: advisorFrame.getAdvisory().getStudents()){
-				if(find==student){
-					advisorFrame.show();
-				}
-			}
-		}
+
+            for(AdvisoryFrame advisorFrame: advisoryFrames){
+                if(advisorFrame.getAdvisory().getStudents().contains(find)){
+                    advisorFrame.show();
+                }
+            }
+
+
+
 	}
 	public Vector<AdvisoryFrame> getAdvisoryFrames() {
 		return advisoryFrames;
@@ -274,6 +282,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		Vector<Student> studs = new Vector<>();
 		Advisory newAdvisory = new Advisory(studs, advisor);
 		AdvisorButton but  = new AdvisorButton(newAdvisory);
+		getHost().getLeftPanel().addButton(but);
 		but.addActionListener(host.getRightPanel());
         getHost().getLeftPanel().addButton(but);
         getHost().getLeftPanel().add(but);

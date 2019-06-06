@@ -10,6 +10,8 @@ public class GUI extends JFrame implements Serializable {
 	public Vector<StudentPage> displayedStudentPages;
 
 	private Vector<Student> students;
+	private Vector<Advisory> advisories;
+
 	private AdvisorySelectionPanel leftPanel;
 	private AdvisoryDisplayPanel rightPanel;
 	private WelcomeWindow welcomeWindow;
@@ -25,12 +27,12 @@ public class GUI extends JFrame implements Serializable {
 
 	public GUI() {
 		super();
-		setSize(new Dimension(800,800));
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		setSize(new Dimension(800, 800));
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		studentFinder = new SearchBox();
 		welcomeWindow = new WelcomeWindow(this);
 		welcomeWindow.setResizable(true);
@@ -44,31 +46,13 @@ public class GUI extends JFrame implements Serializable {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);
-//        this.setPreferredSize(new Dimension(700, 700));
-		setSize(new Dimension(700,700));
 
 
-
-//        settingsWindow = new SettingsWindow(this);
-
-        displayedStudentPages = new Vector<>();
-		rightPanel = new AdvisoryDisplayPanel(this);
-		rightPanel.setVisible(false);
-
-        //Init Components in this block:
-
-
-
-        //AddComponents in this block:
-
-
-        //Attributes of JFrame
-        this.setSize(800, 800);
+		//Attributes of JFrame
+		this.setSize(800, 800);
 		this.setVisible(true);
 		setTitle("BAM!!!");
-
-
-    }
+	}
 
 	public AdvisoryDisplayPanel getRightPanel() {
 		return rightPanel;
@@ -90,22 +74,30 @@ public class GUI extends JFrame implements Serializable {
 		return students;
 	}
 
+	public Vector<Advisory> getAdvisories() {
+		return advisories;
+	}
+
 	public void showSettings() {
 		settingsWindow.setVisible(true);
 	}
 
-	public void showSetup(){
+	public void showSetup() {
 		welcomeWindow.setVisible(false);
 		setupWindow.setVisible(true);
 
 	}
 
-	public void showWelcome (){
+	public void showWelcome() {
 		welcomeWindow.setVisible(true);
 	}
 
-	public void showPanels() {
+	public void showPanels(Vector<Advisory> advisories) {
 		//Init Components in this block:
+		rightPanel = new AdvisoryDisplayPanel(this);
+		leftPanel = new AdvisorySelectionPanel(this, al.getAdvisories());
+
+
 		setupWindow.setVisible(false);
 		rightPanel.setVisible(true);
 		leftPanel.setVisible(true);
@@ -114,35 +106,35 @@ public class GUI extends JFrame implements Serializable {
 		setMenu();
 	}
 
-	public void makeCSV() {
-		float friendGroupValue = setupWindow.getFriendValue();
-		float interestValue = setupWindow.getInterestValue();
-		masterCSV = setupWindow.getMasterCSV();
-		activitiesCSV = setupWindow.getActivitiesCSV();
-		studentsCSV = setupWindow.getStudentCSV();
-		activitiesCSV = setupWindow.getActivitiesCSV();
-
+	public void runAlgorithm() {
 		try {
-			students = CSVParser.masterCSVParser(masterCSV);
-		} catch (IOException e) {
+			students = CSVParser.masterCSVParser(setupWindow.getMasterCSV());
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		leftPanel = new AdvisorySelectionPanel(this);
-		leftPanel.setVisible(false);
-		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories());
-		al.setFriendMult(friendGroupValue);
-		al.setInterestMult(interestValue);
-
-		try {
-			students = CSVParser.masterCSVParser(masterCSV);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		showPanels();
-
+		this.advisories = initAdv(students);
+		al = new Algorithm(this, setupWindow.getFriendValue(), setupWindow.getInterestValue());
+		al.run();
+		showPanels(al.getAdvisories());
 	}
 
-	public void setMenu(){
+	private Vector<Advisory> initAdv(Vector<Student> students) {
+		int n = (int) setupWindow.getAdvNumb();
+		Vector<Vector<Student>> groups = new Vector<>();
+		for(int i = 0; i < n; i++) {
+			groups.add(new Vector<>());
+		}
+		for(int i = 0; i < students.size(); i++) {
+			groups.get(i % n).add(students.get(i));
+		}
+		Vector<Advisory> advisories = new Vector<>();
+		for(int i = 0; i < groups.size(); i++) {
+			advisories.add(new Advisory(groups.get(i), "Advisor " + (i + 1)));
+		}
+		return advisories;
+	}
+
+	public void setMenu() {
 		setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
 	}
 }

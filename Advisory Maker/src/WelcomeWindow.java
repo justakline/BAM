@@ -2,9 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyVetoException;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -28,8 +27,8 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
         Panel up = new Panel();
         Panel down = new Panel();
 
-        Panel downUp = new Panel();
-        Panel downDown = new Panel();
+        Panel downRight = new Panel();
+        Panel downLeft = new Panel();
 
 
         text = new JTextField("BAM!");
@@ -51,13 +50,15 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
 //        start.action;
 
         up.add(text);
-        downUp.add(start);
-        downDown.add(howTo);
+
+        downRight.add(howTo);
+        downLeft.add(start);
 
 
 
-        down.add(downUp);
-        down.add(downDown);
+
+        down.add(downRight);
+        down.add(downLeft);
         add(up);
         add(down);
 
@@ -87,6 +88,30 @@ public class WelcomeWindow extends JInternalFrame implements ActionListener {
                 host = (GUI)in.readObject();
             } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
+            }
+        }
+        if(source.equals(howTo)){
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    String currentDir = System.getProperty("user.dir");
+                    currentDir = currentDir+"/resources/The Best Advisory Maker How To Guide.pdf";
+                    System.out.println("Current dir using System:" +currentDir);
+                    if ((new File(currentDir)).exists())
+                    {
+                        Process p = Runtime
+                                .getRuntime()
+                                .exec("rundll32 url.dll,FileProtocolHandler " +currentDir);
+                        p.waitFor();
+                    }
+                    else
+                    {
+                        System.out.println("File is not exists");
+                    }
+                    System.out.println("Done");
+                } catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
             }
         }
     }
