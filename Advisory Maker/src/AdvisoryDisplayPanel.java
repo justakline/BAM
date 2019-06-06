@@ -277,6 +277,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		Vector<Student> studs = new Vector<>();
 		Advisory newAdvisory = new Advisory(studs, advisor);
 		AdvisorButton but  = new AdvisorButton(newAdvisory);
+		getHost().getLeftPanel().addButton(but);
 		but.addActionListener(host.getRightPanel());
         getHost().getLeftPanel().addButton(but);
         getHost().getLeftPanel().add(but);
