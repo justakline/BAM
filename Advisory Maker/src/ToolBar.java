@@ -6,7 +6,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Vector;
 
 public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
@@ -22,8 +23,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     private File studentCSV;
     private File activitiesCSV;
     private File friendsCSV;
-    private JComboBox<String>studentJComboBox;
-    private JTextField newAdvisory;
+	private JComboBox<String> studentJComboBox;
+	 private JTextField newAdvisory;
     private JInternalFrame hosting;
     private JButton adding;
     private Advisory newAdd;
@@ -64,20 +65,29 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
 //        options.add( temp1 =new JMenuItem("Find Student"));
 
-        Vector<String>studs = new Vector<>();
-        for (Student st: host.getAl().getAlphebeticalOrder()) {
-//            studs.add(student.getName());
-            System.out.println(st.getName());
-        }
-        System.out.println("after");
-        for (Student student: host.getAl().getAlphebeticalOrder()){
-            studs.add(student.getName());
-            System.out.println(student.getName());
-        }
+		Vector<String> students = new Vector<>();
 
+		//iterate through advisories
+		//compare one name with all others to find smaller in lexigraphical order (CompaeTo)
 
-        studentJComboBox = new JComboBox<>(studs);
-        options.add( temp1 =new JMenuItem("Open All Advisories"));
+		Vector<Advisory> advisories = host.getAl().getAdvisories();
+
+		for(Advisory advisory : advisories) {
+			for(int i = 0; i < advisory.getStudents().size(); i++) {
+				String smallest = advisory.getStudents().get(i).getName();
+				for(Advisory advisory1 : advisories) {
+					for(int j = 0; j < advisory1.getStudents().size(); j++) {
+						if(advisory1.getStudents().get(j).getName().compareTo(smallest) < 0 && !students.contains(smallest)) {
+							smallest = advisory1.getStudents().get(j).getName();
+						}
+					}
+					students.add(smallest);
+				}
+			}
+		}
+
+		studentJComboBox = new JComboBox<>(students);
+		 options.add( temp1 =new JMenuItem("Open All Advisories"));
         temp1.addActionListener(this);
         options.add( temp1 =new JMenuItem("Close All Advisories"));
         temp1.addActionListener(this);
@@ -172,22 +182,20 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
             System.out.println("Working");
 
-            }else {
-            JButton source = (JButton)e.getSource();
-                if(source.equals(adding)) {
-                    Student test = new Student("BOB");
-                    Vector<Student> stud = new Vector<>();
-                    stud.add(test);
-                    String advis = newAdvisory.getText();
-                    Advisory advisory = new Advisory(stud ,advis);
-                    AdvisorButton button  =new AdvisorButton(advisory);
-                    button.addActionListener(host.getRightPanel());
-                    host.getLeftPanel().getAdvisors().add(button);
-                    host.getLeftPanel().add(button);
-                    host.getRightPanel().addFrame(button);
-                    advisory.removeStudent(test);
-                    host.getRightPanel().removeFrame(advisory);
+		} else {
+			JButton source = (JButton) e.getSource();
+			if(source.equals(adding)) {
+				Vector<Student> stud = new Vector<>();
+				stud.add(TestCases.getFriendlyMaleStudentTest());
+				Advisory advisory = new Advisory(stud, newAdvisory.getText());
+				AdvisorButton button = new AdvisorButton(advisory);
+				button.addActionListener(host.getRightPanel());
 
+				host.getLeftPanel().getAdvisors().add(button);
+				host.getLeftPanel().add(button);
+				host.getRightPanel().addFrame(button);
+				button.getAdvisory().getStudents().clear();
+				System.out.println();
 //
 //                    host.getRightPanel().addNewAdvisory(newAdvisory.getText());
 //                    System.out.println(newAdvisory.getText());
@@ -200,8 +208,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     @Override
     public void menuSelected(MenuEvent e) {
         if ((e.getSource().equals(this.run))) {
-            host.getAl().run();
-        } else if (e.getSource().equals(this.find)) {
+			host.getAl().run();
+			host.getLeftPanel().setAdvisories(host.getAl().getAdvisories());
+			host.getRightPanel().updAdvisory(host.getAl().getAdvisories());
+		 } else if (e.getSource().equals(this.find)) {
             host.getStudentFinder().show();
 
         }

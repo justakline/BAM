@@ -87,6 +87,10 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 
 	public void addFrame(AdvisorButton source) {
+		if(source.getAdvisory().getStudents().contains(TestCases.getFriendlyMaleStudentTest())) {
+			source.setAdvisory(new Advisory(new Vector<>(), source.getAdvisory().getAdvisor()));
+			System.out.println("CONTAINS");
+		}
 		AdvisoryFrame newFrame = new AdvisoryFrame(source.getAdvisory(), this);
 		newFrame.setVisible(false);
 		attachListeners(newFrame);
@@ -261,20 +265,6 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 		return host;
 	}
 
-	public void findStudent(Student find) {
-		for(Student student : host.getAl().getAlphebeticalOrder()){
-
-				if(find==student){
-					for(AdvisoryFrame advisorFrame: advisoryFrames){
-						if(advisorFrame.getAdvisory().getStudents().contains(student)){
-							advisorFrame.show();
-						}
-					}
-
-
-			}
-		}
-	}
 	public Vector<AdvisoryFrame> getAdvisoryFrames() {
 		return advisoryFrames;
 	}

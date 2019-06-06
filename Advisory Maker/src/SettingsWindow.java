@@ -52,7 +52,7 @@ public class SettingsWindow extends JFrame implements ActionListener {
 		friendGroupNumb.setFont(new Font("Font", 1, 40));
 		interestsNumb = new JSpinner(new SpinnerNumberModel(2, 0, 100, 1));
 		interestsNumb.setFont(new Font("Int", 1, 40));
-		advNumb = new JSpinner(new SpinnerNumberModel(15, 0, 30, 1));
+		advNumb = new JSpinner(new SpinnerNumberModel(20, 0, 30, 1));
 		advNumb.setFont(new Font("Int", 1, 40));
 
 		confirm = new JButton("Confirm");

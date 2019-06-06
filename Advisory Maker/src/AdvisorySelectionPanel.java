@@ -12,7 +12,7 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 	private Vector<AdvisorButton> advisors;
 	private GUI host;
 
-	public AdvisorySelectionPanel(GUI host) {
+	public AdvisorySelectionPanel(GUI host, Vector<Advisory> advisories) {
 		super(new GridLayout(0, 1, 0, 0));
 		advisors = new Vector<>();
 		this.add(new JLabel("Advisories:", SwingConstants.CENTER));
@@ -21,8 +21,8 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		Vector<Vector<Student>> studentGroups = randDivAdv(host.getStudents());
 
 		//Create AdvisorButtons
-		for (int i = 0; i < TestCases.getAdvisorStringList().size(); i++) {
-			AdvisorButton adv = new AdvisorButton(new Advisory(studentGroups.get(i), TestCases.getAdvisorStringList().get(i)));
+		for(int i = 0; i < advisories.size(); i++) {
+			AdvisorButton adv = new AdvisorButton(advisories.get(i));
 			adv.addActionListener(host.getRightPanel());
 			advisors.add(adv);
 			this.add(adv);

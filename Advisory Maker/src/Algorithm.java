@@ -54,7 +54,7 @@ public class Algorithm {
 
 	private float weightEdge(Student s1, Student s2) {
 		int areFriends = s1.isFriend(s2) ? 1 : 0;
-		float weight = friendMult * areFriends + interestMult * (s1.interestCount(s2));
+		float weight = getFriendMult() * areFriends + getInterestMult() * (s1.interestCount(s2));
 		return (weight == 0) ? Integer.MAX_VALUE : 1 / weight;
 	}
 

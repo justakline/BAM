@@ -95,7 +95,7 @@ public class GUI extends JFrame implements Serializable {
 	public void showPanels(Vector<Advisory> advisories) {
 		//Init Components in this block:
 		rightPanel = new AdvisoryDisplayPanel(this);
-		leftPanel = new AdvisorySelectionPanel(this, advisories);
+		leftPanel = new AdvisorySelectionPanel(this, al.getAdvisories());
 
 
 		setupWindow.setVisible(false);
@@ -129,7 +129,7 @@ public class GUI extends JFrame implements Serializable {
 		}
 		Vector<Advisory> advisories = new Vector<>();
 		for(int i = 0; i < groups.size(); i++) {
-			advisories.add(new Advisory(groups.get(i), "Advisor " + i));
+			advisories.add(new Advisory(groups.get(i), "Advisor " + (i + 1)));
 		}
 		return advisories;
 	}
