@@ -147,25 +147,28 @@ public class Algorithm {
         floyds();
         initializeScores();
         runSwaps();
+        //DEBUG();
+		return true;
+	}
 
-        /////DEBUG/////
+	private void DEBUG(){
         for (Advisory advisory : advisories) {
             System.out.println(advisory);
             System.out.println(advisory.getTotalFemale() + " girls and " + advisory.getTotalMale() + " boys");
             System.out.println((int)(advisory.friendBalanceMultiplier()-1) + " / " + advisory.getStudents().size());
 
-            // Analyze friend network
-//            for (Student student0 : advisory.getStudents()) {
-//                String cxn = student0.getINDEX() + ": ";
-//                int i = student0.getINDEX();
-//                for (Student student1 : advisory.getStudents()) {
-//                    int j = student1.getINDEX();
-//                    if(i != j){
-//                        cxn += Math.round(100*values[i][j])/100.0 + "  ";
-//                    }
-//                }
-//                System.out.println(cxn);
-//            }
+            //Analyze friend network
+            for (Student student0 : advisory.getStudents()) {
+                String cxn = student0.getINDEX() + ": ";
+                int i = student0.getINDEX();
+                for (Student student1 : advisory.getStudents()) {
+                    int j = student1.getINDEX();
+                    if(i != j){
+                        cxn += Math.round(100*values[i][j])/100.0 + "  ";
+                    }
+                }
+                System.out.println(cxn);
+            }
 
             //advisory.analyze();
         }
@@ -186,10 +189,7 @@ public class Algorithm {
         for (Advisory advisory : advisories) sum += advisory.friendBalanceMultiplier()-1;
         mean = sum/size;
         System.out.println("mean friends = " + mean);
-
-
-		return true;
-	}
+    }
 
 	public double[][] getValues() {
 		return values;
