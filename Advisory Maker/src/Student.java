@@ -30,13 +30,13 @@ public class Student {
         this.nickName = fields[4];
         switch (fields[5]) {
             case "M":
-                this.gender = Gender.M;
-            case "F":
-                this.gender = Gender.F;
-            case "O":
-                this.gender = Gender.O;
-            default:
-                this.gender = Gender.O;
+				this.gender = Gender.M;
+				break;
+			case "F":
+				this.gender = Gender.F;
+				break;
+			default:
+				 this.gender = Gender.O;
         }
         if (fields[12] != null) {
             setInterests(new Vector<>(Stream.of(fields[12], fields[13], fields[14]).collect(Collectors.toList())));

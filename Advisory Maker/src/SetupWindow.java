@@ -131,6 +131,7 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 				super.setFileFilter(new FileNameExtensionFilter(".CSV files", "CSV", "csv"));
 			}
 		};
+		fc.setDialogTitle("Specify a .CSV file containing the appropriate values");
 		this.host = host;
 		setVisible(true);
 
