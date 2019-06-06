@@ -120,8 +120,8 @@ public class Algorithm {
 
                         //if swap is mutually beneficial and good genderQuota, keep swap, else swap back
                         if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1 &&
-                                advisory0.getTotalMale() > 2&& advisory1.getTotalMale() > 2 && advisory1.getTotalFemale() > 2
-                                && advisory1.getTotalFemale() > 2 ){
+                                advisory0.getTotalMale()   > 2  && advisory1.getTotalMale()   > 2 &&
+                                advisory0.getTotalFemale() > 2  && advisory1.getTotalFemale() > 2 ){
                             viableSwapsExist = true;
                             break;
                         }else{
