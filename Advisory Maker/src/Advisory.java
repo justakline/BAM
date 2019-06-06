@@ -7,6 +7,7 @@ public class Advisory {
     private float score;
     private int totalMale;
     private int totalFemale;
+    private boolean locked;
 
     // TO BE FED FROM USER INPUT, DEFAULT VALUES ARE AS FOLLOWS:
     private float genderBalanceTolerance = 4.0f;
@@ -23,7 +24,14 @@ public class Advisory {
                 totalFemale++;
             }
         }
+        this.locked = false;
 
+    }
+
+
+    public Advisory(Vector<Student> students, String advisor, boolean locked) {
+        this(students, advisor);
+        this.locked = locked;
     }
 
     public void addStudent(Student s) {
@@ -44,6 +52,10 @@ public class Advisory {
             totalFemale--;
         }
         s.setAdvisory(null);
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
 	public void setName(String name) {

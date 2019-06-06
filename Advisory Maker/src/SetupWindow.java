@@ -125,6 +125,8 @@ public class SetupWindow extends JInternalFrame implements ActionListener {
 		add(four);
 		add(five);
 
+
+		//Chooses the CSV File
 		fc = new JFileChooser() {
 			@Override
 			public void setFileFilter(FileFilter filter) {
