@@ -114,6 +114,7 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	private AdvisoryFrame findFrame(Advisory advisory) throws NoSuchElementException {
 		for (AdvisoryFrame advisoryFrame : advisoryFrames) {
 			if (advisoryFrame.getAdvisory().equals(advisory))
+//				advisoryFrame.moveToFront();
 				return advisoryFrame;
 		}
 		throw new NoSuchElementException();
@@ -258,11 +259,16 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	}
 
 	public void findStudent(Student find) {
-		for(AdvisoryFrame advisorFrame: advisoryFrames){
-			for(Student student: advisorFrame.getAdvisory().getStudents()){
+		for(Student student : host.getAl().getAlphebeticalOrder()){
+
 				if(find==student){
-					advisorFrame.show();
-				}
+					for(AdvisoryFrame advisorFrame: advisoryFrames){
+						if(advisorFrame.getAdvisory().getStudents().contains(student)){
+							advisorFrame.show();
+						}
+					}
+
+
 			}
 		}
 	}

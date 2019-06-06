@@ -43,6 +43,17 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 
 	public File getCSV() throws IOException {
 		File csv = new File("C:/Users/ryanl/Documents/export.csv");
+
+		JFileChooser filechooser = new JFileChooser();
+		if(filechooser.showSaveDialog(this) ==
+				JFileChooser.APPROVE_OPTION) {
+			File f = filechooser.getSelectedFile();
+			System.out.println
+					("This file was chosen for saving: " + f);
+		} else {
+			System.out.println
+					("No file was chosen or an error occurred");
+		};
 		FileOutputStream stream = new FileOutputStream(csv);
 		StringBuilder data = new StringBuilder();
 		//file row one with advisor names, newline

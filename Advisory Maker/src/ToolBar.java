@@ -50,35 +50,32 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         file.add(temp1 = new JMenuItem("Print")); //2
         temp1.addActionListener(this);
 
-        this.add(load = new JMenu("Load"));
-        load.add(temp1 = new JMenuItem("Load Student List"));
-        temp1.addActionListener(this);
-        load.add(temp1 = new JMenuItem("Load Activities List"));
-        temp1.addActionListener(this);
-        load.add(temp1 = new JMenuItem("Load Friends List"));
-        temp1.addActionListener(this);
-        load.add(temp1 = new JMenuItem("Load All"));
-        temp1.addActionListener(this);
 
-        this.add(temp2 = run = new JMenu("Run"));
-        temp2.addMenuListener(this);
+        this.add(options = new JMenu("Options"));
         this.add(temp2 = find = new JMenu("Find"));
         temp2.addMenuListener(this);
+        find.add(temp1 = new JMenuItem("Find Student"));
+        temp1.addActionListener(this);
         this.add(temp2 = help = new JMenu("Help"));
         temp2.addMenuListener(this);
 
         //Instantiation the options
 
-        this.add(options = new JMenu("Options"));
-        options.add( temp1 =new JMenuItem("Find Student"));
-        temp1.addActionListener(this);
-        Vector<String>studs = new Vector<>();
-        for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()){
-            for (Student student: advisoryFrame.getAdvisory().getStudents()){
-                studs.add(student.getName());
-            }
 
+//        options.add( temp1 =new JMenuItem("Find Student"));
+
+        Vector<String>studs = new Vector<>();
+        for (Student st: host.getAl().getAlphebeticalOrder()) {
+//            studs.add(student.getName());
+            System.out.println(st.getName());
         }
+        System.out.println("after");
+        for (Student student: host.getAl().getAlphebeticalOrder()){
+            studs.add(student.getName());
+            System.out.println(student.getName());
+        }
+
+
         studentJComboBox = new JComboBox<>(studs);
         options.add( temp1 =new JMenuItem("Open All Advisories"));
         temp1.addActionListener(this);
@@ -104,23 +101,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if ((e.getSource().equals(load.getMenuComponent(0)))) {
-            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
-                studentCSV = fc.getSelectedFile();
-            }
-        } else if ((e.getSource().equals(load.getMenuComponent(1)))) {
-            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
-                activitiesCSV = fc.getSelectedFile();
-            }
-        } else if ((e.getSource().equals(load.getMenuComponent(2)))) {
-            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
-                friendsCSV = fc.getSelectedFile();
-            }
-        } else if ((e.getSource().equals(load.getMenuComponent(3)))) {
-            if (fc.showOpenDialog(host.getRightPanel()) == JFileChooser.APPROVE_OPTION) {
-                friendsCSV = fc.getSelectedFile();
-            }
-        } else if (e.getSource().equals(file.getMenuComponent(2))) {
+    //Printing
+       if (e.getSource().equals(file.getMenuComponent(2))) {
             try {
                 host.getLeftPanel().getCSV();
             } catch (IOException ex) {
@@ -148,7 +130,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 //                }
 ////                host = fc.getSelectedFile();
             }
-        } else if (e.getSource().equals(file.getItem(0))) {//New
+        } else if (e.getSource().equals(file.getItem(0))) {//New GUI
 //            host.dispose();
 //            BAM.main();
             host = new GUI();
@@ -156,7 +138,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             host.setSize(new Dimension(500, 500));
             host.setPreferredSize(new Dimension(500, 500));
 
-        } else if (e.getSource().equals(options.getItem(0))) {//Find Student
+        } else if (e.getSource().equals(find.getItem(0))) {//Find Student
             System.out.println("GO");
             JInternalFrame frame = new JInternalFrame();
             frame.setVisible(true);
@@ -167,7 +149,7 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
             studentJComboBox.addActionListener(host.getRightPanel());
             frame.setClosable(true);
             frame.setTitle("Find Student");
-        } else if (e.getSource().equals(options.getItem(1))) {
+        } else if (e.getSource().equals(options.getItem(0))) {
             int mult = 2 * host.getRightPanel().getAdvisoryFrames().size();
 
             int width = host.getWidth() / mult;
@@ -178,12 +160,12 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
                 advisoryFrame.setLocation(width * count, height * count);
                 count++;
             }
-        } else if (e.getSource().equals(options.getItem(2))) {
+        } else if (e.getSource().equals(options.getItem(1))) {
             for (AdvisoryFrame advisoryFrame : host.getRightPanel().getAdvisoryFrames()) {
                 advisoryFrame.setVisible(false);
                 advisoryFrame.setLocation(0, 0);
             }
-        } else if (e.getSource().equals(options.getItem(3))) {//Create Custom Advisory
+        } else if (e.getSource().equals(options.getItem(2))) {//Create Custom Advisory
                 newAdvisory.setVisible(true);
                 host.getRightPanel().add(hosting);
                 hosting.show();

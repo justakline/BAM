@@ -41,7 +41,7 @@ public class GUI extends JFrame implements Serializable {
 		add(setupWindow);
 		showWelcome();
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		this.setVisible(true);
 //        this.setPreferredSize(new Dimension(700, 700));
@@ -94,6 +94,8 @@ public class GUI extends JFrame implements Serializable {
 		settingsWindow.setVisible(true);
 	}
 
+
+
 	public void showSetup(){
 		welcomeWindow.setVisible(false);
 		setupWindow.setVisible(true);
@@ -116,6 +118,7 @@ public class GUI extends JFrame implements Serializable {
 
 	public void makeCSV() {
 		float friendGroupValue = setupWindow.getFriendValue();
+		System.out.println("Friend Value = " + friendGroupValue);
 		float interestValue = setupWindow.getInterestValue();
 		masterCSV = setupWindow.getMasterCSV();
 		activitiesCSV = setupWindow.getActivitiesCSV();
@@ -129,7 +132,7 @@ public class GUI extends JFrame implements Serializable {
 		}
 		leftPanel = new AdvisorySelectionPanel(this);
 		leftPanel.setVisible(false);
-		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories());
+		this.al = new Algorithm(getStudents(), getLeftPanel().getAdvisories(), friendGroupValue, interestValue);
 		al.setFriendMult(friendGroupValue);
 		al.setInterestMult(interestValue);
 
@@ -145,4 +148,5 @@ public class GUI extends JFrame implements Serializable {
 	public void setMenu(){
 		setJMenuBar(new ToolBar(this)); //accessible with getJMenuBar();
 	}
+
 }
