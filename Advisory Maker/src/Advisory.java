@@ -62,6 +62,8 @@ public class Advisory {
         return this.score = score;
     }
 
+
+    //Creates a string that represents an advisory giving it a score and the students in it
     public String toString()
     {
         String output = advisor + " Advisory | Score : " + score + " | Students : " + students.get(0).getName();
@@ -69,7 +71,7 @@ public class Advisory {
             output += ", " + students.get(i).getName();
         return output;
     }
-
+//prints out connected friends and interests in the advisory
     public void analyze(){
         System.out.println("FRIENDS");
         for (Student s0 : students)

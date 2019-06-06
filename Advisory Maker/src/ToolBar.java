@@ -59,6 +59,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         temp1.addActionListener(this);
         this.add(temp2 = help = new JMenu("Help"));
         temp2.addMenuListener(this);
+        help.add(temp1 = new JMenuItem("Open Tutorial"));
+        temp1.addActionListener(this);
 
         //Instantiation the options
 
@@ -176,12 +178,36 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
                 advisoryFrame.setLocation(0, 0);
             }
         } else if (e.getSource().equals(options.getItem(2))) {//Create Custom Advisory
-                newAdvisory.setVisible(true);
-                host.getRightPanel().add(hosting);
-                hosting.show();
+           newAdvisory.setVisible(true);
+           host.getRightPanel().add(hosting);
+           hosting.show();
 
-            System.out.println("Working");
+           System.out.println("Working");
 
+       }else if(e.getSource().equals(help.getItem(0))){
+
+           if (Desktop.isDesktopSupported()) {
+               try {
+                   String currentDir = System.getProperty("user.dir");
+                   currentDir = currentDir+"/resources/The Best Advisory Maker How To Guide.pdf";
+                   System.out.println("Current dir using System:" +currentDir);
+                   if ((new File(currentDir)).exists())
+                   {
+                       Process p = Runtime
+                               .getRuntime()
+                               .exec("rundll32 url.dll,FileProtocolHandler " +currentDir);
+                       p.waitFor();
+                   }
+                   else
+                   {
+                       System.out.println("File is not exists");
+                   }
+                   System.out.println("Done");
+               } catch (Exception ex)
+               {
+                   ex.printStackTrace();
+               }
+           }
 		} else {
 			JButton source = (JButton) e.getSource();
 			if(source.equals(adding)) {
@@ -210,7 +236,6 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         if ((e.getSource().equals(this.run))) {
 			host.getAl().run();
 			host.getLeftPanel().setAdvisories(host.getAl().getAdvisories());
-			host.getRightPanel().updAdvisory(host.getAl().getAdvisories());
 		 } else if (e.getSource().equals(this.find)) {
             host.getStudentFinder().show();
 
