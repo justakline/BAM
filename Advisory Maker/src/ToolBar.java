@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
@@ -72,20 +73,22 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 		//iterate through advisories
 		//compare one name with all others to find smaller in lexigraphical order (CompaeTo)
 
-		Vector<Advisory> advisories = host.getAl().getAdvisories();
 
-		for(Advisory advisory : advisories) {
-			for(int i = 0; i < advisory.getStudents().size(); i++) {
-				String smallest = advisory.getStudents().get(i).getName();
-				for(Advisory advisory1 : advisories) {
-					for(int j = 0; j < advisory1.getStudents().size(); j++) {
-						if(advisory1.getStudents().get(j).getName().compareTo(smallest) < 0 && !students.contains(smallest)) {
-							smallest = advisory1.getStudents().get(j).getName();
-						}
-					}
-					students.add(smallest);
-				}
+		for(Advisory advisory : host.getAl().getAdvisories()) {
+			for(Student student : advisory.getStudents()) {
+				students.add(student.getName());
 			}
+		}
+
+		String[] studentList = new String[students.size()];
+		for(int i = 0; i < students.size(); i++) {
+			studentList[i] = students.get(i);
+		}
+
+		Arrays.sort(studentList, String.CASE_INSENSITIVE_ORDER);
+		students.clear();
+		for(int i = 0; i < studentList.length; i++) {
+			students.add(studentList[i]);
 		}
 
 		studentJComboBox = new JComboBox<>(students);

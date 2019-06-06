@@ -264,16 +264,13 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 	}
 //finds student
 	public void findStudent(Student find) {
-
             for(AdvisoryFrame advisorFrame: advisoryFrames){
                 if(advisorFrame.getAdvisory().getStudents().contains(find)){
                     advisorFrame.show();
                 }
             }
-
-
-
 	}
+
 	public Vector<AdvisoryFrame> getAdvisoryFrames() {
 		return advisoryFrames;
 	}

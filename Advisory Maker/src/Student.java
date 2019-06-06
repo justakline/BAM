@@ -26,8 +26,8 @@ public class Student {
     //User ID,First Name,Middle Name,Last Name,Nick Name,Gender,FRIEND1,FRIEND2,FRIEND3,FRIEND4,FRIEND5,FRIEND6,ACTIVITY1,ACTIVITY2,ACTIVITY3
     public Student(String[] fields) {
         this.ID = Integer.valueOf(fields[0]);
-        this.name = String.format("%s  %s  %s", fields[1], fields[2], fields[3]);
-        this.nickName = fields[4];
+		this.name = String.format("%s %s %s", fields[1], fields[2], fields[3]);
+		 this.nickName = fields[4];
         switch (fields[5]) {
             case "M":
 				this.gender = Gender.M;
