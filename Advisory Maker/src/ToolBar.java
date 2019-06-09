@@ -51,6 +51,8 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
         temp1.addActionListener(this);
         file.add(temp1 = new JMenuItem("Print")); //2
         temp1.addActionListener(this);
+        file.add(temp1 = new JMenuItem("Rerun")); //3
+        temp1.addActionListener(this);
 
 
         this.add(options = new JMenu("Options"));
@@ -117,7 +119,10 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
     @Override
     public void actionPerformed(ActionEvent e) {
     //Printing
-       if (e.getSource().equals(file.getMenuComponent(2))) {
+
+        if (e.getSource().equals(file.getMenuComponent(3))) {
+            host.getAl().run();
+        } else if (e.getSource().equals(file.getMenuComponent(2))) {
             try {
                 host.getLeftPanel().getCSV();
             } catch (IOException ex) {
@@ -216,13 +221,15 @@ public class ToolBar extends JMenuBar implements ActionListener, MenuListener{
 			if(source.equals(adding)) {
 				Vector<Student> stud = new Vector<>();
 				stud.add(TestCases.getFriendlyMaleStudentTest());
-				Advisory advisory = new Advisory(stud, newAdvisory.getText());
+				Advisory advisory = new Advisory(stud, newAdvisory.getText()+" (Locked)" ,true);
 				AdvisorButton button = new AdvisorButton(advisory);
 				button.addActionListener(host.getRightPanel());
 
 				host.getLeftPanel().getAdvisors().add(button);
 				host.getLeftPanel().add(button);
 				host.getRightPanel().addFrame(button);
+                button.getAdvisory().getStudents().clear();
+				host.getRightPanel().getAdvisoryFrames().get(host.getRightPanel().getAdvisoryFrames().size()-1).updLabels();
 				button.getAdvisory().getStudents().clear();
 				System.out.println();
 //

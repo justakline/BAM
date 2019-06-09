@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
 
+//This class is where the buttons on the left side live
+
 public class AdvisorySelectionPanel extends JPanel implements Serializable {
 	private Vector<AdvisorButton> advisors;
 	private GUI host;
@@ -20,7 +22,7 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 
 		Vector<Vector<Student>> studentGroups = randDivAdv(host.getStudents());
 
-		//Create AdvisorButtons
+		//Create AdvisorButtons and make the GUI listen for changes
 		for(int i = 0; i < advisories.size(); i++) {
 			AdvisorButton adv = new AdvisorButton(advisories.get(i));
 			adv.addActionListener(host.getRightPanel());
@@ -48,6 +50,7 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 		return size;
 	} //71490
+
 
 	public File getCSV() throws IOException {
 		JFileChooser fc = new JFileChooser() {

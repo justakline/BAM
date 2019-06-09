@@ -90,11 +90,13 @@ public class SettingsWindow extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Set it the values to the default
 		if(e.getSource().equals(defaultButton)) {
 			friendGroupNumb.setValue(10);
 			interestsNumb.setValue(2);
 			advNumb.setValue(15);
-		} else if(e.getSource().equals(confirm)) {
+		}//Use the values for the program
+		else if(e.getSource().equals(confirm)) {
 			Vector<Float> vals = new Vector<>();
 			Object v = friendGroupNumb.getValue();
 			Integer i = (Integer) v;

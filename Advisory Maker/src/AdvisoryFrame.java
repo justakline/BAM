@@ -20,11 +20,13 @@ public class AdvisoryFrame extends JInternalFrame {
 		this.host = host;
 		int numStudents = advisory.getStudents().size();
 
-		setLayout(new GridLayout(numStudents, 1));
+		setLayout(new GridLayout(15, 1));
 		setSize(default_cell_width, default_cell_height * numStudents);
 
 		//createTable();
 		labels = new Vector<>();
+
+		//Student Labels are used for the drag and Drop, do not touch
 		for (Student student : advisory.getStudents()) {
 			StudentLabel label = new StudentLabel(student);
 			labels.add(label);
@@ -34,10 +36,10 @@ public class AdvisoryFrame extends JInternalFrame {
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 			label.setVerticalAlignment(SwingConstants.CENTER);
 
-			label.addMouseListener(new MouseAdapter() {
+			label.addMouseListener(new MouseAdapter() {//Has a mouse been pressed?
 				public void mouseClicked(MouseEvent e) {
-					if(e.getClickCount() ==2) {
-						// might have to change argument to ((StudentLabel)e.getSource()).getStudent();
+					if(e.getClickCount() ==2) { //Double clicking
+
 						StudentPage newStudentPage = new StudentPage(label.getStudent());
 						host.getStudentPages().add(newStudentPage);
 						host.add(newStudentPage);
@@ -65,6 +67,8 @@ public class AdvisoryFrame extends JInternalFrame {
 		this.advisory = advisory;
 	}
 
+
+	//Update the Labels
 	public void updLabels() {
 		for(StudentLabel label : labels) {
 			this.remove(label);

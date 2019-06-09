@@ -10,22 +10,26 @@ public class Algorithm {
 	private float friendMult;
 	private float interestMult;
 
+	//This is where the magic happens
+	//We use floyds and create a graph in order to find the
+	//distances between 2 students
+
 	public Algorithm(GUI host, float friendMult, float interestMult) { //make Singleton later
 		this.students = host.getStudents();
 		this.advisories = host.getAdvisories();
 		numStudents = students.size();
 		values = new double[numStudents][numStudents];
 
-		this.friendMult = friendMult;
-		this.interestMult = interestMult;
+		this.friendMult = friendMult; //To determine how much of an affect a person's friend group should have on determining closeness
+		this.interestMult = interestMult; //To determine how much of an affect a person's Interests should have on determining closeness
 
 	}
-
+//We know the score between students from a generated table matrix called Values
 	private float scoreStudents(Student s1, Student s2) {
 		return (float) (values[s1.getINDEX()][s2.getINDEX()] + values[s2.getINDEX()][s1.getINDEX()]);
 	}
 
-	//Probably going through the advisory and adding up the total score between all of the members?
+
 
 	private void addStudentToAdvisory(Student student, Advisory advisory) {
 		float score = advisory.getScore();
@@ -52,12 +56,14 @@ public class Algorithm {
 		addStudentToAdvisory(student1, advisory0);
 	}
 
+
+
 	private float weightEdge(Student s1, Student s2) {
-		int areFriends = s1.isFriend(s2) ? 1 : 0;
-		float weight = getFriendMult() * areFriends + getInterestMult() * (s1.interestCount(s2));
+		int areFriends = s1.isFriend(s2) ? 1 : 0; //give them a score if choosen as a friend
+		float weight = getFriendMult() * areFriends + getInterestMult() * (s1.interestCount(s2)); //Add the score and interests to determine closness
 		return (weight == 0) ? Integer.MAX_VALUE : 1 / weight;
 	}
-
+	//find how  close students are
 	private void initializeValues() {
 		for(int i = 0; i < numStudents; i++) {
 			for(int j = 0; j < numStudents; j++) {
@@ -65,7 +71,7 @@ public class Algorithm {
 			}
 		}
 	}
-
+//For making the graph weighted
 	private void normalizeValues() {
 		for(int i = 0; i < numStudents; i++) {
 			for(int j = 0; j < numStudents; j++) {
@@ -73,7 +79,7 @@ public class Algorithm {
 			}
 		}
 	}
-
+//Aactually finding the shortest distance
 	private void floyds() {
 		initializeValues();
 		for(int k = 0; k < numStudents; k++) {
@@ -98,6 +104,11 @@ public class Algorithm {
 
 	}
 
+
+	//Go through all of the students, and swap them with all others
+	//Generate the Simulated Rank of the new advisory
+	//if the Both of the advisories have benifited, then keep the swap
+	//if not then swap back
 	public void runSwaps() {
 		boolean viableSwapsExist = true;
 
@@ -112,7 +123,7 @@ public class Algorithm {
                     Advisory advisory1 = student1.getAdvisory();
                     float currentRank1 = advisory1.getBalancedScore();
 
-                    if(advisory1 != advisory0){
+                    if(advisory1 != advisory0 && !advisory0.isLocked() && !advisory1.isLocked()){
                         swap(student0, student1);
                         float simulatedRank0 = advisory0.getBalancedScore();
                         float simulatedRank1 = advisory1.getBalancedScore();
@@ -128,6 +139,7 @@ public class Algorithm {
                 }
             }
         }
+
     }
 
     public boolean run()
