@@ -14,8 +14,8 @@ public class CSVParser {
     public static Vector<Student> masterCSVParser(File file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         HashMap<Integer, Student> studentIDMap = new HashMap<>();
-        HashMap<Student, String[]> friendmap = new HashMap<>();
-        if (reader.readLine().split(",").length != 15)
+		HashMap<Student, String[]> friendMap = new HashMap<>();
+		 if (reader.readLine().split(",").length != 15)
             throw new IllegalArgumentException();
         while (reader.ready()) {
             String[] line = reader.readLine().split(","); //split line into strings
@@ -26,12 +26,12 @@ public class CSVParser {
             //studentIDMap.put(Integer.valueOf(line[0]),new Student(line)); //associate Student ID to friend object produced from string
             //Student student = studentIDMap.put(Integer.valueOf(line[0]), new Student(line)); // gets me a reference to that student
             String[] friends = Arrays.copyOfRange(line, 6, 12); //copy of friend IDs
-            friendmap.put(student, friends);
-        }
+			friendMap.put(student, friends);
+		 }
         for (Student student : studentIDMap.values()) { //iterate through every single student, can be done in either SID HM or FM HM
             Vector<Student> friends = new Vector<>(); //each student is going to have a list of friends
-            for (String friendID : friendmap.get(student)) { //iterate through the StringArray of Friend IDs for each student
-                for (Student otherStudent : studentIDMap.values()) { //Iterate once more seperately through each student
+			for(String friendID : friendMap.get(student)) { //iterate through the StringArray of Friend IDs for each student
+				 for (Student otherStudent : studentIDMap.values()) { //Iterate once more seperately through each student
                     if (Integer.valueOf(friendID).equals(otherStudent.getID())) { //if the ID of my friend matches the ID of my other student
                         Student friend = studentIDMap.get(Integer.valueOf(friendID)); //I am friends with other student
                         friends.add(friend); //add to list of friends

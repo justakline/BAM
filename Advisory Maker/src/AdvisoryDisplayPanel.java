@@ -225,7 +225,6 @@ public class AdvisoryDisplayPanel extends JDesktopPane implements ActionListener
 
 	@Override
 	public void internalFrameClosing(InternalFrameEvent e) {
-		//Will be used to disable button upon closed AdvisoryFrame, TBIL
 		AdvisoryFrame source = (AdvisoryFrame) e.getSource();
 		for (AdvisorButton advisor : getHost().getLeftPanel().getAdvisors()) {
 			if (advisor.getAdvisory().equals(source.getAdvisory())) {

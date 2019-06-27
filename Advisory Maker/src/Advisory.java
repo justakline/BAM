@@ -7,10 +7,11 @@ public class Advisory {
     private float score;
     private int totalMale;
     private int totalFemale;
-    private boolean locked;
+	private boolean locked;
+	private float satisfaction;
 
-    // TO BE FED FROM USER INPUT, DEFAULT VALUES ARE AS FOLLOWS:
-    private float genderBalanceTolerance = 4.0f;
+	// TO BE FED FROM USER INPUT, DEFAULT VALUES ARE AS FOLLOWS:
+	 private float genderBalanceTolerance = 4.0f;
     private int minimumGenderCount = 2;
 
     public Advisory(Vector<Student> students, String advisor){
@@ -144,5 +145,18 @@ public class Advisory {
 
     public int getTotalMale() {
         return totalMale;
-    }
+		}
+
+	public float getSatisfaction() {
+		float sum = 0F;
+		for(Student student : getStudents()) {
+			for(Student friend : student.getFriends()) {
+				if(getStudents().contains(friend)) {
+					sum += 1;
+					break;
+				}
+			}
+		}
+		return sum;
+	}
 }

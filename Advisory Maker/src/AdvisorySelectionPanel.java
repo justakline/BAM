@@ -20,8 +20,6 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		this.add(new JLabel("Advisories:", SwingConstants.CENTER));
 		this.host = host;
 
-		Vector<Vector<Student>> studentGroups = randDivAdv(host.getStudents());
-
 		//Create AdvisorButtons and make the GUI listen for changes
 		for(int i = 0; i < advisories.size(); i++) {
 			AdvisorButton adv = new AdvisorButton(advisories.get(i));
@@ -66,26 +64,82 @@ public class AdvisorySelectionPanel extends JPanel implements Serializable {
 		}
 
 		FileOutputStream stream = new FileOutputStream(csv);
-		StringBuilder data = new StringBuilder();
+		//StringBuilder data = new StringBuilder();
+
 		//file row one with advisor names, newline
 		//for loop going from 1 to longest length,iterating over advisors
 		//for loop going from 0 to advisors.size() (iterating across)
 		//get name of Student in row,newline
-		for (AdvisorButton advisor : advisors) {
-			data.append(String.format("%s,", advisor.getName()));
-		}
-		data.append("\n");
-		for (int i = 1; i < largestAdvSize(); i++) {
-			for(int j = 0; j < advisors.get(i).getAdvisory().getStudents().size(); j++) {
-				try {
-					data.append(String.format("%s,", advisors.get(j).getAdvisory().getStudents().get(i).getName()));
-				} catch(Exception e) {
+		String[][] data = new String[advisors.size()][];
 
-				}
+		//for eqch advisor button create the corresponding String array of name
+
+		for(int i = 0; i < advisors.size(); i++) {
+			Advisory adv = advisors.get(i).getAdvisory();
+			String[] advisory = new String[adv.getStudents().size() + 1];
+
+			advisory[0] = adv.getAdvisor() + ",";
+			for(int j = 0; j < adv.getStudents().size(); j++) {
+				advisory[j + 1] = adv.getStudents().get(j).getName() + ",";
 			}
-			data.append("\n");
+			data[i] = advisory;
 		}
-		stream.write(data.toString().getBytes());
+
+
+//		for (AdvisorButton advisor : advisors) {
+//			data.append(String.format("%s,", advisor.getName()));
+//		}
+//		data.append("\n");
+//		for(int i = 0; i < advisors.size(); i++) {
+//			Advisory currentAdv = advisors.get(i).getAdvisory();
+//			Vector<Student> students = currentAdv.getStudents();
+//			for(int j = 0; j < students.size(); j++) {
+//				try {
+//					data.append(String.format("%s,", students.get(j).getName()));
+//				} catch(Exception e) {
+//
+//				}
+//			}
+//			data.append("\n");
+//		}
+		//transpose data
+//		String temp;
+//		for(int i=0 ; i<(data.length/2 + 1); i++)
+//		{
+//			for(int j=i ; j<(data[0].length) ; j++)
+//			{
+//				temp = data[i][j];
+//				data[i][j] = data[j][i];
+//				data[j][i] = temp;
+//			}
+//		}
+//ATTEMPT TO TRANSPOSE:
+//		String[][] transpose = new String[data.length][];
+//		for(int i = 0; i < transpose.length; i++) {
+//			transpose[i] = new String[data[0].length];
+//			for(int j = 0; j < data[i].length; j++) {
+//				try {
+//					transpose[i][j] = data[j][i];
+//				} catch(Exception e) {
+//					System.out.println("i = " + i);
+//					System.out.println("j = " + j);
+//					System.out.println("data[i][j] = " + data[i][j]);
+//				}
+//			}
+//		}
+//
+//		data = transpose;
+		String output = "";
+
+		for(int i = 0; i < data.length; i++) {
+			for(int j = 0; j < data[i].length; j++) {
+				output += data[i][j];
+			}
+			output += "\n";
+		}
+		System.out.println(output);
+
+		stream.write(output.getBytes());
 		return csv;
 	}
 

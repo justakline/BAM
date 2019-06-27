@@ -24,11 +24,11 @@ public class Algorithm {
 		this.interestMult = interestMult; //To determine how much of an affect a person's Interests should have on determining closeness
 
 	}
-//We know the score between students from a generated table matrix called Values
+
+	//We know the score between students from a generated table matrix called Values
 	private float scoreStudents(Student s1, Student s2) {
 		return (float) (values[s1.getINDEX()][s2.getINDEX()] + values[s2.getINDEX()][s1.getINDEX()]);
 	}
-
 
 
 	private void addStudentToAdvisory(Student student, Advisory advisory) {
@@ -57,12 +57,12 @@ public class Algorithm {
 	}
 
 
-
 	private float weightEdge(Student s1, Student s2) {
 		int areFriends = s1.isFriend(s2) ? 1 : 0; //give them a score if choosen as a friend
 		float weight = getFriendMult() * areFriends + getInterestMult() * (s1.interestCount(s2)); //Add the score and interests to determine closness
 		return (weight == 0) ? Integer.MAX_VALUE : 1 / weight;
 	}
+
 	//find how  close students are
 	private void initializeValues() {
 		for(int i = 0; i < numStudents; i++) {
@@ -71,7 +71,8 @@ public class Algorithm {
 			}
 		}
 	}
-//For making the graph weighted
+
+	//For making the graph weighted
 	private void normalizeValues() {
 		for(int i = 0; i < numStudents; i++) {
 			for(int j = 0; j < numStudents; j++) {
@@ -79,7 +80,8 @@ public class Algorithm {
 			}
 		}
 	}
-//Aactually finding the shortest distance
+
+	//Aactually finding the shortest distance
 	private void floyds() {
 		initializeValues();
 		for(int k = 0; k < numStudents; k++) {
@@ -113,83 +115,106 @@ public class Algorithm {
 		boolean viableSwapsExist = true;
 
 		while(viableSwapsExist) {
+
+			String rank = "";
+			String score = "";
+			for(Advisory advisory : advisories) {
+				rank += String.format("%f | ", advisory.getScore());
+				score += String.format("%f | ", advisory.getSatisfaction());
+			}
+			System.out.println(rank);
+			System.out.println(score);
+
 			viableSwapsExist = false;
 
-            for (Student student0 : students){
-                Advisory advisory0 = student0.getAdvisory();
-                float currentRank0 = advisory0.getBalancedScore();
+			for(Student student0 : students) {
+				Advisory advisory0 = student0.getAdvisory();
+				float currentRank0 = advisory0.getBalancedScore();
+				float currentSat0 = advisory0.getSatisfaction();
 
-                for(Student student1 : students){
-                    Advisory advisory1 = student1.getAdvisory();
-                    float currentRank1 = advisory1.getBalancedScore();
+				for(Student student1 : students) {
+					Advisory advisory1 = student1.getAdvisory();
+					float currentRank1 = advisory1.getBalancedScore();
+					float currentSat1 = advisory1.getSatisfaction();
 
-                    if(advisory1 != advisory0 && !advisory0.isLocked() && !advisory1.isLocked()){
-                        swap(student0, student1);
-                        float simulatedRank0 = advisory0.getBalancedScore();
-                        float simulatedRank1 = advisory1.getBalancedScore();
+					if(advisory1 != advisory0 && !advisory0.isLocked() && !advisory1.isLocked()) {
+						swap(student0, student1);
 
-                        //if swap is mutually beneficial then keep it, else swap back
-                        if (simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1){
-                            viableSwapsExist = true;
-                            break;
-                        }else{
-                            swap(student0, student1);
-                        }
-                    }
-                }
-            }
-        }
+						float simulatedRank0 = advisory0.getBalancedScore();
+						float simulatedRank1 = advisory1.getBalancedScore();
+						float simulatedSat0 = advisory0.getSatisfaction();
+						float simulatedSat1 = advisory1.getSatisfaction();
 
-    }
+//						System.out.println(String.format("swapped %s in %s with %s in %s: ", student0.getName(), advisory0.getAdvisor(), student1.getName(), advisory1.getAdvisor()));
+//
+//						System.out.println(String.format("Ranking Data: \ncurrentRank0 = %f \nsimRank0 = %f \ncurrentRank1 = %f \nsimRank1 = %f \n", currentRank0, simulatedRank0, currentRank1, simulatedRank1));
+//						System.out.println(String.format("Sat Data: \ncurrentSat0 = %f \nsimSat0 = %f \ncurrentSat1 = %f \nsimSat1 = %f \n",currentSat0,simulatedSat0,currentSat1,simulatedSat1));
+						//if swap is mutually beneficial then keep it, else swap back
+						//add to if statement: if simulated swap increased satisfaction
 
-    public boolean run()
-    {
-        floyds();
-        initializeScores();
-        runSwaps();
-        //DEBUG();
+						boolean goodSwap = !(currentSat0 > simulatedSat0 || currentSat1 > simulatedSat0) && ((simulatedRank0 > currentRank0 && simulatedRank1 > currentRank1) || (currentSat0 < simulatedSat0 || currentSat1 < simulatedSat1));
+
+						if(goodSwap) {
+							viableSwapsExist = true;
+							break;
+						} else {
+							swap(student0, student1);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public boolean run() {
+		floyds();
+		initializeScores();
+		runSwaps();
+		DEBUG();
 		return true;
 	}
 
-	private void DEBUG(){
-        for (Advisory advisory : advisories) {
-            System.out.println(advisory);
-            System.out.println(advisory.getTotalFemale() + " girls and " + advisory.getTotalMale() + " boys");
-            System.out.println((int)(advisory.friendBalanceMultiplier()-1) + " / " + advisory.getStudents().size());
+	private void DEBUG() {
+		for(Advisory advisory : advisories) {
+			System.out.println(advisory);
+			System.out.println(advisory.getTotalFemale() + " girls and " + advisory.getTotalMale() + " boys");
+			System.out.println((int) (advisory.friendBalanceMultiplier() - 1) + " / " + advisory.getStudents().size());
 
-            //Analyze friend network
-            for (Student student0 : advisory.getStudents()) {
-                String cxn = student0.getINDEX() + ": ";
-                int i = student0.getINDEX();
-                for (Student student1 : advisory.getStudents()) {
-                    int j = student1.getINDEX();
-                    if(i != j){
-                        cxn += Math.round(100*values[i][j])/100.0 + "  ";
-                    }
-                }
-                System.out.println(cxn);
-            }
+			//Analyze friend network
+			for(Student student0 : advisory.getStudents()) {
+				String cxn = student0.getINDEX() + ": ";
+				int i = student0.getINDEX();
+				for(Student student1 : advisory.getStudents()) {
+					int j = student1.getINDEX();
+					if(i != j) {
+						cxn += Math.round(100 * values[i][j]) / 100.0 + "  ";
+					}
+				}
+				System.out.println(cxn);
+			}
 
-            //advisory.analyze();
-        }
+			//advisory.analyze();
+		}
 
-        double size = (double)advisories.size();
-        double sum = 0;
-        for (Advisory advisory : advisories) sum += advisory.getScore();
-        double mean = sum/size;
-        System.out.println("mean score = " + mean);
+		double size = (double) advisories.size();
+		double sum = 0;
+		for(Advisory advisory : advisories) sum += advisory.getScore();
+		double mean = sum / size;
+		System.out.println("mean score = " + mean);
 
-        sum = 0;
-        for (Advisory advisory : advisories) sum += Math.pow((advisory.getScore() - mean), 2);
-        double stdev = Math.sqrt(sum/size);
-        int stdev_p = (int)Math.round(100*stdev/mean);
-        System.out.println("stdev_p = " + stdev_p + "%");
+		sum = 0;
+		for(Advisory advisory : advisories) sum += Math.pow((advisory.getScore() - mean), 2);
+		double stdev = Math.sqrt(sum / size);
+		int stdev_p = (int) Math.round(100 * stdev / mean);
+		System.out.println("stdev_p = " + stdev_p + "%");
 
-        sum = 0;
-        for (Advisory advisory : advisories) sum += advisory.friendBalanceMultiplier()-1;
-        mean = sum/size;
-        System.out.println("mean friends = " + mean);
-    }
+		sum = 0;
+		for(Advisory advisory : advisories) sum += advisory.friendBalanceMultiplier() - 1;
+		mean = sum / size;
+		System.out.println("mean friends = " + mean);
+
+		System.out.println("total number of students without friend = " + numFriendlessStudents());
+	}
 
 	public double[][] getValues() {
 		return values;
@@ -217,5 +242,26 @@ public class Algorithm {
 
 	public void setAdvisories(Vector<Advisory> advisories) {
 		this.advisories = advisories;
+	}
+
+	private int numFriendlessStudents() {
+		int sum = 0;
+		for(Advisory advisory : advisories) {
+			for(Student student : advisory.getStudents()) {
+				boolean hadFriend = false;
+				for(Student friend : student.getFriends()) {
+					if(advisory.getStudents().contains(friend)) {
+						hadFriend = true;
+						break;
+					}
+				}
+				if(hadFriend == false) {
+					System.out.println(student.getName() + " in " + advisory.getAdvisor());
+				}
+
+				sum += hadFriend == false ? 1 : 0;
+			}
+		}
+		return sum;
 	}
 }
